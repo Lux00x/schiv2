@@ -1,0 +1,82 @@
+Sprechstuntenverwaltung im Internet
+
+
+Studenten, Dozenten, Administratoren, root
+
+Dozenten können Sprechstunden anlegen und Studenten blockieren.
+Studenten können sich in diese einschreiben.
+Administratoren können Studenten zu Dozenten machen, Dozenten degratieren und entferenen so wie Studenten entfernen und sperren.
+root kann Benutzer Administratorenrechte zuordnen.
+
+
+Tabellen
+
+Benutzer
+========
+NutzerID                                               primary
+Vorname:   Auslesen aus Emailaddresse.                 not null
+Nachname:  Auslesen aus Emailaddresse.                 not null
+Email:     helmut.kohl@hof-university.de               not null
+Password:  Gibt Benutzer bei Registrierung an.         not null
+Flag:      Student/Dozent                              not null
+Flag:      Admin                                       nullable
+Flag:      gesperrt (von admin)                        nullable
+FakulätID                                              nullable
+
+Sprechstunden
+=============
+SprechstundenID      primary
+DozentID             not null
+Beschreibung         not null
+Datum                not null
+Uhrzeit von          not null
+Uhrzeit bis          not null
+Einheiten            nullable/not null
+Autobestätigung Flag nullable
+
+----
+//Dauer min          nullable   wenn angegeben, dann einheiten not null    
+
+von bis
+von bis einheiten
+
+/*
+ * von bis dauer             Eventuell fals noch seeeehr viel zeit ist
+ * von dauer einheiten 
+ */
+-----
+
+Einschreibungen
+===============
+StudentID                          not null
+SprechstundenID                    not null
+Bestätigs Flag (ja/nein/austehend) not null
+BemerkungsText (chat)              nullable     text nur erweiterbar (im notfall zwei bemerkungstexte) Auswahlmöglickeit von Standartgründen für Dozent (eventuell für student)
+
+Student blockieren
+==================
+DozentID       not null
+StudentID      not null
+Bemerkung      not null       (eventuell mit Auswahlmöglichkeiten von Standartgründen)
+
+Fakultäten
+==========
+Id     not null
+Name   not null
+
+
+Spruch des Tages       (Wenn noch Zeit)
+================ 
+ID         not null
+Spruch     not nullcd 
+
+
+
+
+
+
+
+
+
+
+
