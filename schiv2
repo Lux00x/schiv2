@@ -22,6 +22,7 @@ Flag:      Student/Dozent                              not null
 Flag:      Admin                                       nullable
 Flag:      gesperrt (von admin)                        nullable
 FakulätID                                              nullable
+(Bild                                                   nullable)
 
 Sprechstunden
 =============
@@ -32,7 +33,9 @@ Datum                not null
 Uhrzeit von          not null
 Uhrzeit bis          not null
 Einheiten            nullable/not null
+(belegte einheiten) 
 Autobestätigung Flag nullable
+Flag: gelöscht
 
 ----
 //Dauer min          nullable   wenn angegeben, dann einheiten not null    
@@ -64,11 +67,149 @@ Fakultäten
 Id     not null
 Name   not null
 
+root
+====
+password   not null
+
+Bilder (für seiten)
+======
+Id         not null
+Bilddatei  not null(nullable)
+
 
 Spruch des Tages       (Wenn noch Zeit)
 ================ 
 ID         not null
-Spruch     not nullcd 
+Spruch     not null
+
+
+
+Funktionen / Rechte
+===================
+
+Student
+=======
+
+- Dozenten suchen
+- Sprechstunden anschauen, durchsuchen
+- Einschreiben in sprechstunde
+- Austragen aus sprechstunde
+- Liste mit aktuellen Eintragungen
+- Liste mit vergangen Eintragungen
+- Angabe der Fakultät (angepasste suchfunktion)
+- Email ändern
+- Password ändern
+- (account löschen)
+
+Dozent
+======
+
+- Sprechstunde anlegen/bearbeiten
+- Anlegen: einzeln, von - bis (wochentag), häufigkeit (wochentag)
+- Sprechstunde entfernen/löschen
+- Anfragen annehmen, ablehnen (einzeln/alle auf einmal)
+- Möglichkeit für automatisches annehmen
+- Liste mit aktuellen Sprechstunden
+- Liste mit vergangen Sprechstunden
+- Angabe der Fakultät (leichteres auffinden)
+- Email ändern
+- Password ändern
+- Studenten blockieren (spam)
+- Blockierung aufheben
+- (account löschen)
+
+Administrator
+=============
+
+(zusätzliche Funktionen zum Account)
+- Student zu Dozent, Dozent zu Student
+- Konten löschen/sperren
+- Kann sich selber nur Rechte nehmen
+
+root
+====
+
+(rechte wie Administrator)
+- Administratoren ernennen/entfernen
+- Kein normaler Nutzer (Student/Dozent)
+- Extra login/oberfläche
+
+
+
+Ereweiterungen mit Email (fals zeit und geld (möglichkeit emails zu verschicken))
+========================
+
+- Besätigungsemail bei Registrierung
+- Password zurücksetzen
+- Tageszusammenfassung für Dozent
+- Erinnerung für Student
+- Email bei Änderungen
+
+
+
+Oberflächen
+===========
+
+Administration neben logout Button
+
+Studen
+======
+
+Home          - Suchfeld für Dozentensuche, Button Dozent suchen/Alle Dozenten
+                - Seite mit Liste von Dozenten (Vorsortiert nach Fakultät), Suche wenn bereitst etwas angegeben
+                  - Klick auf Dozent für Terminübersicht, sortiert nach Datum
+                    - Klick auf Termin für Formular zum einschreiben
+                      - Button für eintragen/abbrechen
+                      - Textfeld/Vorgaben für Anmerkungen/Informationen
+              - Liste der aktuellen Einträge
+                - Klick auf Eintrag für Detailansicht
+                  - Button für austragen
+                  - Textfeld/Vorgaben für Begründung/Informationen
+Historie      - Liste mit vergangen Einträgen
+Einstellungen - Email, Password, Fakultät ändern
+
+Dozent
+======
+
+Home          - Button für neue Sprechstunde erstellen
+                - Formular Datum an/von - (bis, mit wochentag), (Einheiten), Beschreibung, (automatisches Annehmen)
+                - Buttons speichern/abbrechen
+              - Liste der aktuellen Sprechstunden
+                - Klick auf Eintrag für Detailansicht
+                  - Button für änderungen
+                    - Änderung Datum/Uhrzeit/Betreff/Einheiten/automatisches Annehmen
+                    - Buttons Löschen/Ändern
+                      - Fenster zur Angabe der Begründung (auswahlmöglichkeiten/freitext)
+                      - Buttons bestätigen, abbrechen
+                  - Buttons für annehmen/ablehnen/blockieren von Student (alle annehmen/ablehnen)
+                  - Textfeld/Vorgaben für Begründung/Informationen
+Historie      - Liste mit vergangen Einträgen
+Einstellungen - Email, Password, Fakultät ändern, Blockierungen aufheben
+
+
+Administratorseite (erweitert Student/Dozent)
+==================
+
+- Suchfunktion
+- Liste aller Nutzer
+  - Häkchen für Dozent und Sperren
+  - Button für löschen
+    - Bestätigungsfenster mit buttons für bestätigen/abbrechen
+
+
+
+Rootseite (eigenständige Seite mit extra Login)
+=========
+
+- Suchfunktion
+- Liste mit allen Nutzern
+  - Häkchen für Dozent/Sperren/Admin
+  - Button für löschen
+    - Bestätigungsfenster mit buttons für bestätigen/abbrechen
+
+
+
+
 
 
 
