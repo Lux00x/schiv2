@@ -1,11 +1,11 @@
-Sprechstuntenverwaltung im Internet
+﻿Sprechstundenverwaltung im Internet
 
 
 Studenten, Dozenten, Administratoren, root
 
 Dozenten können Sprechstunden anlegen und Studenten blockieren.
 Studenten können sich in diese einschreiben.
-Administratoren können Studenten zu Dozenten machen, Dozenten degratieren und entferenen so wie Studenten entfernen und sperren.
+Administratoren können Studenten zu Dozenten machen, Dozenten degradieren und entfernen so wie Studenten entfernen und sperren.
 root kann Benutzer Administratorenrechte zuordnen.
 
 
@@ -14,8 +14,8 @@ Tabellen
 Benutzer
 ========
 NutzerID                                               primary
-Vorname:   Auslesen aus Emailaddresse.                 not null
-Nachname:  Auslesen aus Emailaddresse.                 not null
+Vorname:   Auslesen aus E-Mailaddresse.                not null
+Nachname:  Auslesen aus E-Mailaddresse.                not null
 Email:     helmut.kohl@hof-university.de               not null
 Password:  Gibt Benutzer bei Registrierung an.         not null
 Flag:      Student/Dozent                              not null
@@ -33,18 +33,18 @@ Datum                not null
 Uhrzeit von          not null
 Uhrzeit bis          not null
 Einheiten            nullable/not null
-(belegte einheiten) 
+(belegte Einheiten) 
 Autobestätigung Flag nullable
 Flag: gelöscht
 
 ----
-//Dauer min          nullable   wenn angegeben, dann einheiten not null    
+//Dauer min          nullable   wenn angegeben, dann Einheiten not null    
 
 von bis
 von bis einheiten
 
 /*
- * von bis dauer             Eventuell fals noch seeeehr viel zeit ist
+ * von bis dauer             Eventuell falls noch seeeehr viel Zeit ist
  * von dauer einheiten 
  */
 -----
@@ -132,14 +132,14 @@ root
 (rechte wie Administrator)
 - Administratoren ernennen/entfernen
 - Kein normaler Nutzer (Student/Dozent)
-- Extra login/oberfläche
+- Extra Login/Oberfläche
 
 
 
-Ereweiterungen mit Email (fals zeit und geld (möglichkeit emails zu verschicken))
-========================
+Erweiterungen mit Email (falls Zeit und Geld (Möglichkeit Emails zu verschicken))
+=======================
 
-- Besätigungsemail bei Registrierung
+- Bestätigungs-E-Mail bei Registrierung
 - Password zurücksetzen
 - Tageszusammenfassung für Dozent
 - Erinnerung für Student
@@ -152,11 +152,11 @@ Oberflächen
 
 Administration neben logout Button
 
-Studen
-======
+Student
+=======
 
 Home          - Suchfeld für Dozentensuche, Button Dozent suchen/Alle Dozenten
-                - Seite mit Liste von Dozenten (Vorsortiert nach Fakultät), Suche wenn bereitst etwas angegeben
+                - Seite mit Liste von Dozenten (Vorsortiert nach Fakultät), Suche wenn bereits etwas angegeben
                   - Klick auf Dozent für Terminübersicht, sortiert nach Datum
                     - Klick auf Termin für Formular zum einschreiben
                       - Button für eintragen/abbrechen
@@ -172,14 +172,14 @@ Dozent
 ======
 
 Home          - Button für neue Sprechstunde erstellen
-                - Formular Datum an/von - (bis, mit wochentag), (Einheiten), Beschreibung, (automatisches Annehmen)
+                - Formular Datum an/von - (bis, mit Wochentag), (Einheiten), Beschreibung, (automatisches Annehmen)
                 - Buttons speichern/abbrechen
               - Liste der aktuellen Sprechstunden
                 - Klick auf Eintrag für Detailansicht
-                  - Button für änderungen
+                  - Button für Änderungen
                     - Änderung Datum/Uhrzeit/Betreff/Einheiten/automatisches Annehmen
                     - Buttons Löschen/Ändern
-                      - Fenster zur Angabe der Begründung (auswahlmöglichkeiten/freitext)
+                      - Fenster zur Angabe der Begründung (Auswahlmöglichkeiten/Freitext)
                       - Buttons bestätigen, abbrechen
                   - Buttons für annehmen/ablehnen/blockieren von Student (alle annehmen/ablehnen)
                   - Textfeld/Vorgaben für Begründung/Informationen
@@ -194,26 +194,138 @@ Administratorseite (erweitert Student/Dozent)
 - Liste aller Nutzer
   - Häkchen für Dozent und Sperren
   - Button für löschen
-    - Bestätigungsfenster mit buttons für bestätigen/abbrechen
+    - Bestätigungsfenster mit Buttons für bestätigen/abbrechen
 
 
 
-Rootseite (eigenständige Seite mit extra Login)
+Root-Seite (eigenständige Seite mit extra Login)
 =========
 
 - Suchfunktion
 - Liste mit allen Nutzern
   - Häkchen für Dozent/Sperren/Admin
   - Button für löschen
-    - Bestätigungsfenster mit buttons für bestätigen/abbrechen
+    - Bestätigungsfenster mit Buttons für bestätigen/abbrechen
 
 
 
 
 
+Seitenaufbau
+============
+
+Anmeldung
+=========
+Begonnen wird alles auf einer Login-Seite. Dort können sich alle Nutzer anmelden.
+Für die Anmeldung werden E-Mailadresse und ein persönliches Password verwendet.
+
+
+Registrierung
+=============
+Ist ein Nutzer noch nicht im System, muss sich dieser erst Registrieren.
+Möglich ist dies durch einen Klick auf den Button Registrieren, wodurch er auf eine extra Seite kommt.
+Für die Registrierung wird eine E-Mailadresse benötigt, und das Password muss zweimal angegeben werden.
+
+
+Allgemeiner Seitenaufbau
+========================
+//todo
+
+
+Startseite
+==========
+Nach dem Login kommt der Nutzer auf die Startseite.
+
+
+Student
+-------
+Im Falle eines Studenten ist im oberen Bereich ist eine Suchleiste zum Suchen von Dozenten. Nebenan ist noch ein Button „Alle Dozenten“.
+Bei der Suche oder beim Klick auf den Button „Alle Dozenten“ kommt der Nutzer auf die Suchseite.
+
+Im Unteren Bereich ist eine Liste mit aktiven, bestätigten und abgelehnten Anfragen.
+Sichtbar ist jeweils eine Zusammenfassung, der Anfrage.
+Beim Klick auf eine Anfrage kommt der Nutzer auf eine Detailansicht der Anfrage.
+
+
+Dozent
+------
+Bei einem Dozenten ist im oberen Bereich nur der Button „Neuer Sprechstunde erstellen“ vorhanden.
+
+Im Unteren Bereich findet sich eine Liste mit den Erstellten Sprechstunden.
+Angezeigt wird jeweils eine Zusammenfassung eines Termins.
+Beim Klick auf einen Termin öffnet sich eine Detailansicht.
+
+
+Detailansicht Student
+=====================
+Angezeigt werden alle Informationen zu der Anfrage.
+Ein Student kann sich mit dem Klick auf „Austragen“ aus der Sprechstunde wieder austragen.
+Jedoch muss ein Grund angegeben werden. Dieser kann aus einer Liste ausgewählt werden oder im Freitext beschrieben werden.
+
+
+Detailansicht Dozent
+====================
+Bei einer Sprechstunde werden alle Informationen angezeigt.
+Es ist dem Dozenten möglich das Datum, die Uhrzeit, die Einheiten, den Betreff so wie „automatisches annehmen“ bearbeiten.
+Die angezeigten Anfragen der Studenten können angenommen und abgelehnt werden. Auch kann ein Student blockiert werden.
+Beim Ablehnen oder Blockieren muss ein Grund angegeben werden. Dieser kann aus einer Liste ausgewählt oder als Freitext angegeben werden.
+Auch ist es möglich die Sprechstunde zu löschen, so wie alle ausstehenden Anträge auf einmal anzunehmen oder abzulehnen.
+Beim Löschen muss ein Grund angegeben werden.
+
+Das Löschen muss nochmals bestätigt werden.
+
+
+Neue Sprechstunde erstellen
+===========================
+Hier gibt es Felder für das Datum, die Dauer, den Betreff, die Anzahl der Einheiten und Auswahlfelder für „wöchentliche Wiederholung“ und „automatisches annehmen“
+
+Bei Auswahl der „wöchentlichen Wiederholung“ erscheint noch ein weiteres Feld für das Enddatum.
+
+Für den Betreff gibt es eine Liste sowie die Möglichkeit Freitext anzugeben.
+
+Die Seite kann mit „erstellen“, „abbrechen“ oder über den Navigationspfad verlassen werden.
+
+
+Liste mit vergangen Terminen
+============================
+Bei allen Nutzern gibt es eine Seite auf der alle vergangen Termine angezeigt werden.
+
+
+Einstellungen
+=============
+In den Einstellungen können E-Mailaddresse, Password und Angabe der Fakultät geändert werden. 
+
+Dozent
+------
+Bei einem Dozenten ist zusätzlich noch eine Liste mit blockierten Studenten zu sehen.
+Die Blockierung kann dort wieder aufgehoben werden.
+
+
+Administration
+==============
+Der Zugang zur Administration ist neben dem Logout Button.
+Auf dieser Seite befindet sich eine Liste alle Nutzer. 
+Den Nutzern können mit Auswahl Feldern die Rechte „Dozent“ gegeben und genommen werden.
+Ein weiteres Feld ist zum sperren des Nutzers.
+Nutzer können auch aus der Liste und somit aus dem System gelöscht werden. Das Löschen muss nochmals bestätigt werden.
+
+
+Root-Login
+==========
+Für den root besteht eine extra Login Seite.
+
+
+Root-Startseite
+===============
+Auf der Startseite befindet sich eine Liste aller Nutzer. Grundsätzlich bestehen alle Möglichkeiten wie bei der Administration vorhanden.
+Zusätzlich kommt zu jedem Nutzer noch die Möglichkeit Administrations rechte zu geben und nehmen.
 
 
 
+Thesaurus
+=========
+
+Einheiten - Anzahl an maximal zugelassenen Anfragen
 
 
 
