@@ -1,0 +1,63 @@
+          +=========================================================================+
+          | Benutzer                                                                |
+          +=========================================================================+
+     +--->| NutzerID        INT UNSIGNED             primary                        |
+     |    | Vorname         VARCHAR                  not null                       |
+     |    | Nachname        VARCHAR(255)             not null                       |
+     |    | Email           VARCHAR(255)             not null                       |
+     |    | PasswordHash    CHAR(?)                  not null                       |
+     |    | Status          ENUM (student/dozent)    not null                       |
+     |    | Admin           INT(1)                   not null, default(0)           |
+     |    | Gesperrt        INT(1)                   not null, default(0)           |
+     |  +-| FakulätID       INT UNSIGNED             nullable, foreign key          |
+     |  | +-------------------------------------------------------------------------+
+     |  |
+     |  | +=========================================================================+
+     |  | | Fakultäten                                                              |
+     |  | +=========================================================================+
+     |  +>| FakultätID      INT UNSIGNED             primary                        |
+     |    | Name            VARCHAR(255)             not null                       |
+     |    +-------------------------------------------------------------------------+
+     |
+     |    +=========================================================================+
+     |    | Sprechstunden                                                           |
+     |    +=========================================================================+
+  +--|--->| SprechstundenID INT UNSIGNED             primary                        |
+  |  +----| DozentID        INT UNSIGNED             not null, foreign key          |
+  |  |    | Beschreibung    VARCHAR(255)             not null                       |
+  |  |    | Uhrzeitvon      DATE                     not null                       |
+  |  |    | UhrzeitBis      DATE                     not null                       |
+  |  |    | Einheiten       INT UNSIGNED             not null, default(0)           |
+  |  |    | Autobestätigung INT(1)                   not null, default(0)           |
+  |  |    | Gelöscht        INT(1)                   not null, default(0)           |
+  |  |    +-------------------------------------------------------------------------+
+  |  |
+  |  |    +=========================================================================+
+  |  |    | Einschreibungen                                                         |
+  |  |    +=========================================================================+
+  |  +----| StudentID       INT UNSIGNED             not null, foreign key          |
+  +--|----| SprechstundenID INT UNSIGNED             not null, foreign key          |
+     |    | Bestätigt       ENUM (ja/nein/ausstehend) not null, default(ausstehend) |
+     |    | BemerkungsText  TEXT                     not null                       |
+     |    +-------------------------------------------------------------------------+
+     |
+     |    +=========================================================================+
+     |    | BlockierteStudenten                                                     |
+     |    +=========================================================================+
+     +----| DozentID        INT UNSIGNED             not null, foreign key          |
+     +----| StudentID       INT UNSIGNED             not null, foreign key          |
+          | Bemerkung       VARCHAR(255)             not null                       |
+          +-------------------------------------------------------------------------+
+
+          +=========================================================================+
+          | root                                                                    |
+          +=========================================================================+
+          | PasswordHash      CHAR(?)                not null                       |
+          +-------------------------------------------------------------------------+
+
+          +=========================================================================+
+          | Bilder                                                                  |
+          +=========================================================================+
+          | BildID          INT UNSIGNED             primary                        |
+          | Bild            BLOB                     not null                       |
+          +-------------------------------------------------------------------------+

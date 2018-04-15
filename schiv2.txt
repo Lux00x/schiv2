@@ -220,6 +220,7 @@ Ein Administrator kann aus einem Studentenkonto ein Dozentkonto machen und umgek
 Dabei kann ein Administrator sich nicht selber zu einem Dozenten machen, jedoch von einem
 Dozenten zu einem Studenten. Darüber hinaus ist es möglich als Administrator ein anderes Benutzerkonto
 zu sperren oder gar zu löschen.
+#todo hinzufügen/bearbeiten/entfernen von fakultäten
 
 
 Root-Benutzer
@@ -229,6 +230,7 @@ Der Root-Benutzer hat kein normales Benutzerkonto (d.h. ist weder Student noch D
 verfügt der Root-Benutzer über ein eigenes Login, dabei wird lediglich das Passwort benötigt.
 Die Funktionen des Root-Kontos sind deckungsgleich mit denen eines Administrators. Zusätzlich kann der
 Root-Benutzer jedoch auch Administratorrechte gewähren oder enziehen.
+#todo password ändern
 
 
 Zusätzliche Funktionen
@@ -242,7 +244,8 @@ Sofern noch die nötige Zeit und die nötigen Mittel dafür vorhanden sind werde
 -Zusammenfassungs-E-Mail für den Dozenten mit allen anfallenden Terminen des Tages
 -E-Mailerrinerung für den Studenten für anstehende Sprechstunden
 -E-Mailbenachrichtigung für den Studenten bei Änderungen bei einer eingetragenen Sprechstunde
-
+#todo bearbeiten der Bilder
+#todo
 
 Oberflächen
 ===========
@@ -326,7 +329,7 @@ Für die Registrierung wird eine E-Mailadresse benötigt, und das Password muss 
 
 Allgemeiner Seitenaufbau
 ========================
-//todo
+#todo
 
 
 Startseite
@@ -422,7 +425,7 @@ Zusätzlich kommt zu jedem Nutzer noch die Möglichkeit Administrations rechte z
 Thesaurus
 =========
 
-Einheiten - Anzahl an maximal zugelassenen Anfragen
+Einheiten - Anzahl an maximal zugelassenen Anfragen in einer Sprechstunde
 
 
 
