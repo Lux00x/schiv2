@@ -329,8 +329,13 @@ Für die Registrierung wird eine E-Mailadresse benötigt, und das Password muss 
 
 Allgemeiner Seitenaufbau
 ========================
-#todo
+In der Navigationsleiste findet sich neben dem logout Button der link zur administrations Seite, 
+wenn die berechtigung freigeschalten wurde.
 
+Die Registrierkarten enthalten die grundlegenden Seiten: Startseite, Vergange Termine und Einstellungen.
+
+Der Navigationspfad zeit immer an in welchem Bereich man sich befindet. 
+Inbegriffen sind auch variable informationen wie Dozent oder Termin.
 
 Startseite
 ==========
