@@ -1,0 +1,51 @@
+\usepackage{url}
+\usepackage{scrhack}
+\usepackage[babel, german=quotes]{csquotes}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[utf8]{luainputenc}
+\usepackage[T1]{fontenc}
+\usepackage{gentium}
+\usepackage{inconsolata}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{wallpaper}
+\usepackage{wasysym}
+\usepackage{ifthen}
+\usepackage{setspace}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{calc}
+\usepackage{etoolbox}
+
+\definecolor{red}{rgb}{0.76,0.09,0.1}
+\definecolor{yellow}{rgb}{0.72,0.097,0.10}
+\definecolor{blue}{rgb}{0.17,0.26,0.56}
+\definecolor{grey}{rgb}{0.294,0.294,0.29}
+\definecolor{darkgrey}{rgb}{0.10,0.10,0.10}
+\definecolor{lightgrey}{rgb}{0.90,0.90,0.90}
+
+\appto\chapterheadstartvskip{%
+  \vspace{-4.5em} 
+  \smash{\makebox[0pt]{%
+	\textcolor{lightgrey}{%
+      \usesizeofkomafont{chapter}\rule[-2.5\ht\strutbox-\dp\strutbox]{2\paperwidth}{1.5\baselineskip}%
+  }}}
+  \smash{\makebox[0pt]{%
+	\textcolor{grey}{%
+		\hspace*{9cm}\usesizeofkomafont{chapter}\rule[-2.18\ht\strutbox]{2\paperwidth}{0.04\baselineskip}%
+  }}}
+}
+
+\renewcommand\chapterformat{%
+  \makebox[0pt][r]{\textcolor{grey}{\Huge\textsc{\thechapter}}\ \
+  \textcolor{grey}{\smash{\rule[-2\dp\strutbox]{1.5pt}{1.801\baselineskip}}}}%
+  \enskip%
+}
+
+\addtokomafont{chapter}{\bfseries\color{grey}}
+\addtokomafont{section}{\color{grey}}
+\addtokomafont{subsection}{\color{grey}}
+\addtokomafont{subsubsection}{\color{grey}}

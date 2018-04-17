@@ -1,0 +1,62 @@
+#Funktionen / Rechte im überblick
+
+Die folgenden Übersicht zeigt die mininale Funktionalität.
+Genaue beschreibungen sind im Bereich [Funktionale Beschreibung des Projektes] zu finden.
+Die [möglichen Erweiterungen][Mögliche Erweiterungen] beschreiben funktionalität bei der noch nicht fest steht ob
+diese eingebaut werden können.
+
+## Student
+
+- Dozenten suchen
+- Sprechstunden anschauen, durchsuchen
+- Einschreiben in Sprechstunde
+- Austragen aus Sprechstunde
+- Liste mit aktuellen Eintragungen
+- Liste mit vergangen Eintragungen
+- Angabe der Fakultät (angepasste Suchfunktion)
+- Email ändern
+- Password ändern
+- Account löschen
+
+##Dozent
+
+- Sprechstunde anlegen/bearbeiten
+- Anlegen: einzeln, von - bis (wochentag), Häufigkeit (Wochentag)
+- Sprechstunde entfernen/löschen
+- Anfragen annehmen, ablehnen (einzeln/alle auf einmal)
+- Möglichkeit für automatisches annehmen
+- Liste mit aktuellen Sprechstunden
+- Liste mit vergangen Sprechstunden
+- Angabe der Fakultät (leichteres Auffinden)
+- Email ändern
+- Password ändern
+- Studenten blockieren (Spam)
+- Blockierung aufheben
+- Account löschen
+
+##Administrator
+
+(zusätzliche Funktionen zum Account)
+
+- Student zu Dozent, Dozent zu Student
+- Konten löschen/sperren
+- Kann sich selber nur Rechte nehmen
+
+##root
+
+(rechte wie Administrator)
+
+- Administratoren ernennen/entfernen
+- Kein normaler Nutzer (Student/Dozent)
+- Extra Login/Oberfläche
+- Password ändern
+
+##Mögliche Erweiterungen
+
+- Multilingualität
+- Passwort zurücksetzen
+- Bestätigungs-E-Mail bei Registrierung
+- Bilder ändern
+- Tageszusammenfassung für Dozent
+- Erinnerung für Student
+- Email bei Änderungen
