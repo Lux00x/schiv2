@@ -76,7 +76,8 @@ Beim Löschen muss ein Grund angegeben und nochmals bestätigt werden.
 
 ##Neue Sprechstunde erstellen
 
-Hier gibt es Felder für Datum, Dauer, Betreff, Anzahl der Einheiten und Auswahlfelder für "wöchentliche Wiederholung" und "automatisches annehmen"
+Hier gibt es Felder für Datum, Dauer, Betreff, Anzahl der Studenten die sich maximal amelden können und 
+Auswahlfelder für "wöchentliche Wiederholung" und "automatisches annehmen".
 
 Bei Auswahl der "wöchentlichen Wiederholung" erscheint noch ein weiteres Feld für das Enddatum.
 
@@ -92,7 +93,8 @@ Bei allen Nutzern gibt es eine Seite auf der alle vergangen Termine angezeigt we
 
 ##Einstellungen
 
-In den Einstellungen können E-Mailaddresse, Password und Angabe der Fakultät geändert werden. 
+In den Einstellungen können E-Mailaddresse, Password und Angabe der Fakultät geändert werden.
+Hier besteht auch die möglichkeit seinen eigenen Account zu löschen. Dies muss dann nochmals bestätigt werden.
 
 ###Dozent
 
@@ -115,7 +117,8 @@ Ist ein Nutzer "Student" so ist dieses Feld bei seinem eigenen Eintrag deaktivie
 
 Ein weiteres Feld ist zum sperren des Nutzers.
 
-Nutzer können auch aus der Liste und somit aus dem System gelöscht werden. Das Löschen muss nochmals bestätigt werden.
+Nutzer können auch aus der Liste und somit aus dem System gelöscht werden. Das Löschen muss nochmals 
+bestätigt werden.
 
 
 ##Root-Login
@@ -125,8 +128,9 @@ Für den Root besteht eine extra Login-Seite.
 
 ##Root-Startseite
 
-Auf der Startseite befindet sich eine Liste aller Nutzer. Grundsätzlich bestehen alle Möglichkeiten wie bei der Administration vorhanden.
-Zusätzlich kommt zu jedem Nutzer noch die Möglichkeit Administrationsrechte zu geben oder zu nehmen.
+Auf der Startseite befindet sich eine Liste aller Nutzer. Grundsätzlich bestehen alle Möglichkeiten wie 
+bei der Administration vorhanden. Zusätzlich kommt zu jedem Nutzer noch die Möglichkeit Administrationsrechte 
+zu geben oder zu nehmen.
 
 
 ##Root-Einstellungen

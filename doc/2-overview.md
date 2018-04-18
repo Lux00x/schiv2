@@ -1,7 +1,7 @@
 #Funktionen / Rechte im überblick
 
-Die folgenden Übersicht zeigt die mininale Funktionalität.
-Genaue beschreibungen sind im Bereich [Funktionale Beschreibung des Projektes] zu finden.
+Die folgenden Übersicht zeigt in Stichpunkten die mininale Funktionalität.
+Genaue beschreibungen sind im Bereich [der funktionalen Beschreibung][Funktionale Beschreibung des Projektes] zu finden.
 Die [möglichen Erweiterungen][Mögliche Erweiterungen] beschreiben funktionalität bei der noch nicht fest steht ob
 diese eingebaut werden können.
 
@@ -54,9 +54,9 @@ diese eingebaut werden können.
 ##Mögliche Erweiterungen
 
 - Multilingualität
-- Passwort zurücksetzen
+- Passwort zurücksetzen mit E-mail
 - Bestätigungs-E-Mail bei Registrierung
 - Bilder ändern
-- Tageszusammenfassung für Dozent
-- Erinnerung für Student
-- Email bei Änderungen
+- Tageszusammenfassung für Dozent per E-Mail
+- Erinnerungs-E-Mail für Student
+- E-Mail bei Änderungen

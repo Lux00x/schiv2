@@ -9,20 +9,22 @@ gegliedert nach Benutzrgruppen.
 Um die Anwendung nutzen zu können muss ein passwortgeschütztes Nutzerkonto angelegt werden.
 Die Anmeldung kann nur mit einer Hochschul-E-Mailadresse durchgeführ werden. Vor- und
 Nachname für die Benutzerinformationen werden aus der E-Mailadresse automatisch erfasst.
+
 Jeder Benutzer (außer der Root-Benutzer) ist ein Student bis er von einem Administrator
 zu einem Dozenten erhoben wird. Sowohl Studenten als auch Dozenten können Administrator sein.
+
 Jeder Dozent kann beliebig viele Sprechstunden anlegen, jeder Student sich zu beliebig vielen
 anmelden, jedoch pro Sprechstunde nur einmal. Zu Sprechstunden die in der Vergangenheit liegen
 kann sich nicht mehr angemeldet werden, bzw. werden diese nicht mehr angezeigt. Zu einer Sprechstunde
 kann angegeben werden wie viele Studenten sich maximal anmelden dürfen. Darüber hinaus beinhaltet
 eine Sprechstunde die Informationen an welchem Datum und um welche Uhrzeit (von - bis)
 sie stattfindet, sowie eine kurze Beschreibung (z.B. regelmäßige Sprechstunde, Klausureinsicht).
+
 Studenten und Dozenten haben die Möglichkeit eine Fakultätszugehörigkeit anzugeben.
 Dozenten können damit leichter gesucht werden, Studenten bekommen Dozenten gleicher Fakultät bei
 einer Suche vorrangig angezeigt.
 
-//todo - Löschen des eigenen Nutzerkontos
-
+Jedem Benuter ist es mögich sich selbst aus dem System zu löschen.
 
 ##Student
 
@@ -83,8 +85,8 @@ kann der Root-Benutzer das Passwort ändern.
 
 ##Zusätzliche Funktionen
 
-Sofern noch die nötige Zeit und die nötigen Mittel dafür vorhanden sind werden noch folgende nach Priorität
-sortierte Funktionen (oder eine Auswahl von diesen) zusätzlich implementiert.
+Sofern es möglich ist werden noch folgende, nach Priorität
+sortierte, Funktionen (oder eine Auswahl von diesen) zusätzlich implementiert.
 
 - Einbau von Mehrsprachlichkeit der Anwendung
 - Rücksetzungsfunktion für das Passwort
