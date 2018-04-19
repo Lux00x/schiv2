@@ -41,6 +41,7 @@ diese eingebaut werden können.
 - Student zu Dozent, Dozent zu Student
 - Konten löschen/sperren
 - Kann sich selber nur Rechte nehmen
+- Fakultäten hinzufügen/bearbeiten/löschen
 
 ##root
 
