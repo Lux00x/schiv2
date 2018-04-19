@@ -1,8 +1,8 @@
 #Funktionen / Rechte im überblick
 
 Die folgenden Übersicht zeigt in Stichpunkten die mininale Funktionalität.
-Genaue beschreibungen sind im Bereich [der funktionalen Beschreibung][Funktionale Beschreibung des Projektes] zu finden.
-Die [möglichen Erweiterungen][Mögliche Erweiterungen] beschreiben funktionalität bei der noch nicht fest steht ob
+Genaue Beschreibungen sind im Bereich [der funktionalen Beschreibung][Funktionale Beschreibung des Projektes] zu finden.
+Die [möglichen Erweiterungen][Mögliche Erweiterungen] beschreiben Funktionalität bei der noch nicht fest steht ob
 diese eingebaut werden können.
 
 ## Student

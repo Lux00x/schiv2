@@ -1,6 +1,6 @@
 #Funktionale Beschreibung des Projektes
 
-Ziel des Projekts ist es eine Sprechstundenverwaltung im Internet mit hilfe
+Ziel des Projekts ist es eine Sprechstundenverwaltung im Internet mit Hilfe
 von Oracle Application Express zu entwickeln. Dazu gelten die folgenden Anforderungen
 gegliedert nach Benutzrgruppen.
 
@@ -24,7 +24,8 @@ Studenten und Dozenten haben die Möglichkeit eine Fakultätszugehörigkeit anzu
 Dozenten können damit leichter gesucht werden, Studenten bekommen Dozenten gleicher Fakultät bei
 einer Suche vorrangig angezeigt.
 
-Jedem Benuter ist es mögich sich selbst aus dem System zu löschen.
+Aus Datenschutzgründen ist es jedem Benutzer (außer dem Root-Benutzer) möglich
+sich aus dem System zu löschen.
 
 ##Student
 
@@ -36,9 +37,9 @@ kann ein Student eine Bemerkung für den Dozenten hinterlassen (z.B. Grund der B
 Aus einer Sprechstunde kann sich auch ausgetragen werden, dabei kann der Student ebenfalls
 eine Bemerkung (z.B. Krankheitsfall) hinterlassen. Es kann eine Liste mit allen noch anstehenden
 Terminen eingesehen werden. Zusätzlich kann auch eine Liste mit allen vergangenen Terminen
-aufgerufen werden. Darüber hinaus ist es möglich einige Kontoeinstellungen zu ändern.
+aufgerufen werden. Darüber hinaus ist es möglich einige Kontoeinstellungen zu tätigen.
 Dazu zählen das Ändern der E-Mailadresse (inclusive automatischer Namensanpassung, siehe "Allgemein"),
-Änderung des Passworts sowie einstellen der Fakultät.
+Änderung des Passworts, einstellen der Fakultät sowie das löschen des eigenen Benutzerkontos.
 
 
 ##Dozent
