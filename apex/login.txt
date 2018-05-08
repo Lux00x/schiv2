@@ -1,0 +1,46 @@
+create or replace function "SCHIV2_LOGIN"
+  (p_username in SCHIV2_USERS.EMAIL%TYPE,
+   p_password in SCHIV2_USERS.PASSWORDHASH%TYPE)
+return BOOLEAN
+is
+    pw SCHIV2_USERS.PASSWORDHASH%TYPE;
+begin
+
+    SELECT PASSWORDHASH into pw
+    FROM SCHIV2_USERS
+    WHERE EMAIL = p_username;
+
+    return pw = p_password;
+
+exception
+    when NO_DATA_FOUND then
+    return false;
+
+end;
+
+
+
+
+Page 101:
+- Page Processing
+  - Login
+    - Source
+
+DECLARE
+  result boolean := false;
+begin
+  result := SCHIV2_LOGIN(
+    p_username => :P101_USERNAME,
+    p_password => :P101_PASSWORD );
+
+  if (result = true)
+  then
+    wwv_flow_custom_auth_std.post_login
+    (P_UNAME => :P101_USERNAME,
+    P_PASSWORD => :P101_PASSWORD,
+    P_SESSION_ID => v('APP_SESSION'),
+    P_FLOW_PAGE => :APP_ID ||':1');
+  else
+    owa_util.redirect_url('f?=&APP_ID.:101:&SESSION.');
+  end if;
+end;
