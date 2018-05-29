@@ -12,7 +12,7 @@ prompt  APPLICATION 200 - SCHIV2
 -- Application Export:
 --   Application:     200
 --   Name:            SCHIV2
---   Date and Time:   21:26 Monday May 28, 2018
+--   Date and Time:   10:49 Tuesday May 29, 2018
 --   Exported By:     ORA01
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -26,13 +26,13 @@ prompt  APPLICATION 200 - SCHIV2
  
 -- Application Statistics:
 --   Pages:                      3
---     Items:                   10
+--     Items:                   12
 --     Processes:                6
 --     Regions:                  5
 --     Buttons:                  2
 --   Shared Components:
 --     Logic:
---       Items:                  1
+--       Items:                  3
 --     Navigation:
 --       Tab Sets:               1
 --         Tabs:                 1
@@ -190,7 +190,7 @@ wwv_flow_api.create_flow(
   p_include_legacy_javascript=> 'Y',
   p_default_error_display_loc=> 'INLINE_WITH_FIELD_AND_NOTIFICATION',
   p_last_updated_by => 'ORA01',
-  p_last_upd_yyyymmddhh24miss=> '20180528212522',
+  p_last_upd_yyyymmddhh24miss=> '20180529103519',
   p_ui_type_name => null,
   p_required_roles=> wwv_flow_utilities.string_to_table2(''));
  
@@ -287,6 +287,40 @@ prompt  ...application processes
 --
 prompt  ...application items
 --
+--application/shared_components/logic/application_items/app_admin
+ 
+begin
+ 
+wwv_flow_api.create_flow_item (
+  p_id => 6245002893520573 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_name => 'APP_ADMIN'
+ ,p_scope => 'APP'
+ ,p_data_type => 'VARCHAR'
+ ,p_is_persistent => 'Y'
+ ,p_protection_level => 'I'
+  );
+ 
+end;
+/
+
+--application/shared_components/logic/application_items/app_dozent
+ 
+begin
+ 
+wwv_flow_api.create_flow_item (
+  p_id => 6244805050519581 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_name => 'APP_DOZENT'
+ ,p_scope => 'APP'
+ ,p_data_type => 'VARCHAR'
+ ,p_is_persistent => 'Y'
+ ,p_protection_level => 'I'
+  );
+ 
+end;
+/
+
 --application/shared_components/logic/application_items/app_userid
  
 begin
@@ -387,7 +421,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180528212522'
+ ,p_last_upd_yyyymmddhh24miss => '20180529102537'
   );
 null;
  
@@ -675,6 +709,7 @@ wwv_flow_api.create_worksheet_column(
   p_display_text_as        =>'ESCAPE_SC',
   p_heading_alignment      =>'CENTER',
   p_column_alignment       =>'LEFT',
+  p_format_mask            =>'DD.MON.YYYY HH24:MI',
   p_tz_dependent           =>'N',
   p_rpt_distinct_lov       =>'Y',
   p_rpt_show_filter_lov    =>'D',
@@ -712,6 +747,7 @@ wwv_flow_api.create_worksheet_column(
   p_display_text_as        =>'ESCAPE_SC',
   p_heading_alignment      =>'CENTER',
   p_column_alignment       =>'LEFT',
+  p_format_mask            =>'DD.MON.YYYY HH24:MI',
   p_tz_dependent           =>'N',
   p_rpt_distinct_lov       =>'Y',
   p_rpt_show_filter_lov    =>'D',
@@ -871,7 +907,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180528210834'
+ ,p_last_upd_yyyymmddhh24miss => '20180529103519'
   );
 null;
  
@@ -939,7 +975,8 @@ wwv_flow_api.create_page_plug (
   p_plug_query_num_rows_type => 'NEXT_PREVIOUS_LINKS',
   p_plug_query_row_count_max => 500,
   p_plug_query_show_nulls_as => ' - ',
-  p_plug_display_condition_type => '',
+  p_plug_display_condition_type => 'REQUEST_EQUALS_CONDITION',
+  p_plug_display_when_condition => ':APP_DOZENT != 1',
   p_pagination_display_position=>'BOTTOM_RIGHT',
   p_plug_customized=>'0',
   p_plug_caching=> 'NOT_CACHED',
@@ -1106,14 +1143,16 @@ wwv_flow_api.create_page_item(
   p_id=>5667110636634864 + wwv_flow_api.g_id_offset,
   p_flow_id=> wwv_flow.g_flow_id,
   p_flow_step_id=> 10,
-  p_name=>'P10_TIMETO',
+  p_name=>'P10_TO_DATE',
   p_data_type=> 'VARCHAR',
   p_is_required=> true,
   p_accept_processing=> 'REPLACE_EXISTING',
   p_item_sequence=> 100,
   p_item_plug_id => 5665314013634856+wwv_flow_api.g_id_offset,
   p_use_cache_before_default=> 'NO',
+  p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
   p_prompt=>'Timeto',
+  p_format_mask=>'DD.MM.YYYY',
   p_source=>'TIMETO',
   p_source_type=> 'DB_COLUMN',
   p_display_as=> 'NATIVE_DATE_PICKER',
@@ -1132,9 +1171,13 @@ wwv_flow_api.create_page_item(
   p_field_alignment=> 'LEFT',
   p_field_template=> 5604608582105017+wwv_flow_api.g_id_offset,
   p_is_persistent=> 'Y',
+  p_lov_display_extra=>'YES',
+  p_protection_level => 'N',
+  p_escape_on_http_output => 'Y',
   p_attribute_04 => 'button',
   p_attribute_05 => 'N',
   p_attribute_07 => 'NONE',
+  p_show_quick_picks=>'N',
   p_item_comment => '');
  
  
@@ -1152,7 +1195,7 @@ wwv_flow_api.create_page_item(
   p_data_type=> 'VARCHAR',
   p_is_required=> true,
   p_accept_processing=> 'REPLACE_EXISTING',
-  p_item_sequence=> 110,
+  p_item_sequence=> 150,
   p_item_plug_id => 5665314013634856+wwv_flow_api.g_id_offset,
   p_use_cache_before_default=> 'NO',
   p_prompt=>'Units',
@@ -1192,7 +1235,7 @@ wwv_flow_api.create_page_item(
   p_data_type=> 'VARCHAR',
   p_is_required=> false,
   p_accept_processing=> 'REPLACE_EXISTING',
-  p_item_sequence=> 120,
+  p_item_sequence=> 160,
   p_item_plug_id => 5665314013634856+wwv_flow_api.g_id_offset,
   p_use_cache_before_default=> 'NO',
   p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
@@ -1312,6 +1355,90 @@ wwv_flow_api.create_page_item(
 end;
 /
 
+declare
+    h varchar2(32767) := null;
+begin
+wwv_flow_api.create_page_item(
+  p_id=>6242506418427777 + wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_flow_step_id=> 10,
+  p_name=>'P10_TO_HOUR',
+  p_data_type=> 'VARCHAR',
+  p_is_required=> true,
+  p_accept_processing=> 'REPLACE_EXISTING',
+  p_item_sequence=> 110,
+  p_item_plug_id => 5665314013634856+wwv_flow_api.g_id_offset,
+  p_use_cache_before_default=> 'YES',
+  p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
+  p_prompt=>'To Hour',
+  p_source_type=> 'STATIC',
+  p_display_as=> 'NATIVE_NUMBER_FIELD',
+  p_lov_display_null=> 'NO',
+  p_lov_translated=> 'N',
+  p_cSize=> 30,
+  p_cMaxlength=> 4000,
+  p_cHeight=> 1,
+  p_new_grid=> false,
+  p_begin_on_new_line=> 'YES',
+  p_begin_on_new_field=> 'YES',
+  p_colspan=> null,
+  p_rowspan=> null,
+  p_grid_column=> null,
+  p_label_alignment=> 'RIGHT',
+  p_field_alignment=> 'LEFT-CENTER',
+  p_field_template=> 5604326237105017+wwv_flow_api.g_id_offset,
+  p_is_persistent=> 'Y',
+  p_attribute_01 => '0',
+  p_attribute_02 => '23',
+  p_attribute_03 => 'right',
+  p_item_comment => '');
+ 
+ 
+end;
+/
+
+declare
+    h varchar2(32767) := null;
+begin
+wwv_flow_api.create_page_item(
+  p_id=>6243129697432136 + wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_flow_step_id=> 10,
+  p_name=>'P10_TO_MINUTES',
+  p_data_type=> 'VARCHAR',
+  p_is_required=> true,
+  p_accept_processing=> 'REPLACE_EXISTING',
+  p_item_sequence=> 120,
+  p_item_plug_id => 5665314013634856+wwv_flow_api.g_id_offset,
+  p_use_cache_before_default=> 'YES',
+  p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
+  p_prompt=>'To Minutes',
+  p_source_type=> 'STATIC',
+  p_display_as=> 'NATIVE_NUMBER_FIELD',
+  p_lov_display_null=> 'NO',
+  p_lov_translated=> 'N',
+  p_cSize=> 30,
+  p_cMaxlength=> 4000,
+  p_cHeight=> 1,
+  p_new_grid=> false,
+  p_begin_on_new_line=> 'YES',
+  p_begin_on_new_field=> 'YES',
+  p_colspan=> null,
+  p_rowspan=> null,
+  p_grid_column=> null,
+  p_label_alignment=> 'RIGHT',
+  p_field_alignment=> 'LEFT-CENTER',
+  p_field_template=> 5604326237105017+wwv_flow_api.g_id_offset,
+  p_is_persistent=> 'Y',
+  p_attribute_01 => '0',
+  p_attribute_02 => '59',
+  p_attribute_03 => 'right',
+  p_item_comment => '');
+ 
+ 
+end;
+/
+
  
 begin
  
@@ -1325,7 +1452,8 @@ p:=p||'insert into schiv2_meetings'||unistr('\000a')||
 'values'||unistr('\000a')||
 '(:APP_USERID, :P10_DESCRIPTION, '||unistr('\000a')||
 'TO_DATE(:P10_FROM_DATE||'' ''||:P10_FROM_HOUR||''.''||:P10_FROM_MINUTES, ''DD.MM.YYYY HH24.MI''),'||unistr('\000a')||
-':P10_TIMETO, :P10_UNITS, (CASE WHEN :P10_AUTOCONFIRMATION = 1 THEN 1 ELSE 0 END));';
+'TO_DATE(:P10_TO_DATE||'' ''||:P10_TO_HOUR||''.''||:P10_TO_MINUTES, ''DD.MM.YYYY HH24.MI''),'||unistr('\000a')||
+':P10_UNITS, (CASE WHEN :P10_AUTOCONFIRMATION = 1 THEN 1 ELSE 0 END));';
 
 wwv_flow_api.create_page_process(
   p_id     => 5670023150746128 + wwv_flow_api.g_id_offset,
@@ -1417,7 +1545,7 @@ wwv_flow_api.create_page (
  ,p_page_is_public_y_n => 'Y'
  ,p_cache_page_yn => 'N'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180528204359'
+ ,p_last_upd_yyyymmddhh24miss => '20180529103112'
   );
 null;
  
@@ -1640,6 +1768,8 @@ p:=p||'--apex_authentication.login('||unistr('\000a')||
 ''||unistr('\000a')||
 'result boolean := false;'||unistr('\000a')||
 'user NUMBER(30,0) := 0;'||unistr('\000a')||
+'dozent NUMBER(1,0) := 0;'||unistr('\000a')||
+'admin NUMBER(1,0) := 0;'||unistr('\000a')||
 ''||unistr('\000a')||
 'begin'||unistr('\000a')||
 ''||unistr('\000a')||
@@ -1651,19 +1781,23 @@ p:=p||'--apex_authentication.login('||unistr('\000a')||
 'then'||unistr('\000a')||
 'wwv_flow_custom_auth_std.post_login('||unistr('\000a')||
 '  P_UNAME => :P101_USERNAME,'||unistr('\000a')||
-'  P_PASSWORD => :P101_PASSWORD,'||unistr('\000a')||
-'  P_SESSION_ID =>';
+'';
 
-p:=p||' v(''APP_SESSION''),'||unistr('\000a')||
+p:=p||'  P_PASSWORD => :P101_PASSWORD,'||unistr('\000a')||
+'  P_SESSION_ID => v(''APP_SESSION''),'||unistr('\000a')||
 '  P_FLOW_PAGE => :APP_ID ||'':1'');'||unistr('\000a')||
 ''||unistr('\000a')||
-'select userid into user from schiv2_users where email = :P101_USERNAME;'||unistr('\000a')||
+'select userid, dozent, admin into user, dozent, admin from schiv2_users where email = :P101_USERNAME;'||unistr('\000a')||
 ''||unistr('\000a')||
 'apex_util.set_session_state(''APP_USERID'', user);'||unistr('\000a')||
+'apex_util.set_session_state(''APP_DOZENT'', dozent);'||unistr('\000a')||
+'apex_util.set_session_state(''APP_ADMIN'', admin);'||unistr('\000a')||
 ''||unistr('\000a')||
 'else'||unistr('\000a')||
 ''||unistr('\000a')||
-'owa_util.redirect_url(''f?=&APP_ID.:101:&SESSION.'');'||unistr('\000a')||
+'owa_util.redirect_url(''f?=&APP_ID.:101';
+
+p:=p||':&SESSION.'');'||unistr('\000a')||
 ''||unistr('\000a')||
 'end if;'||unistr('\000a')||
 'end;';
@@ -8464,9 +8598,6 @@ null;
 end;
 /
 
---application/shared_components/globalization/translations
-prompt  ... translations
---
 --application/shared_components/globalization/messages
 prompt  ...text messages
 --
