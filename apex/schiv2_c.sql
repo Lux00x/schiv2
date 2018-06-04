@@ -12,7 +12,7 @@ prompt  APPLICATION 200 - SCHIV2
 -- Application Export:
 --   Application:     200
 --   Name:            SCHIV2
---   Date and Time:   11:54 Wednesday May 30, 2018
+--   Date and Time:   10:04 Monday June 4, 2018
 --   Exported By:     ORA01
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -26,7 +26,7 @@ prompt  APPLICATION 200 - SCHIV2
  
 -- Application Statistics:
 --   Pages:                      7
---     Items:                   23
+--     Items:                   25
 --     Processes:               11
 --     Regions:                 18
 --     Buttons:                  6
@@ -191,7 +191,7 @@ wwv_flow_api.create_flow(
   p_include_legacy_javascript=> 'Y',
   p_default_error_display_loc=> 'INLINE_WITH_FIELD_AND_NOTIFICATION',
   p_last_updated_by => 'ORA01',
-  p_last_upd_yyyymmddhh24miss=> '20180530115404',
+  p_last_upd_yyyymmddhh24miss=> '20180604100410',
   p_ui_type_name => null,
   p_required_roles=> wwv_flow_utilities.string_to_table2(''));
  
@@ -480,7 +480,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180530115302'
+ ,p_last_upd_yyyymmddhh24miss => '20180603222003'
   );
 null;
  
@@ -492,15 +492,20 @@ declare
   l_clob clob;
   l_length number := 1;
 begin
-s:=s||'select SCHIV2_INSCRIPTIONS.STUDENTID,'||unistr('\000a')||
-'    SCHIV2_INSCRIPTIONS.CONFIRMED,'||unistr('\000a')||
-'    SCHIV2_MEETINGS.MEETINGID,'||unistr('\000a')||
-'    SCHIV2_MEETINGS.TIMEFROM,'||unistr('\000a')||
-'    SCHIV2_MEETINGS.TIMETO,'||unistr('\000a')||
-'    SCHIV2_MEETINGS.DESCRIPTION '||unistr('\000a')||
-' from SCHIV2_MEETINGS, SCHIV2_INSCRIPTIONS'||unistr('\000a')||
-' where SCHIV2_MEETINGS.MEETINGID = SCHIV2_INSCRIPTIONS.MEETINGID'||unistr('\000a')||
-' and SCHIV2_INSCRIPTIONS.STUDENTID= :APP_USERID';
+s:=s||'select SCHIV2_INSCRIPTIONS.MEETINGID as MEETINGID,'||unistr('\000a')||
+'    SCHIV2_INSCRIPTIONS.CONFIRMED as CONFIRMED,'||unistr('\000a')||
+'    SCHIV2_INSCRIPTIONS.NOTE as NOTE,'||unistr('\000a')||
+'    SCHIV2_MEETINGS.DESCRIPTION as DESCRIPTION,'||unistr('\000a')||
+'    SCHIV2_USERS.FIRSTNAME as FIRSTNAME,'||unistr('\000a')||
+'    SCHIV2_USERS.LASTNAME as LASTNAME'||unistr('\000a')||
+' from SCHIV2_USERS SCHIV2_USERS,'||unistr('\000a')||
+'    SCHIV2_MEETINGS SCHIV2_MEETINGS,'||unistr('\000a')||
+'    SCHIV2_INSCRIPTIONS SCHIV2_INSCRIPTIONS'||unistr('\000a')||
+' where schiv2_inscript';
+
+s:=s||'ions.studentid = :APP_USERID'||unistr('\000a')||
+'   and schiv2_inscriptions.meetingid = schiv2_meetings.meetingid'||unistr('\000a')||
+'   and schiv2_meetings.dozentid = schiv2_users.userid;';
 
 wwv_flow_api.create_page_plug (
   p_id=> 6655110972266840 + wwv_flow_api.g_id_offset,
@@ -523,6 +528,35 @@ wwv_flow_api.create_page_plug (
   p_plug_query_row_template=> 1,
   p_plug_query_headings_type=> 'COLON_DELMITED_LIST',
   p_plug_display_condition_type => '',
+  p_prn_output_show_link=> 'Y',
+  p_prn_content_disposition=> 'ATTACHMENT',
+  p_prn_document_header=> 'APEX',
+  p_prn_units=> 'INCHES',
+  p_prn_paper_size=> 'LETTER',
+  p_prn_width=> 11,
+  p_prn_height=> 8.5,
+  p_prn_orientation=> 'HORIZONTAL',
+  p_prn_page_header_font_color=> '#000000',
+  p_prn_page_header_font_family=> 'Helvetica',
+  p_prn_page_header_font_weight=> 'normal',
+  p_prn_page_header_font_size=> '12',
+  p_prn_page_footer_font_color=> '#000000',
+  p_prn_page_footer_font_family=> 'Helvetica',
+  p_prn_page_footer_font_weight=> 'normal',
+  p_prn_page_footer_font_size=> '12',
+  p_prn_header_bg_color=> '#9bafde',
+  p_prn_header_font_color=> '#ffffff',
+  p_prn_header_font_family=> 'Helvetica',
+  p_prn_header_font_weight=> 'normal',
+  p_prn_header_font_size=> '10',
+  p_prn_body_bg_color=> '#efefef',
+  p_prn_body_font_color=> '#000000',
+  p_prn_body_font_family=> 'Helvetica',
+  p_prn_body_font_weight=> 'normal',
+  p_prn_body_font_size=> '10',
+  p_prn_border_width=> .5,
+  p_prn_page_header_alignment=> 'CENTER',
+  p_prn_page_footer_alignment=> 'CENTER',
   p_plug_customized=>'0',
   p_plug_caching=> 'NOT_CACHED',
   p_plug_comment=> '');
@@ -531,15 +565,20 @@ end;
 declare
  a1 varchar2(32767) := null;
 begin
-a1:=a1||'select SCHIV2_INSCRIPTIONS.STUDENTID,'||unistr('\000a')||
-'    SCHIV2_INSCRIPTIONS.CONFIRMED,'||unistr('\000a')||
-'    SCHIV2_MEETINGS.MEETINGID,'||unistr('\000a')||
-'    SCHIV2_MEETINGS.TIMEFROM,'||unistr('\000a')||
-'    SCHIV2_MEETINGS.TIMETO,'||unistr('\000a')||
-'    SCHIV2_MEETINGS.DESCRIPTION '||unistr('\000a')||
-' from SCHIV2_MEETINGS, SCHIV2_INSCRIPTIONS'||unistr('\000a')||
-' where SCHIV2_MEETINGS.MEETINGID = SCHIV2_INSCRIPTIONS.MEETINGID'||unistr('\000a')||
-' and SCHIV2_INSCRIPTIONS.STUDENTID= :APP_USERID';
+a1:=a1||'select SCHIV2_INSCRIPTIONS.MEETINGID as MEETINGID,'||unistr('\000a')||
+'    SCHIV2_INSCRIPTIONS.CONFIRMED as CONFIRMED,'||unistr('\000a')||
+'    SCHIV2_INSCRIPTIONS.NOTE as NOTE,'||unistr('\000a')||
+'    SCHIV2_MEETINGS.DESCRIPTION as DESCRIPTION,'||unistr('\000a')||
+'    SCHIV2_USERS.FIRSTNAME as FIRSTNAME,'||unistr('\000a')||
+'    SCHIV2_USERS.LASTNAME as LASTNAME'||unistr('\000a')||
+' from SCHIV2_USERS SCHIV2_USERS,'||unistr('\000a')||
+'    SCHIV2_MEETINGS SCHIV2_MEETINGS,'||unistr('\000a')||
+'    SCHIV2_INSCRIPTIONS SCHIV2_INSCRIPTIONS'||unistr('\000a')||
+' where schiv2_inscript';
+
+a1:=a1||'ions.studentid = :APP_USERID'||unistr('\000a')||
+'   and schiv2_inscriptions.meetingid = schiv2_meetings.meetingid'||unistr('\000a')||
+'   and schiv2_meetings.dozentid = schiv2_users.userid;';
 
 wwv_flow_api.create_worksheet(
   p_id=> 6655302934266840+wwv_flow_api.g_id_offset,
@@ -563,7 +602,7 @@ wwv_flow_api.create_worksheet(
   p_status=>'AVAILABLE_FOR_OWNER',
   p_allow_report_saving=>'Y',
   p_allow_save_rpt_public=>'N',
-  p_allow_report_categories=>'Y',
+  p_allow_report_categories=>'N',
   p_show_nulls_as=>'-',
   p_pagination_type=>'ROWS_X_TO_Y',
   p_pagination_display_pos=>'BOTTOM_RIGHT',
@@ -585,56 +624,21 @@ wwv_flow_api.create_worksheet(
   p_show_chart=>'Y',
   p_show_group_by=>'Y',
   p_show_notify=>'N',
-  p_show_calendar=>'Y',
+  p_show_calendar=>'N',
   p_show_flashback=>'Y',
   p_show_reset=>'Y',
   p_show_download=>'Y',
   p_show_help=>'Y',
   p_download_formats=>'CSV:HTML:EMAIL',
+  p_detail_link_text=>'<img src="#IMAGE_PREFIX#menu/pencil16x16.gif" alt="" />',
   p_allow_exclude_null_values=>'Y',
   p_allow_hide_extra_columns=>'Y',
   p_icon_view_enabled_yn=>'N',
   p_icon_view_use_custom=>'N',
+  p_icon_view_columns_per_row=>1,
   p_detail_view_enabled_yn=>'N',
   p_owner=>'ORA01',
   p_internal_uid=> 6655302934266840);
-end;
-/
-begin
-wwv_flow_api.create_worksheet_column(
-  p_id => 6655432330266840+wwv_flow_api.g_id_offset,
-  p_flow_id=> wwv_flow.g_flow_id,
-  p_page_id=> 1,
-  p_worksheet_id => 6655302934266840+wwv_flow_api.g_id_offset,
-  p_db_column_name         =>'STUDENTID',
-  p_display_order          =>1,
-  p_column_identifier      =>'A',
-  p_column_label           =>'Studentid',
-  p_report_label           =>'Studentid',
-  p_sync_form_label        =>'Y',
-  p_display_in_default_rpt =>'Y',
-  p_is_sortable            =>'Y',
-  p_allow_sorting          =>'Y',
-  p_allow_filtering        =>'Y',
-  p_allow_highlighting     =>'Y',
-  p_allow_ctrl_breaks      =>'Y',
-  p_allow_aggregations     =>'Y',
-  p_allow_computations     =>'Y',
-  p_allow_charting         =>'Y',
-  p_allow_group_by         =>'Y',
-  p_allow_hide             =>'Y',
-  p_others_may_edit        =>'Y',
-  p_others_may_view        =>'Y',
-  p_column_type            =>'NUMBER',
-  p_display_as             =>'TEXT',
-  p_display_text_as        =>'ESCAPE_SC',
-  p_heading_alignment      =>'CENTER',
-  p_column_alignment       =>'RIGHT',
-  p_tz_dependent           =>'N',
-  p_rpt_distinct_lov       =>'Y',
-  p_rpt_show_filter_lov    =>'D',
-  p_rpt_filter_date_ranges =>'ALL',
-  p_help_text              =>'');
 end;
 /
 begin
@@ -713,86 +717,12 @@ end;
 /
 begin
 wwv_flow_api.create_worksheet_column(
-  p_id => 6655707297266841+wwv_flow_api.g_id_offset,
-  p_flow_id=> wwv_flow.g_flow_id,
-  p_page_id=> 1,
-  p_worksheet_id => 6655302934266840+wwv_flow_api.g_id_offset,
-  p_db_column_name         =>'TIMEFROM',
-  p_display_order          =>4,
-  p_column_identifier      =>'D',
-  p_column_label           =>'Timefrom',
-  p_report_label           =>'Timefrom',
-  p_sync_form_label        =>'Y',
-  p_display_in_default_rpt =>'Y',
-  p_is_sortable            =>'Y',
-  p_allow_sorting          =>'Y',
-  p_allow_filtering        =>'Y',
-  p_allow_highlighting     =>'Y',
-  p_allow_ctrl_breaks      =>'Y',
-  p_allow_aggregations     =>'Y',
-  p_allow_computations     =>'Y',
-  p_allow_charting         =>'Y',
-  p_allow_group_by         =>'Y',
-  p_allow_hide             =>'Y',
-  p_others_may_edit        =>'Y',
-  p_others_may_view        =>'Y',
-  p_column_type            =>'DATE',
-  p_display_as             =>'TEXT',
-  p_display_text_as        =>'ESCAPE_SC',
-  p_heading_alignment      =>'CENTER',
-  p_column_alignment       =>'LEFT',
-  p_tz_dependent           =>'N',
-  p_rpt_distinct_lov       =>'Y',
-  p_rpt_show_filter_lov    =>'D',
-  p_rpt_filter_date_ranges =>'ALL',
-  p_help_text              =>'');
-end;
-/
-begin
-wwv_flow_api.create_worksheet_column(
-  p_id => 6655817849266841+wwv_flow_api.g_id_offset,
-  p_flow_id=> wwv_flow.g_flow_id,
-  p_page_id=> 1,
-  p_worksheet_id => 6655302934266840+wwv_flow_api.g_id_offset,
-  p_db_column_name         =>'TIMETO',
-  p_display_order          =>5,
-  p_column_identifier      =>'E',
-  p_column_label           =>'Timeto',
-  p_report_label           =>'Timeto',
-  p_sync_form_label        =>'Y',
-  p_display_in_default_rpt =>'Y',
-  p_is_sortable            =>'Y',
-  p_allow_sorting          =>'Y',
-  p_allow_filtering        =>'Y',
-  p_allow_highlighting     =>'Y',
-  p_allow_ctrl_breaks      =>'Y',
-  p_allow_aggregations     =>'Y',
-  p_allow_computations     =>'Y',
-  p_allow_charting         =>'Y',
-  p_allow_group_by         =>'Y',
-  p_allow_hide             =>'Y',
-  p_others_may_edit        =>'Y',
-  p_others_may_view        =>'Y',
-  p_column_type            =>'DATE',
-  p_display_as             =>'TEXT',
-  p_display_text_as        =>'ESCAPE_SC',
-  p_heading_alignment      =>'CENTER',
-  p_column_alignment       =>'LEFT',
-  p_tz_dependent           =>'N',
-  p_rpt_distinct_lov       =>'Y',
-  p_rpt_show_filter_lov    =>'D',
-  p_rpt_filter_date_ranges =>'ALL',
-  p_help_text              =>'');
-end;
-/
-begin
-wwv_flow_api.create_worksheet_column(
   p_id => 6655905055266841+wwv_flow_api.g_id_offset,
   p_flow_id=> wwv_flow.g_flow_id,
   p_page_id=> 1,
   p_worksheet_id => 6655302934266840+wwv_flow_api.g_id_offset,
   p_db_column_name         =>'DESCRIPTION',
-  p_display_order          =>6,
+  p_display_order          =>5,
   p_column_identifier      =>'F',
   p_column_label           =>'Description',
   p_report_label           =>'Description',
@@ -822,10 +752,121 @@ wwv_flow_api.create_worksheet_column(
   p_help_text              =>'');
 end;
 /
+begin
+wwv_flow_api.create_worksheet_column(
+  p_id => 6707603625676311+wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_page_id=> 1,
+  p_worksheet_id => 6655302934266840+wwv_flow_api.g_id_offset,
+  p_db_column_name         =>'NOTE',
+  p_display_order          =>6,
+  p_column_identifier      =>'G',
+  p_column_label           =>'Note',
+  p_report_label           =>'Note',
+  p_sync_form_label        =>'Y',
+  p_display_in_default_rpt =>'Y',
+  p_is_sortable            =>'Y',
+  p_allow_sorting          =>'Y',
+  p_allow_filtering        =>'Y',
+  p_allow_highlighting     =>'Y',
+  p_allow_ctrl_breaks      =>'Y',
+  p_allow_aggregations     =>'Y',
+  p_allow_computations     =>'Y',
+  p_allow_charting         =>'Y',
+  p_allow_group_by         =>'Y',
+  p_allow_hide             =>'Y',
+  p_others_may_edit        =>'Y',
+  p_others_may_view        =>'Y',
+  p_column_type            =>'STRING',
+  p_display_as             =>'TEXT',
+  p_display_text_as        =>'ESCAPE_SC',
+  p_heading_alignment      =>'CENTER',
+  p_column_alignment       =>'LEFT',
+  p_tz_dependent           =>'N',
+  p_rpt_distinct_lov       =>'Y',
+  p_rpt_show_filter_lov    =>'D',
+  p_rpt_filter_date_ranges =>'ALL',
+  p_help_text              =>'');
+end;
+/
+begin
+wwv_flow_api.create_worksheet_column(
+  p_id => 6707706211676313+wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_page_id=> 1,
+  p_worksheet_id => 6655302934266840+wwv_flow_api.g_id_offset,
+  p_db_column_name         =>'FIRSTNAME',
+  p_display_order          =>7,
+  p_column_identifier      =>'H',
+  p_column_label           =>'Firstname',
+  p_report_label           =>'Firstname',
+  p_sync_form_label        =>'Y',
+  p_display_in_default_rpt =>'Y',
+  p_is_sortable            =>'Y',
+  p_allow_sorting          =>'Y',
+  p_allow_filtering        =>'Y',
+  p_allow_highlighting     =>'Y',
+  p_allow_ctrl_breaks      =>'Y',
+  p_allow_aggregations     =>'Y',
+  p_allow_computations     =>'Y',
+  p_allow_charting         =>'Y',
+  p_allow_group_by         =>'Y',
+  p_allow_hide             =>'Y',
+  p_others_may_edit        =>'Y',
+  p_others_may_view        =>'Y',
+  p_column_type            =>'STRING',
+  p_display_as             =>'TEXT',
+  p_display_text_as        =>'ESCAPE_SC',
+  p_heading_alignment      =>'CENTER',
+  p_column_alignment       =>'LEFT',
+  p_tz_dependent           =>'N',
+  p_rpt_distinct_lov       =>'Y',
+  p_rpt_show_filter_lov    =>'D',
+  p_rpt_filter_date_ranges =>'ALL',
+  p_help_text              =>'');
+end;
+/
+begin
+wwv_flow_api.create_worksheet_column(
+  p_id => 6707822458676313+wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_page_id=> 1,
+  p_worksheet_id => 6655302934266840+wwv_flow_api.g_id_offset,
+  p_db_column_name         =>'LASTNAME',
+  p_display_order          =>8,
+  p_column_identifier      =>'I',
+  p_column_label           =>'Lastname',
+  p_report_label           =>'Lastname',
+  p_sync_form_label        =>'Y',
+  p_display_in_default_rpt =>'Y',
+  p_is_sortable            =>'Y',
+  p_allow_sorting          =>'Y',
+  p_allow_filtering        =>'Y',
+  p_allow_highlighting     =>'Y',
+  p_allow_ctrl_breaks      =>'Y',
+  p_allow_aggregations     =>'Y',
+  p_allow_computations     =>'Y',
+  p_allow_charting         =>'Y',
+  p_allow_group_by         =>'Y',
+  p_allow_hide             =>'Y',
+  p_others_may_edit        =>'Y',
+  p_others_may_view        =>'Y',
+  p_column_type            =>'STRING',
+  p_display_as             =>'TEXT',
+  p_display_text_as        =>'ESCAPE_SC',
+  p_heading_alignment      =>'CENTER',
+  p_column_alignment       =>'LEFT',
+  p_tz_dependent           =>'N',
+  p_rpt_distinct_lov       =>'Y',
+  p_rpt_show_filter_lov    =>'D',
+  p_rpt_filter_date_ranges =>'ALL',
+  p_help_text              =>'');
+end;
+/
 declare
     rc1 varchar2(32767) := null;
 begin
-rc1:=rc1||'STUDENTID:CONFIRMED:MEETINGID:TIMEFROM:TIMETO:DESCRIPTION';
+rc1:=rc1||'CONFIRMED:MEETINGID:DESCRIPTION:NOTE:FIRSTNAME:LASTNAME';
 
 wwv_flow_api.create_worksheet_rpt(
   p_id => 6656203470269864+wwv_flow_api.g_id_offset,
@@ -2583,7 +2624,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180530114232'
+ ,p_last_upd_yyyymmddhh24miss => '20180603220451'
   );
 null;
  
@@ -2715,15 +2756,15 @@ wwv_flow_api.create_page_button(
   p_button_plug_id => 6691329978019099+wwv_flow_api.g_id_offset,
   p_button_name    => 'CREATE',
   p_button_action  => 'SUBMIT',
-  p_button_image   => 'template:'||to_char(5604714152105017+wwv_flow_api.g_id_offset),
-  p_button_is_hot=>'N',
-  p_button_image_alt=> 'Create',
+  p_button_image   => 'template:'||to_char(5605011382105018+wwv_flow_api.g_id_offset),
+  p_button_is_hot=>'Y',
+  p_button_image_alt=> 'Inscripe',
   p_button_position=> 'REGION_TEMPLATE_CREATE',
   p_button_alignment=> 'RIGHT',
   p_button_redirect_url=> '',
   p_button_execute_validations=>'Y',
   p_button_condition=> 'P12_MEETINGID',
-  p_button_condition_type=> 'ITEM_IS_NULL',
+  p_button_condition_type=> 'ITEM_IS_NOT_NULL',
   p_database_action=>'INSERT',
   p_required_patch => null + wwv_flow_api.g_id_offset);
  
@@ -2808,13 +2849,13 @@ wwv_flow_api.create_page_item(
   p_data_type=> 'VARCHAR',
   p_is_required=> true,
   p_accept_processing=> 'REPLACE_EXISTING',
-  p_item_sequence=> 30,
+  p_item_sequence=> 110,
   p_item_plug_id => 6695026906037781+wwv_flow_api.g_id_offset,
-  p_use_cache_before_default=> 'NO',
+  p_use_cache_before_default=> 'YES',
   p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
   p_prompt=>'Confirmed',
   p_source=>'CONFIRMED',
-  p_source_type=> 'DB_COLUMN',
+  p_source_type=> 'STATIC',
   p_display_as=> 'NATIVE_TEXT_FIELD',
   p_lov_display_null=> 'NO',
   p_lov_translated=> 'N',
@@ -2858,7 +2899,9 @@ wwv_flow_api.create_page_item(
   p_item_sequence=> 70,
   p_item_plug_id => 6691329978019099+wwv_flow_api.g_id_offset,
   p_use_cache_before_default=> 'NO',
+  p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
   p_prompt=>'Note',
+  p_placeholder=>'Note for Dozent',
   p_source=>'NOTE',
   p_source_type=> 'DB_COLUMN',
   p_display_as=> 'NATIVE_TEXTAREA',
@@ -2877,9 +2920,13 @@ wwv_flow_api.create_page_item(
   p_field_alignment=> 'LEFT',
   p_field_template=> 5604410730105017+wwv_flow_api.g_id_offset,
   p_is_persistent=> 'Y',
+  p_lov_display_extra=>'YES',
+  p_protection_level => 'N',
+  p_escape_on_http_output => 'Y',
   p_attribute_01 => 'Y',
   p_attribute_02 => 'N',
   p_attribute_03 => 'N',
+  p_show_quick_picks=>'N',
   p_item_comment => '');
  
  
@@ -2944,7 +2991,10 @@ wwv_flow_api.create_page_item(
   p_item_sequence=> 60,
   p_item_plug_id => 6691329978019099+wwv_flow_api.g_id_offset,
   p_use_cache_before_default=> 'YES',
-  p_item_default=> '&P12_DOZENT_NAME.',
+  p_item_default=> '&P12_DOZENT_NAME.'||unistr('\000a')||
+'&P12_DESCRIPTION.'||unistr('\000a')||
+'&P12_DATE.'||unistr('\000a')||
+'',
   p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
   p_source_type=> 'STATIC',
   p_display_as=> 'NATIVE_DISPLAY_ONLY',
@@ -2976,6 +3026,90 @@ wwv_flow_api.create_page_item(
 end;
 /
 
+declare
+    h varchar2(32767) := null;
+begin
+wwv_flow_api.create_page_item(
+  p_id=>6702822801424358 + wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_flow_step_id=> 12,
+  p_name=>'P12_DATE',
+  p_data_type=> 'VARCHAR',
+  p_is_required=> false,
+  p_accept_processing=> 'REPLACE_EXISTING',
+  p_item_sequence=> 50,
+  p_item_plug_id => 6695026906037781+wwv_flow_api.g_id_offset,
+  p_use_cache_before_default=> 'YES',
+  p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
+  p_prompt=>'Date',
+  p_source_type=> 'STATIC',
+  p_display_as=> 'NATIVE_TEXT_FIELD',
+  p_lov_display_null=> 'NO',
+  p_lov_translated=> 'N',
+  p_cSize=> 30,
+  p_cMaxlength=> 4000,
+  p_cHeight=> 1,
+  p_new_grid=> false,
+  p_begin_on_new_line=> 'YES',
+  p_begin_on_new_field=> 'YES',
+  p_colspan=> null,
+  p_rowspan=> null,
+  p_grid_column=> null,
+  p_label_alignment=> 'RIGHT',
+  p_field_alignment=> 'LEFT-CENTER',
+  p_field_template=> 5604326237105017+wwv_flow_api.g_id_offset,
+  p_is_persistent=> 'Y',
+  p_attribute_01 => 'N',
+  p_attribute_02 => 'N',
+  p_attribute_04 => 'TEXT',
+  p_item_comment => '');
+ 
+ 
+end;
+/
+
+declare
+    h varchar2(32767) := null;
+begin
+wwv_flow_api.create_page_item(
+  p_id=>6703731797496082 + wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_flow_step_id=> 12,
+  p_name=>'P12_DESCRIPTION',
+  p_data_type=> 'VARCHAR',
+  p_is_required=> false,
+  p_accept_processing=> 'REPLACE_EXISTING',
+  p_item_sequence=> 30,
+  p_item_plug_id => 6695026906037781+wwv_flow_api.g_id_offset,
+  p_use_cache_before_default=> 'YES',
+  p_item_default_type=> 'STATIC_TEXT_WITH_SUBSTITUTIONS',
+  p_prompt=>'Description',
+  p_source_type=> 'STATIC',
+  p_display_as=> 'NATIVE_TEXT_FIELD',
+  p_lov_display_null=> 'NO',
+  p_lov_translated=> 'N',
+  p_cSize=> 30,
+  p_cMaxlength=> 4000,
+  p_cHeight=> 1,
+  p_new_grid=> false,
+  p_begin_on_new_line=> 'YES',
+  p_begin_on_new_field=> 'YES',
+  p_colspan=> null,
+  p_rowspan=> null,
+  p_grid_column=> null,
+  p_label_alignment=> 'RIGHT',
+  p_field_alignment=> 'LEFT-CENTER',
+  p_field_template=> 5604326237105017+wwv_flow_api.g_id_offset,
+  p_is_persistent=> 'Y',
+  p_attribute_01 => 'N',
+  p_attribute_02 => 'N',
+  p_attribute_04 => 'TEXT',
+  p_item_comment => '');
+ 
+ 
+end;
+/
+
  
 begin
  
@@ -2984,20 +3118,23 @@ declare
   l_clob clob;
   l_length number := 1;
 begin
-p:=p||'#OWNER#:SCHIV2_INSCRIPTIONS:P12_MEETINGID:MEETINGID|I';
+p:=p||'insert into schiv2_inscriptions(meetingid, studentid, note)'||unistr('\000a')||
+'values(:P12_MEETINGID, :APP_USERID, :P12_NOTE);';
 
 wwv_flow_api.create_page_process(
-  p_id     => 6692929153019104 + wwv_flow_api.g_id_offset,
+  p_id     => 6705500109568707 + wwv_flow_api.g_id_offset,
   p_flow_id=> wwv_flow.g_flow_id,
   p_flow_step_id => 12,
-  p_process_sequence=> 30,
+  p_process_sequence=> 50,
   p_process_point=> 'AFTER_SUBMIT',
-  p_process_type=> 'DML_PROCESS_ROW',
-  p_process_name=> 'Process Row of SCHIV2_INSCRIPTIONS',
+  p_process_type=> 'PLSQL',
+  p_process_name=> 'Insert inscription',
   p_process_sql_clob => p,
   p_process_error_message=> '',
   p_error_display_location=> 'INLINE_IN_NOTIFICATION',
-  p_process_success_message=> 'Action Processed.',
+  p_process_when_button_id=>6691724012019102 + wwv_flow_api.g_id_offset,
+  p_only_for_changed_rows=> 'Y',
+  p_process_success_message=> 'Submit inscription',
   p_process_is_stateful_y_n=>'N',
   p_process_comment=>'');
 end;
@@ -3020,7 +3157,7 @@ wwv_flow_api.create_page_process(
   p_id     => 6693323717019105 + wwv_flow_api.g_id_offset,
   p_flow_id=> wwv_flow.g_flow_id,
   p_flow_step_id => 12,
-  p_process_sequence=> 40,
+  p_process_sequence=> 60,
   p_process_point=> 'AFTER_SUBMIT',
   p_process_type=> 'CLEAR_CACHE_FOR_PAGES',
   p_process_name=> 'reset page',
@@ -3049,7 +3186,11 @@ p:=p||'select lastname||'', ''||firstname'||unistr('\000a')||
 'from schiv2_users'||unistr('\000a')||
 'where userid = (select dozentid '||unistr('\000a')||
 '                from schiv2_meetings '||unistr('\000a')||
-'                where meetingid = :P12_MEETINGID);';
+'                where meetingid = :P12_MEETINGID);'||unistr('\000a')||
+'select TO_CHAR(timefrom, ''DD.MM.YYYY HH24:MI''), description'||unistr('\000a')||
+'into :P12_DATE, :P12_DESCRIPTION'||unistr('\000a')||
+'from schiv2_meetings'||unistr('\000a')||
+'where meetingid = :P12_MEETINGID;';
 
 wwv_flow_api.create_page_process(
   p_id     => 6696219727092407 + wwv_flow_api.g_id_offset,
