@@ -213,3 +213,27 @@ AS
 FUNCTION SCHIV2_LOGIN(p_username SCHIV2_USERS.EMAIL%TYPE, p_password SCHIV2_USERS.PASSWORDHASH%TYPE) RETURN BOOLEAN;
 END SCHIV2_AUTHENTICATION;
 /
+
+
+----------------------------------------------------------------------------------
+
+
+CREATE TABLE  "SCHIV2_ROOT" 
+   (	"ID" NUMBER NOT NULL ENABLE, 
+	"PASSWORTHASH" VARCHAR2(255) NOT NULL ENABLE, 
+	 CONSTRAINT "SCHIV2_ROOT_PK" PRIMARY KEY ("ID") ENABLE
+   ) ;
+ 
+
+
+CREATE OR REPLACE TRIGGER  "BI_SCHIV2_ROOT" 
+  before insert on "SCHIV2_ROOT"               
+  for each row  
+begin   
+  if :NEW."ID" is null then 
+    select "SCHIV2_ROOT_SEQ".nextval into :NEW."ID" from sys.dual; 
+  end if; 
+end; 
+
+/
+ALTER TRIGGER  "BI_SCHIV2_ROOT" ENABLE;
