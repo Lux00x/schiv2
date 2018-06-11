@@ -2,14 +2,7 @@ DROP TABLE "SCHIV2_INSCRIPTIONS"cascade constraints;
 DROP TABLE "SCHIV2_MEETINGS" cascade constraints;
 DROP TABLE "SCHIV2_USERS" cascade constraints;
 DROP TABLE "SCHIV2_FACULTIES" cascade constraints;
-
-DROP SEQUENCE "SCHIV2_FACULTIES_SEQ";
-DROP SEQUENCE "SCHIV2_MEETINGS_SEQ";
-DROP SEQUENCE "SCHIV2_USERS_SEQ";
-
-CREATE SEQUENCE "SCHIV2_FACULTIES_SEQ" MINVALUE 1 MAXVALUE 999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE NOORDER NOCYCLE ;
-CREATE SEQUENCE "SCHIV2_MEETINGS_SEQ" MINVALUE 1 MAXVALUE 999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE NOORDER NOCYCLE ;
-CREATE SEQUENCE "SCHIV2_USERS_SEQ" MINVALUE 1 MAXVALUE 999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE NOORDER NOCYCLE ;
+DROP TABLE "SCHIV2_ROOT" cascade constraints;
 
 CREATE TABLE "SCHIV2_FACULTIES"
    (    "FACULTYID" NUMBER(3,0) NOT NULL ENABLE,
@@ -19,15 +12,15 @@ CREATE TABLE "SCHIV2_FACULTIES"
    ) ;
 
 CREATE OR REPLACE TRIGGER  "BI_SCHIV2_FACULTIES"
-  before insert on "SCHIV2_FACULTIES"               
-  for each row  
+  before insert on "SCHIV2_FACULTIES"
+  for each row
 declare
   id SCHIV2_FACULTIES.FACULTYID%TYPE;
-begin   
+begin
   if :NEW."FACULTYID" is null then
     select count(facultyid) into id from schiv2_faculties;
       if id = 0 then
-          select "SCHIV2_FACULTIES_SEQ".nextval into :NEW."FACULTYID" from sys.dual;
+          :NEW."FACULTYID" := 1;
       else
           select MIN(facultyid) -1 into id from SCHIV2_faculties;
           if id = 0 then
@@ -39,14 +32,14 @@ begin
           if id != 0 then
               :NEW."FACULTYID" := id;
           else
-              select "SCHIV2_FACULTIES_SEQ".nextval into :NEW."FACULTYID" from sys.dual;
+              select MAX(facultyid) +1 into :NEW."FACULTYID" from schiv2_faculties;
           end if;
       end if;
   end if;
 end;
 /
 ALTER TRIGGER  "BI_SCHIV2_FACULTIES" ENABLE;
- 
+
 
 ----------------------------------------------------------------------------------
 
@@ -65,19 +58,19 @@ CREATE TABLE "SCHIV2_USERS" (
      CONSTRAINT "SCHIV2_USERS_UK1" UNIQUE ("EMAIL") ENABLE
    ) ;
  ALTER TABLE  "SCHIV2_USERS" ADD CONSTRAINT "SCHIV2_USERS_FK" FOREIGN KEY ("FACULTYID")
-      REFERENCES  "SCHIV2_FACULTIES" ("FACULTYID") ENABLE;
+      REFERENCES  "SCHIV2_FACULTIES" ("FACULTYID") ON DELETE SET NULL ENABLE;
 
 
 create or replace TRIGGER "BI_SCHIV2_USERS"
-  before insert on "SCHIV2_USERS"  
+  before insert on "SCHIV2_USERS"
 for each row
 declare
   id SCHIV2_USERS.USERID%TYPE;
-begin   
+begin
   if :NEW."USERID" is null then
       select count(userid) into id from schiv2_users;
       if id = 0 then
-          select "SCHIV2_USERS_SEQ".nextval into :NEW."USERID" from sys.dual;
+          :NEW."USERID" := 1;
       else
           select MIN(userid) -1 into id from SCHIV2_USERS;
           if id = 0 then
@@ -89,7 +82,7 @@ begin
           if id != 0 then
               :NEW."USERID" := id;
           else
-              select "SCHIV2_USERS_SEQ".nextval into :NEW."USERID" from sys.dual;
+              select MAX(userid) +1 into :NEW."USERID" from schiv2_users;
           end if;
       end if;
   end if;
@@ -124,18 +117,18 @@ CREATE TABLE  "SCHIV2_MEETINGS"
 --     CONSTRAINT "SCHIV2_MEETINGS_UK2" UNIQUE ("DOZENTID", "TIMETO") ENABLE
    ) ;
  ALTER TABLE  "SCHIV2_MEETINGS" ADD CONSTRAINT "SCHIV2_MEETINGS_FK" FOREIGN KEY ("DOZENTID")
-      REFERENCES  "SCHIV2_USERS" ("USERID") ENABLE;
+      REFERENCES  "SCHIV2_USERS" ("USERID") ON DELETE CASCADE ENABLE;
 
 create or replace TRIGGER  "BI_SCHIV2_MEETINGS"
-  before insert on "SCHIV2_MEETINGS"               
-  for each row  
+  before insert on "SCHIV2_MEETINGS"
+  for each row
 declare
     id SCHIV2_MEETINGS.MEETINGID%TYPE := 0;
-begin   
+begin
     if :NEW."MEETINGID" is null then
         select count(meetingid) into id from schiv2_meetings;
         if id = 0 then
-            select "SCHIV2_MEETINGS_SEQ".nextval into :NEW."MEETINGID" from sys.dual;
+            :NEW."MEETINGID" := 1;
         else
             select MIN(MEETINGID) -1 into id from SCHIV2_MEETINGS;
             if id = 0 then
@@ -147,7 +140,7 @@ begin
             if id != 0 then
                 :NEW."MEETINGID" := id;
             else
-                select "SCHIV2_MEETINGS_SEQ".nextval into :NEW."MEETINGID" from sys.dual;
+                select MAX(meetingid) +1 into :NEW."MEETINGID" from schiv2_meetings;
             end if;
         end if;
     end if;
@@ -173,9 +166,9 @@ CREATE TABLE  "SCHIV2_INSCRIPTIONS"
      CONSTRAINT "SCHIV2_INSCRIPTIONS_UK1" UNIQUE ("MEETINGID", "STUDENTID") ENABLE
    ) ;
  ALTER TABLE  "SCHIV2_INSCRIPTIONS" ADD CONSTRAINT "SCHIV2_INSCRIPTIONS_FK" FOREIGN KEY ("MEETINGID")
-      REFERENCES  "SCHIV2_MEETINGS" ("MEETINGID") ENABLE;
+      REFERENCES  "SCHIV2_MEETINGS" ("MEETINGID") ON DELETE CASCADE ENABLE;
  ALTER TABLE  "SCHIV2_INSCRIPTIONS" ADD CONSTRAINT "SCHIV2_INSCRIPTIONS_FK2" FOREIGN KEY ("STUDENTID")
-      REFERENCES  "SCHIV2_USERS" ("USERID") ENABLE;
+      REFERENCES  "SCHIV2_USERS" ("USERID") ON DELETE CASCADE ENABLE;
 
 CREATE OR REPLACE TRIGGER "BI_SCHIV2_INSCRIPTIONS"
   before insert on "SCHIV2_INSCRIPTIONS"
@@ -187,6 +180,28 @@ begin
 end;
 /
 ALTER TRIGGER "BI_SCHIV2_INSCRIPTIONS" ENABLE;
+
+
+----------------------------------------------------------------------------------
+
+
+CREATE TABLE  "SCHIV2_ROOT"
+   (    "ID" NUMBER(1,0) NOT NULL ENABLE,
+    "PASSWORDHASH" VARCHAR2(255) NOT NULL ENABLE,
+     CONSTRAINT "SCHIV2_ROOT_PK" PRIMARY KEY ("ID") ENABLE
+   ) ;
+
+CREATE OR REPLACE TRIGGER  "BI_SCHIV2_ROOT"
+  before insert on "SCHIV2_ROOT"
+  for each row
+begin
+  :NEW."ID" := 1;
+end;
+
+/
+ALTER TRIGGER "BI_SCHIV2_ROOT" ENABLE;
+
+insert into schiv2_root(passwordhash) values ('schiv2');
 
 
 ----------------------------------------------------------------------------------
@@ -208,32 +223,23 @@ exception
     return false;
 end;
 /
-create or replace PACKAGE SCHIV2_AUTHENTICATION
-AS    
-FUNCTION SCHIV2_LOGIN(p_username SCHIV2_USERS.EMAIL%TYPE, p_password SCHIV2_USERS.PASSWORDHASH%TYPE) RETURN BOOLEAN;
-END SCHIV2_AUTHENTICATION;
-/
 
 
 ----------------------------------------------------------------------------------
 
 
-CREATE TABLE  "SCHIV2_ROOT" 
-   (	"ID" NUMBER NOT NULL ENABLE, 
-	"PASSWORTHASH" VARCHAR2(255) NOT NULL ENABLE, 
-	 CONSTRAINT "SCHIV2_ROOT_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
- 
+create or replace function "SCHIV2_ROOT_LOGIN"
+  (p_password in SCHIV2_ROOT.PASSWORDHASH%TYPE)
+return BOOLEAN
+is
+    pw SCHIV2_ROOT.PASSWORDHASH%TYPE;
+begin
+    SELECT PASSWORDHASH into pw
+    FROM SCHIV2_ROOT
+    WHERE id = 1;
+    return pw = p_password;
+exception
+    when NO_DATA_FOUND then
+    return false;
+end;
 
-
-CREATE OR REPLACE TRIGGER  "BI_SCHIV2_ROOT" 
-  before insert on "SCHIV2_ROOT"               
-  for each row  
-begin   
-  if :NEW."ID" is null then 
-    select "SCHIV2_ROOT_SEQ".nextval into :NEW."ID" from sys.dual; 
-  end if; 
-end; 
-
-/
-ALTER TRIGGER  "BI_SCHIV2_ROOT" ENABLE;
