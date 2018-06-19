@@ -3,26 +3,26 @@ INSERT INTO SCHIV2_FACULTIES (FACULTY) VALUES ('Wirtschaft');
 INSERT INTO SCHIV2_FACULTIES (FACULTY) VALUES ('Ingenieur');
 
 
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT) VALUES (1, 'Dozent', 'doz', 'dozent', 'dozent', 1);
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT, LASTLOGIN) VALUES (1, 'Dozent', 'doz', 'dozent', 'dozent', 1, '01-APR-18 01.00.00.000000 PM');
 
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT) VALUES (2, 'Audrey',    'Langdon', 'audrey.langdon@hof-university.de',   'dozent', 1);
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT) VALUES (3, 'Caroline',  'Jackson', 'caroline.jackson@hof-university.de', 'dozent', 1);
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT) VALUES (4, 'Melanie',   'Hart',    'melanie.hart@hof-university.de',     'dozent', 1);
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT) VALUES (5, 'Christian', 'Kerr',    'christian.kerr@hof-university.de',   'dozent', 1);
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT) VALUES (6, 'Lillian',   'Harris',  'lillian.harris@hof-university.de',   'dozent', 1);
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT) VALUES (7, 'Alexandra', 'Watson',  'alexandra.watson@hof-university.de', 'dozent', 1);
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT) VALUES (8, 'Sam',       'Watson',  'sam.watson@hof-university.de',       'dozent', 1);
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT, LASTLOGIN) VALUES (2, 'Audrey',    'Langdon', 'audrey.langdon@hof-university.de',   'dozent', 1, '01-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT, LASTLOGIN) VALUES (3, 'Caroline',  'Jackson', 'caroline.jackson@hof-university.de', 'dozent', 1, '02-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT, LASTLOGIN) VALUES (4, 'Melanie',   'Hart',    'melanie.hart@hof-university.de',     'dozent', 1, '03-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT, LASTLOGIN) VALUES (5, 'Christian', 'Kerr',    'christian.kerr@hof-university.de',   'dozent', 1, '04-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT, LASTLOGIN) VALUES (6, 'Lillian',   'Harris',  'lillian.harris@hof-university.de',   'dozent', 1, '05-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT, LASTLOGIN) VALUES (7, 'Alexandra', 'Watson',  'alexandra.watson@hof-university.de', 'dozent', 1, '06-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, DOZENT, LASTLOGIN) VALUES (8, 'Sam',       'Watson',  'sam.watson@hof-university.de',       'dozent', 1, '07-APR-18 01.00.00.000000 PM');
 
 
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH) VALUES (9, 'Student', 'stud', 'student', 'student');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, LASTLOGIN) VALUES (9, 'Student', 'stud', 'student', 'student', '01-APR-18 01.00.00.000000 PM');
 
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH) VALUES (10, 'Mason',   'Ratchford',   'mason.ratchford@hof-university.de',    'student');
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH) VALUES (11, 'Ted',     'Clarkson',    'ted.clarkson@hof-university.de',       'student');
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH) VALUES (12, 'Levin',   'Yanosky',     'levin.yanosky@hof-university.de',      'student');
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH) VALUES (13, 'Sharai',  'Schlesinger', 'sharai.schlesinger@hof-university.de', 'student');
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH) VALUES (14, 'Falkner', 'Batinti',     'falkner.batinti@hof-university.de',    'student');
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH) VALUES (15, 'Wilone',  'Viens',       'wilone.viens@hof-university.de',       'student');
-INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH) VALUES (16, 'Alano',   'Desjardins',  'alano.desjardins@hof-university.de',   'student');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, LASTLOGIN) VALUES (10, 'Mason',   'Ratchford',   'mason.ratchford@hof-university.de',    'student', '08-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, LASTLOGIN) VALUES (11, 'Ted',     'Clarkson',    'ted.clarkson@hof-university.de',       'student', '09-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, LASTLOGIN) VALUES (12, 'Levin',   'Yanosky',     'levin.yanosky@hof-university.de',      'student', '10-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, LASTLOGIN) VALUES (13, 'Sharai',  'Schlesinger', 'sharai.schlesinger@hof-university.de', 'student', '11-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, LASTLOGIN) VALUES (14, 'Falkner', 'Batinti',     'falkner.batinti@hof-university.de',    'student', '12-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, LASTLOGIN) VALUES (15, 'Wilone',  'Viens',       'wilone.viens@hof-university.de',       'student', '13-APR-18 01.00.00.000000 PM');
+INSERT INTO SCHIV2_USERS (USERID, FIRSTNAME, LASTNAME, EMAIL, PASSWORDHASH, LASTLOGIN) VALUES (16, 'Alano',   'Desjardins',  'alano.desjardins@hof-university.de',   'student', '14-APR-18 01.00.00.000000 PM');
 
 
 INSERT INTO SCHIV2_MEETINGS (MEETINGID, DOZENTID, DESCRIPTION, TIMEFROM, TIMETO, UNITS, AUTOCONFIRMATION, DELETED) VALUES (1, 1, 'Sprechstunde', '01-APR-18 01.00.00.000000 PM', '01-APR-18 02.30.00.000000 PM', 6, 0, 0);

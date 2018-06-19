@@ -56,6 +56,7 @@ CREATE TABLE "SCHIV2_USERS" (
     "ADMIN" NUMBER(1,0) NOT NULL ENABLE,
     "DISABLED" NUMBER(1,0) NOT NULL ENABLE,
     "FACULTYID" NUMBER(3,0),
+    "LASTLOGIN" TIMESTAMP NOT NULL ENABLE,
      CONSTRAINT "SCHIV2_USERS_PK" PRIMARY KEY ("USERID") ENABLE,
      CONSTRAINT "SCHIV2_USERS_UK1" UNIQUE ("EMAIL") ENABLE
    ) ;
@@ -89,13 +90,16 @@ begin
       end if;
   end if;
   if :NEW."DOZENT" is null then
-    :new."DOZENT" := 0;
+      :new."DOZENT" := 0;
   end if;
   if :NEW."ADMIN" is null then
-    :NEW."ADMIN" := 0;
+      :NEW."ADMIN" := 0;
   end if;
   if :NEW."DISABLED" is null then
-    :NEW."DISABLED" := 0;
+      :NEW."DISABLED" := 0;
+  end if;
+  if :NEW."LASTLOGIN" is null then
+      :NEW."LASTLOGIN" := sysdate;
   end if;
 end;
 /
@@ -177,7 +181,7 @@ CREATE OR REPLACE TRIGGER "BI_SCHIV2_INSCRIPTIONS"
   for each row
 begin
   if :NEW."CONFIRMED" is null then
-    :NEW."CONFIRMED" := 0;
+      :NEW."CONFIRMED" := 0;
   end if;
 end;
 /
