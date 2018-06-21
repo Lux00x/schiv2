@@ -12,7 +12,7 @@ prompt  APPLICATION 200 - SCHIV2
 -- Application Export:
 --   Application:     200
 --   Name:            SCHIV2
---   Date and Time:   11:04 Tuesday June 19, 2018
+--   Date and Time:   13:09 Thursday June 21, 2018
 --   Exported By:     ORA01
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -29,7 +29,7 @@ prompt  APPLICATION 200 - SCHIV2
 --     Items:                  107
 --     Validations:             18
 --     Processes:               50
---     Regions:                 65
+--     Regions:                 66
 --     Buttons:                 33
 --     Dynamic Actions:         11
 --   Shared Components:
@@ -48,7 +48,7 @@ prompt  APPLICATION 200 - SCHIV2
 --     User Interface:
 --       Themes:                 1
 --       Templates:
---         Page:                19
+--         Page:                21
 --         Region:              36
 --         Label:                6
 --         List:                27
@@ -195,7 +195,7 @@ wwv_flow_api.create_flow(
   p_include_legacy_javascript=> 'Y',
   p_default_error_display_loc=> 'INLINE_WITH_FIELD_AND_NOTIFICATION',
   p_last_updated_by => 'ORA01',
-  p_last_upd_yyyymmddhh24miss=> '20180619110442',
+  p_last_upd_yyyymmddhh24miss=> '20180621130905',
   p_ui_type_name => null,
   p_required_roles=> wwv_flow_utilities.string_to_table2(''));
  
@@ -552,10 +552,6 @@ wwv_flow_api.create_page (
  ,p_first_item => 'AUTO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
- ,p_inline_css => 
-'ul.largeLinkList li a img {'||unistr('\000a')||
-'  background-image: none !important; '||unistr('\000a')||
-'}'
  ,p_page_is_public_y_n => 'N'
  ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
@@ -564,7 +560,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180618123528'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130000'
   );
 null;
  
@@ -711,6 +707,150 @@ wwv_flow_api.create_page_plug (
   p_plug_comment=> '');
 end;
 /
+declare
+  s varchar2(32767) := null;
+  l_clob clob;
+  l_length number := 1;
+begin
+s := null;
+wwv_flow_api.create_page_plug (
+  p_id=> 7726500214786884 + wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_page_id=> 1,
+  p_plug_name=> 'Dozents meetings',
+  p_region_name=>'',
+  p_parent_plug_id=>7157200795233483 + wwv_flow_api.g_id_offset,
+  p_escape_on_http_output=>'N',
+  p_plug_template=> 5598402236105010+ wwv_flow_api.g_id_offset,
+  p_plug_display_sequence=> 50,
+  p_plug_new_grid         => false,
+  p_plug_new_grid_row     => true,
+  p_plug_new_grid_column  => true,
+  p_plug_display_column=> null,
+  p_plug_display_point=> 'BODY_3',
+  p_plug_item_display_point=> 'ABOVE',
+  p_plug_source=> s,
+  p_plug_source_type=> 'FLASH_CHART5',
+  p_translate_title=> 'Y',
+  p_plug_query_row_template=> 1,
+  p_plug_query_headings_type=> 'COLON_DELMITED_LIST',
+  p_plug_query_row_count_max => 500,
+  p_plug_display_condition_type => '',
+  p_plug_customized=>'0',
+  p_plug_caching=> 'NOT_CACHED',
+  p_plug_comment=> '');
+end;
+/
+declare
+ a1 varchar2(32767) := null;
+begin
+a1 := null;
+wwv_flow_api.create_flash_chart5(
+  p_id                     => 7726726392786894+wwv_flow_api.g_id_offset,
+  p_flow_id                => wwv_flow.g_flow_id,
+  p_page_id                => 1,
+  p_region_id              => 7726500214786884+wwv_flow_api.g_id_offset,
+  p_default_chart_type     =>'3DColumn',
+  p_chart_title            =>'',
+  p_chart_rendering        =>'SVG_ONLY',
+  p_chart_name             =>'chart_7726726392786894',
+  p_chart_width            =>700,
+  p_chart_height           =>500,
+  p_chart_animation        =>'N',
+  p_display_attr           =>':H:N:V:X:N:N::V:Y:None:::N:::Default:::S',
+  p_dial_tick_attr         =>':::::::::::',
+  p_gantt_attr             =>'Y:Rhomb:Rhomb:Full:Rhomb:Rhomb:Full:Rhomb:Rhomb:Full:30:15:5:Y:I:N:S:E::',
+  p_pie_attr               =>'Outside:::',
+  p_map_attr               =>'Orthographic:RegionBounds:REGION_NAME',
+  p_map_source             =>'%',
+  p_margins                =>':::',
+  p_omit_label_interval    => null,
+  p_bgtype                 =>'Trans',
+  p_bgcolor1               =>'',
+  p_bgcolor2               =>'',
+  p_gradient_rotation      =>null,
+  p_grid_bgtype            =>'',
+  p_grid_bgcolor1          =>'',
+  p_grid_bgcolor2          =>'',
+  p_grid_gradient_rotation =>null,
+  p_color_scheme           =>'6',
+  p_custom_colors          =>'',
+  p_map_undef_color_scheme =>'',
+  p_map_undef_custom_colors =>'',
+  p_x_axis_title           =>'',
+  p_x_axis_min             =>null,
+  p_x_axis_max             =>null,
+  p_x_axis_decimal_place   =>null,
+  p_x_axis_prefix          =>'',
+  p_x_axis_postfix         =>'',
+  p_x_axis_label_rotation  =>'',
+  p_x_axis_label_font      =>'Tahoma:10:#000000',
+  p_x_axis_major_interval  =>null,
+  p_x_axis_minor_interval  =>null,
+  p_y_axis_title           =>'',
+  p_y_axis_min             =>null,
+  p_y_axis_max             =>null,
+  p_y_axis_decimal_place   =>null,
+  p_y_axis_prefix          =>'',
+  p_y_axis_postfix         =>'',
+  p_y_axis_label_rotation  =>'',
+  p_y_axis_label_font      =>'Tahoma:10:#000000',
+  p_y_axis_major_interval  =>null,
+  p_y_axis_minor_interval  =>null,
+  p_async_update           =>'N',
+  p_async_time             =>null,
+  p_legend_title           =>'',
+  p_legend_title_font      =>'',
+  p_names_font             => null,
+  p_names_rotation         => null,
+  p_values_font            =>'Tahoma:10:#000000',
+  p_values_rotation        =>null,
+  p_values_prefix          =>'',
+  p_values_postfix         =>'',
+  p_hints_font             =>'Tahoma:10:#000000',
+  p_legend_font            =>'Tahoma:10:#000000',
+  p_grid_labels_font       =>'Tahoma:10:#000000',
+  p_chart_title_font       =>'Tahoma:14:#000000',
+  p_x_axis_title_font      =>'Tahoma:14:#000000',
+  p_x_axis_title_rotation  =>'',
+  p_y_axis_title_font      =>'Tahoma:14:#000000',
+  p_y_axis_title_rotation  =>'',
+  p_gauge_labels_font      =>'Tahoma:10:#000000',
+  p_use_chart_xml          =>'N',
+  p_chart_xml              => a1);
+end;
+/
+declare
+ a1 varchar2(32767) := null;
+begin
+a1:=a1||'select null link,'||unistr('\000a')||
+'       m.DOZENTID label, '||unistr('\000a')||
+'       (select count(n.meetingid)'||unistr('\000a')||
+'          from schiv2_meetings n'||unistr('\000a')||
+'          where n.dozentid = m.dozentid) value1'||unistr('\000a')||
+'from  SCHIV2_MEETINGS m;';
+
+wwv_flow_api.create_flash_chart5_series(
+  p_id                        => 7726822319786897+wwv_flow_api.g_id_offset,
+  p_chart_id                  => 7726726392786894+wwv_flow_api.g_id_offset,
+  p_flow_id                   => wwv_flow.g_flow_id,
+  p_series_seq                =>10,
+  p_series_name               =>'Series 1',
+  p_series_query              => a1,
+  p_series_type               =>'Bar',
+  p_series_query_type         =>'SQL_QUERY',
+  p_series_ajax_items_to_submit=>'',
+  p_series_query_parse_opt    =>'PARSE_CHART_QUERY',
+  p_series_query_no_data_found=>'No data found.',
+  p_series_query_row_count_max=>15,
+  p_action_link               =>'',
+  p_show_action_link          =>'N',
+  p_action_link_checksum_type =>'',
+  p_display_when_cond_type    =>'',
+  p_display_when_condition    =>'',
+  p_display_when_condition2   =>'');
+end;
+/
  
 begin
  
@@ -786,7 +926,11 @@ wwv_flow_api.create_page_item(
   p_lov=> 'select lastname||'' ''||firstname'||unistr('\000a')||
 'from schiv2_users'||unistr('\000a')||
 'where dozent = 1'||unistr('\000a')||
-'  and disabled = 0;',
+'  and disabled = 0'||unistr('\000a')||
+'  and (select count(dozentid)'||unistr('\000a')||
+'         from schiv2_BLOCKED_STUDENTS'||unistr('\000a')||
+'         where dozentid = userid'||unistr('\000a')||
+'           and studentid = :APP_USERID) = 0;',
   p_lov_display_null=> 'NO',
   p_lov_translated=> 'N',
   p_cSize=> 100,
@@ -1055,7 +1199,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180619104849'
+ ,p_last_upd_yyyymmddhh24miss => '20180621113508'
   );
 null;
  
@@ -2205,7 +2349,8 @@ p:=p||'insert into schiv2_blocked_students (STUDENTID, DOZENTID, NOTE)'||unistr(
 
 p:=p||'  and meetingid in (select meetingid'||unistr('\000a')||
 '                        from schiv2_meetings'||unistr('\000a')||
-'                        where dozentid = :APP_USERID);';
+'                        where dozentid = :APP_USERID'||unistr('\000a')||
+'                          and timefrom >= sysdate);';
 
 wwv_flow_api.create_page_process(
   p_id     => 7482322331044461 + wwv_flow_api.g_id_offset,
@@ -2478,7 +2623,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180618123426'
+ ,p_last_upd_yyyymmddhh24miss => '20180621113911'
   );
 null;
  
@@ -2698,7 +2843,11 @@ wwv_flow_api.create_page_item(
   p_lov=> 'select lastname||'' ''||firstname '||unistr('\000a')||
 'from schiv2_users '||unistr('\000a')||
 'where dozent = 1 '||unistr('\000a')||
-'  and disabled = 0;',
+'  and disabled = 0'||unistr('\000a')||
+'  and (select count(dozentid)'||unistr('\000a')||
+'         from schiv2_BLOCKED_STUDENTS'||unistr('\000a')||
+'         where dozentid = userid'||unistr('\000a')||
+'           and studentid = :APP_USERID) = 0;',
   p_lov_display_null=> 'NO',
   p_lov_translated=> 'N',
   p_cSize=> 100,
@@ -5511,6 +5660,7 @@ wwv_flow_api.create_page (
  ,p_first_item => 'AUTO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
+ ,p_required_role => 6246905114455261 + wwv_flow_api.g_id_offset
  ,p_page_is_public_y_n => 'N'
  ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
@@ -5519,7 +5669,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180619102740'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130156'
   );
 null;
  
@@ -5902,6 +6052,7 @@ wwv_flow_api.create_page (
  ,p_first_item => 'NO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
+ ,p_required_role => 6246905114455261 + wwv_flow_api.g_id_offset
  ,p_page_is_public_y_n => 'N'
  ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
@@ -5910,7 +6061,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180618102152'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130220'
   );
 null;
  
@@ -6471,6 +6622,7 @@ wwv_flow_api.create_page (
  ,p_first_item => 'NO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
+ ,p_required_role => 6246905114455261 + wwv_flow_api.g_id_offset
  ,p_page_is_public_y_n => 'N'
  ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
@@ -6479,7 +6631,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180611134209'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130256'
   );
 null;
  
@@ -6775,6 +6927,7 @@ wwv_flow_api.create_page (
  ,p_first_item => 'NO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
+ ,p_required_role => 6246905114455261 + wwv_flow_api.g_id_offset
  ,p_page_is_public_y_n => 'N'
  ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
@@ -6783,7 +6936,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180611134209'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130312'
   );
 null;
  
@@ -7364,6 +7517,7 @@ wwv_flow_api.create_page (
  ,p_first_item => 'NO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
+ ,p_required_role => 6246905114455261 + wwv_flow_api.g_id_offset
  ,p_page_is_public_y_n => 'N'
  ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
@@ -7372,7 +7526,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180611134209'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130330'
   );
 null;
  
@@ -8096,7 +8250,8 @@ p:=p||'insert into schiv2_blocked_students (STUDENTID, DOZENTID, NOTE)'||unistr(
 p:=p||'UDENTID'||unistr('\000a')||
 '  and meetingid in (select meetingid'||unistr('\000a')||
 '                        from schiv2_meetings'||unistr('\000a')||
-'                        where dozentid = :APP_USERID);';
+'                        where dozentid = :APP_USERID'||unistr('\000a')||
+'                          and timefrom >= sysdate);';
 
 wwv_flow_api.create_page_process(
   p_id     => 7464929889566449 + wwv_flow_api.g_id_offset,
@@ -9927,6 +10082,7 @@ wwv_flow_api.create_page (
  ,p_first_item => 'NO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
+ ,p_required_role => 6246905114455261 + wwv_flow_api.g_id_offset
  ,p_page_is_public_y_n => 'N'
  ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
@@ -9935,7 +10091,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180611121054'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130635'
   );
 null;
  
@@ -10177,17 +10333,22 @@ wwv_flow_api.create_page (
  ,p_user_interface_id => 5606421305105021 + wwv_flow_api.g_id_offset
  ,p_name => 'Settings Root'
  ,p_step_title => 'Settings Root'
+ ,p_allow_duplicate_submissions => 'Y'
  ,p_step_sub_title => 'Settings Root'
  ,p_step_sub_title_type => 'TEXT_WITH_SUBSTITUTIONS'
  ,p_first_item => 'NO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
+ ,p_required_role => 6247727518475300 + wwv_flow_api.g_id_offset
  ,p_page_is_public_y_n => 'N'
+ ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
+ ,p_cache_timeout_seconds => 21600
+ ,p_cache_by_user_yn => 'N'
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180619105646'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130705'
   );
 null;
  
@@ -11115,6 +11276,7 @@ wwv_flow_api.create_page (
  ,p_first_item => 'NO_FIRST_ITEM'
  ,p_include_apex_css_js_yn => 'Y'
  ,p_autocomplete_on_off => 'ON'
+ ,p_required_role => 6246905114455261 + wwv_flow_api.g_id_offset
  ,p_page_is_public_y_n => 'N'
  ,p_protection_level => 'N'
  ,p_cache_page_yn => 'N'
@@ -11123,7 +11285,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180619103437'
+ ,p_last_upd_yyyymmddhh24miss => '20180621130802'
   );
 null;
  
@@ -12410,7 +12572,7 @@ wwv_flow_api.create_page (
  ,p_cache_timeout_seconds => 21600
  ,p_cache_by_user_yn => 'N'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180612094609'
+ ,p_last_upd_yyyymmddhh24miss => '20180621124550'
   );
 null;
  
@@ -12427,7 +12589,7 @@ wwv_flow_api.create_page_plug (
   p_id=> 6860730941463191 + wwv_flow_api.g_id_offset,
   p_flow_id=> wwv_flow.g_flow_id,
   p_page_id=> 102,
-  p_plug_name=> 'Login Page Root',
+  p_plug_name=> 'Schiv2 Root Login',
   p_region_name=>'',
   p_escape_on_http_output=>'N',
   p_plug_template=> 5598706662105010+ wwv_flow_api.g_id_offset,
@@ -12440,10 +12602,12 @@ wwv_flow_api.create_page_plug (
   p_plug_item_display_point=> 'ABOVE',
   p_plug_source=> s,
   p_plug_source_type=> 'STATIC_TEXT',
+  p_translate_title=> 'Y',
   p_plug_query_row_template=> 1,
   p_plug_query_headings_type=> 'COLON_DELMITED_LIST',
   p_plug_query_row_count_max => 500,
   p_plug_display_condition_type => '',
+  p_plug_customized=>'0',
   p_plug_caching=> 'NOT_CACHED',
   p_plug_comment=> '');
 end;
@@ -13242,6 +13406,10 @@ wwv_flow_api.create_list (
 'from schiv2_users'||unistr('\000a')||
 'where dozent = 1'||unistr('\000a')||
 '  and disabled = 0'||unistr('\000a')||
+'  and (select count(dozentid)'||unistr('\000a')||
+'         from schiv2_BLOCKED_STUDENTS'||unistr('\000a')||
+'         where dozentid = userid'||unistr('\000a')||
+'           and studentid = :APP_USERID) = 0'||unistr('\000a')||
 '  and ((select count(meetingid)'||unistr('\000a')||
 '         from schiv2_meetings'||unistr('\000a')||
 '         where dozentid = userid'||unistr('\000a')||
@@ -13846,7 +14014,7 @@ wwv_flow_api.create_template (
 '  <link rel="stylesheet" href="#IMAGE_PREFIX#themes/theme_26/css/4_2.css?v=#APEX_VERSION#">'||unistr('\000a')||
 '  <script src="#IMAGE_PREFIX#themes/theme_26/js/4_2.js?v=#APEX_VERSION#"></script>'||unistr('\000a')||
 '</head>'||unistr('\000a')||
-'<body #ONLOAD# id="uLogin">'||unistr('\000a')||
+'<body #ONLOAD# id="uLogin" style=''background-image: url("#APP_IMAGES#WP_20180607_16_48_49_jpg_edit_s.jpg"); background-size: cover;''>'||unistr('\000a')||
 '  <!--[if lte IE 6]><div id="outdated-browser">#OUTDATED_BROWSER#</div><![endif]-->'||unistr('\000a')||
 '  #FORM_OPEN#'||unistr('\000a')||
 '  <div id="uBodyContainer">'
@@ -13883,8 +14051,11 @@ wwv_flow_api.create_template (
  ,p_region_table_cattributes => ' summary="" cellpadding="0" border="0" cellspacing="0"'
  ,p_theme_class_id => 6
  ,p_grid_type => 'TABLE'
+ ,p_grid_always_use_max_columns => false
+ ,p_grid_has_column_span => true
+ ,p_grid_emit_empty_leading_cols => true
+ ,p_grid_emit_empty_trail_cols => false
  ,p_has_edit_links => true
- ,p_translate_this_template => 'N'
  ,p_template_comment => '18'
   );
 null;
@@ -14007,8 +14178,11 @@ wwv_flow_api.create_template (
 '  </div>'||unistr('\000a')||
 '</section>'
  ,p_grid_type => 'TABLE'
+ ,p_grid_always_use_max_columns => false
+ ,p_grid_has_column_span => true
+ ,p_grid_emit_empty_leading_cols => true
+ ,p_grid_emit_empty_trail_cols => false
  ,p_has_edit_links => true
- ,p_translate_this_template => 'N'
   );
 null;
  
@@ -15009,14 +15183,15 @@ wwv_flow_api.create_template (
  ,p_box => 
 '<header id="uHeader">'||unistr('\000a')||
 '  #REGION_POSITION_07#'||unistr('\000a')||
-'  <hgroup>'||unistr('\000a')||
+'  <hgroup style=''height: 100px; background-image: url("#APP_IMAGES#WP_20180607_16_48_49_jpg_edit_small.jpg"); background-size: cover;''>'||unistr('\000a')||
 '    <a href="#HOME_LINK#" id="uLogo">#LOGO#</a>'||unistr('\000a')||
 '    <div class="userBlock">'||unistr('\000a')||
 '      <img src="#IMAGE_PREFIX#f_spacer.gif" class="navIcon user" alt="">'||unistr('\000a')||
 '      <span>&APP_USER.</span>'||unistr('\000a')||
 '      #NAVIGATION_BAR#'||unistr('\000a')||
 '    </div>'||unistr('\000a')||
-'  </hgroup>'||unistr('\000a')||
+'  </hg'||
+'roup>'||unistr('\000a')||
 '  <nav>'||unistr('\000a')||
 '    <ul>'||unistr('\000a')||
 '      #TAB_CELLS#'||unistr('\000a')||
@@ -15025,8 +15200,7 @@ wwv_flow_api.create_template (
 '  </nav>'||unistr('\000a')||
 '  #REGION_POSITION_04#'||unistr('\000a')||
 '</header>'||unistr('\000a')||
-'#REGION'||
-'_POSITION_01#'||unistr('\000a')||
+'#REGION_POSITION_01#'||unistr('\000a')||
 '#SUCCESS_MESSAGE##NOTIFICATION_MESSAGE##GLOBAL_NOTIFICATION#'||unistr('\000a')||
 '<div id="uOneCol">'||unistr('\000a')||
 '  #REGION_POSITION_02#'||unistr('\000a')||
@@ -15084,8 +15258,11 @@ wwv_flow_api.create_template (
  ,p_breadcrumb_def_reg_pos => 'REGION_POSITION_01'
  ,p_theme_class_id => 1
  ,p_grid_type => 'TABLE'
+ ,p_grid_always_use_max_columns => false
+ ,p_grid_has_column_span => true
+ ,p_grid_emit_empty_leading_cols => true
+ ,p_grid_emit_empty_trail_cols => false
  ,p_has_edit_links => true
- ,p_translate_this_template => 'N'
   );
 null;
  
@@ -16299,6 +16476,223 @@ wwv_flow_api.create_template (
  ,p_grid_type => 'TABLE'
  ,p_has_edit_links => true
  ,p_translate_this_template => 'N'
+  );
+null;
+ 
+end;
+/
+
+--application/shared_components/user_interface/templates/page/one_level_tabs_no_sidebar_origin
+prompt  ......Page template 7724604866599008
+ 
+begin
+ 
+wwv_flow_api.create_template (
+  p_id => 7724604866599008 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_theme_id => 26
+ ,p_name => 'One Level Tabs - No Sidebar - origin'
+ ,p_is_popup => false
+ ,p_header_template => '<!--[if HTML5]><![endif]-->'||unistr('\000a')||
+'<!doctype html>'||unistr('\000a')||
+'<!--[if lt IE 7 ]> <html class="ie6 no-css3" lang="&BROWSER_LANGUAGE."> <![endif]-->'||unistr('\000a')||
+'<!--[if IE 7 ]>    <html class="ie7 no-css3" lang="&BROWSER_LANGUAGE."> <![endif]-->'||unistr('\000a')||
+'<!--[if IE 8 ]>    <html class="ie8 no-css3" lang="&BROWSER_LANGUAGE."> <![endif]-->'||unistr('\000a')||
+'<!--[if IE 9 ]>    <html class="ie9" lang="&BROWSER_LANGUAGE."> <![endif]-->'||unistr('\000a')||
+'<!--[if (gt IE 9)|!(IE)]><!--> <html lang="&BROWSER_LANGUAGE."> <!--<![endif]-->'||unistr('\000a')||
+'<head>'||unistr('\000a')||
+'<!--[if !HTML5]>'||unistr('\000a')||
+'  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'||unistr('\000a')||
+'<![endif]-->'||unistr('\000a')||
+'  <meta charset="UTF-8">'||unistr('\000a')||
+'  <title>#TITLE#</title>'||unistr('\000a')||
+'  <link rel="icon" href="#IMAGE_PREFIX#favicon.ico" type="image/x-icon">'||unistr('\000a')||
+'  <link rel="shortcut icon" href="#IMAGE_PREFIX#favicon.ico" type="image/x-icon">'||unistr('\000a')||
+'  #APEX_CSS#'||unistr('\000a')||
+'#TEMPLATE_CSS#'||unistr('\000a')||
+'#THEME_CSS#'||unistr('\000a')||
+'#PAGE_CSS#'||unistr('\000a')||
+'#APEX_JAVASCRIPT#'||unistr('\000a')||
+'#TEMPLATE_JAVASCRIPT#'||unistr('\000a')||
+'#APPLICATION_JAVASCRIPT#'||unistr('\000a')||
+'#PAGE_JAVASCRIPT#'||unistr('\000a')||
+'#HEAD#'||unistr('\000a')||
+'  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">'||unistr('\000a')||
+'  <link rel="stylesheet" href="#IMAGE_PREFIX#themes/theme_26/css/4_2.css?v=#APEX_VERSION#">'||unistr('\000a')||
+'  <script src="#IMAGE_PREFIX#themes/theme_26/js/4_2.js?v=#APEX_VERSION#"></script>'||unistr('\000a')||
+'</head>'||unistr('\000a')||
+'<body #ONLOAD#>'||unistr('\000a')||
+'  <!--[if lte IE 6]><div id="outdated-browser">#OUTDATED_BROWSER#</div><![endif]-->'||unistr('\000a')||
+'  #FORM_OPEN#'||unistr('\000a')||
+'  <div id="uBodyContainer">'
+ ,p_box => 
+'<header id="uHeader">'||unistr('\000a')||
+'  #REGION_POSITION_07#'||unistr('\000a')||
+'  <hgroup>'||unistr('\000a')||
+'    <a href="#HOME_LINK#" id="uLogo">#LOGO#</a>'||unistr('\000a')||
+'    <div class="userBlock">'||unistr('\000a')||
+'      <img src="#IMAGE_PREFIX#f_spacer.gif" class="navIcon user" alt="">'||unistr('\000a')||
+'      <span>&APP_USER.</span>'||unistr('\000a')||
+'      #NAVIGATION_BAR#'||unistr('\000a')||
+'    </div>'||unistr('\000a')||
+'  </hgroup>'||unistr('\000a')||
+'  <nav>'||unistr('\000a')||
+'    <ul>'||unistr('\000a')||
+'      #TAB_CELLS#'||unistr('\000a')||
+'    </ul>'||unistr('\000a')||
+'    #REGION_POSITION_08#'||unistr('\000a')||
+'  </nav>'||unistr('\000a')||
+'  #REGION_POSITION_04#'||unistr('\000a')||
+'</header>'||unistr('\000a')||
+'#REGION'||
+'_POSITION_01#'||unistr('\000a')||
+'#SUCCESS_MESSAGE##NOTIFICATION_MESSAGE##GLOBAL_NOTIFICATION#'||unistr('\000a')||
+'<div id="uOneCol">'||unistr('\000a')||
+'  #REGION_POSITION_02#'||unistr('\000a')||
+'  #BOX_BODY#'||unistr('\000a')||
+'  #REGION_POSITION_03#'||unistr('\000a')||
+'</div>'
+ ,p_footer_template => 
+'<footer id="uFooter">'||unistr('\000a')||
+'  <div class="uFooterContent">'||unistr('\000a')||
+'    <div id="customize">#CUSTOMIZE#</div>'||unistr('\000a')||
+'    #REGION_POSITION_05#'||unistr('\000a')||
+'    #SCREEN_READER_TOGGLE#'||unistr('\000a')||
+'    <span class="uFooterVersion">'||unistr('\000a')||
+'      #APP_VERSION#'||unistr('\000a')||
+'    </span>'||unistr('\000a')||
+'  </div>'||unistr('\000a')||
+'  <div class="uFooterBG">'||unistr('\000a')||
+'    <div class="uLeft"></div>'||unistr('\000a')||
+'    <div class="uRight"></div>'||unistr('\000a')||
+'  </div>'||unistr('\000a')||
+'</footer>'||unistr('\000a')||
+'</div>'||unistr('\000a')||
+'#FORM_CLOSE#'||unistr('\000a')||
+'#DEVELOPER_TOOLBAR#'||unistr('\000a')||
+'#GENERATED_CSS#'||unistr('\000a')||
+'#GENERATED_JAVAS'||
+'CRIPT#'||unistr('\000a')||
+'</body>'||unistr('\000a')||
+'</html>'
+ ,p_success_message => '<section class="uRegion uWhiteRegion uMessageRegion clearfix" id="uSuccessMessage">'||unistr('\000a')||
+'  <div class="uRegionContent clearfix">'||unistr('\000a')||
+'    <a href="javascript:void(0)" onclick="$x_Remove(''uSuccessMessage'')" class="uCloseMessage"></a>'||unistr('\000a')||
+'    <img src="#IMAGE_PREFIX#f_spacer.gif" class="uCheckmarkIcon" alt="" />'||unistr('\000a')||
+'    <div class="uMessageText">'||unistr('\000a')||
+'      #SUCCESS_MESSAGE#'||unistr('\000a')||
+'    </div>'||unistr('\000a')||
+'  </div>'||unistr('\000a')||
+'</section>'||unistr('\000a')||
+''
+ ,p_current_tab => '<li><a href="#TAB_LINK#" class="active">#TAB_LABEL#</a>#TAB_INLINE_EDIT#</li>'
+ ,p_non_current_tab => '<li><a href="#TAB_LINK#">#TAB_LABEL#</a>#TAB_INLINE_EDIT#</li>'
+ ,p_notification_message => '<section class="uRegion uWhiteRegion uMessageRegion clearfix" id="uNotificationMessage">'||unistr('\000a')||
+'  <div class="uRegionContent clearfix">'||unistr('\000a')||
+'    <a href="javascript:void(0)" onclick="$x_Remove(''uNotificationMessage'')" class="uCloseMessage"></a>'||unistr('\000a')||
+'    <img src="#IMAGE_PREFIX#f_spacer.gif" class="uWarningIcon" alt="" />'||unistr('\000a')||
+'    <div class="uMessageText">'||unistr('\000a')||
+'      #MESSAGE#'||unistr('\000a')||
+'    </div>'||unistr('\000a')||
+'  </div>'||unistr('\000a')||
+'</section>'||unistr('\000a')||
+''
+ ,p_navigation_bar => '#BAR_BODY#'
+ ,p_navbar_entry => '<a href="#LINK#">#TEXT#</a>#EDIT#'
+ ,p_region_table_cattributes => 'class="regionColumns"'
+ ,p_breadcrumb_def_reg_pos => 'REGION_POSITION_01'
+ ,p_theme_class_id => 1
+ ,p_grid_type => 'TABLE'
+ ,p_grid_always_use_max_columns => false
+ ,p_grid_has_column_span => true
+ ,p_grid_emit_empty_leading_cols => true
+ ,p_grid_emit_empty_trail_cols => false
+ ,p_has_edit_links => true
+  );
+null;
+ 
+end;
+/
+
+--application/shared_components/user_interface/templates/page/login_orign
+prompt  ......Page template 7725508470685263
+ 
+begin
+ 
+wwv_flow_api.create_template (
+  p_id => 7725508470685263 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_theme_id => 26
+ ,p_name => 'Login - orign'
+ ,p_is_popup => false
+ ,p_header_template => '<!--[if HTML5]><![endif]-->'||unistr('\000a')||
+'<!doctype html>'||unistr('\000a')||
+'<!--[if lt IE 7 ]> <html class="ie6 no-css3" lang="&BROWSER_LANGUAGE."> <![endif]-->'||unistr('\000a')||
+'<!--[if IE 7 ]>    <html class="ie7 no-css3" lang="&BROWSER_LANGUAGE."> <![endif]-->'||unistr('\000a')||
+'<!--[if IE 8 ]>    <html class="ie8 no-css3" lang="&BROWSER_LANGUAGE."> <![endif]-->'||unistr('\000a')||
+'<!--[if IE 9 ]>    <html class="ie9" lang="&BROWSER_LANGUAGE."> <![endif]-->'||unistr('\000a')||
+'<!--[if (gt IE 9)|!(IE)]><!--> <html lang="&BROWSER_LANGUAGE."> <!--<![endif]-->'||unistr('\000a')||
+'<head>'||unistr('\000a')||
+'<!--[if !HTML5]>'||unistr('\000a')||
+'  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'||unistr('\000a')||
+'<![endif]-->'||unistr('\000a')||
+'  <meta charset="UTF-8">'||unistr('\000a')||
+'  <title>#TITLE#</title>'||unistr('\000a')||
+'  <link rel="icon" href="#IMAGE_PREFIX#favicon.ico" type="image/x-icon">'||unistr('\000a')||
+'  <link rel="shortcut icon" href="#IMAGE_PREFIX#favicon.ico" type="image/x-icon">'||unistr('\000a')||
+'  #APEX_CSS#'||unistr('\000a')||
+'#TEMPLATE_CSS#'||unistr('\000a')||
+'#THEME_CSS#'||unistr('\000a')||
+'#PAGE_CSS#'||unistr('\000a')||
+'#APEX_JAVASCRIPT#'||unistr('\000a')||
+'#TEMPLATE_JAVASCRIPT#'||unistr('\000a')||
+'#APPLICATION_JAVASCRIPT#'||unistr('\000a')||
+'#PAGE_JAVASCRIPT#'||unistr('\000a')||
+'#HEAD#'||unistr('\000a')||
+'  <meta name="viewport" content="width=device-width, initial-scale=1.0">'||unistr('\000a')||
+'  <link rel="stylesheet" href="#IMAGE_PREFIX#themes/theme_26/css/4_2.css?v=#APEX_VERSION#">'||unistr('\000a')||
+'  <script src="#IMAGE_PREFIX#themes/theme_26/js/4_2.js?v=#APEX_VERSION#"></script>'||unistr('\000a')||
+'</head>'||unistr('\000a')||
+'<body #ONLOAD# id="uLogin">'||unistr('\000a')||
+'  <!--[if lte IE 6]><div id="outdated-browser">#OUTDATED_BROWSER#</div><![endif]-->'||unistr('\000a')||
+'  #FORM_OPEN#'||unistr('\000a')||
+'  <div id="uBodyContainer">'
+ ,p_box => 
+'<div id="uLoginContainer">'||unistr('\000a')||
+'  #SUCCESS_MESSAGE##NOTIFICATION_MESSAGE##GLOBAL_NOTIFICATION#'||unistr('\000a')||
+'  #REGION_POSITION_02#'||unistr('\000a')||
+'  #BOX_BODY#'||unistr('\000a')||
+'  #REGION_POSITION_03#'||unistr('\000a')||
+'</div>'
+ ,p_footer_template => 
+'</div>'||unistr('\000a')||
+'#FORM_CLOSE#'||unistr('\000a')||
+'#DEVELOPER_TOOLBAR#'||unistr('\000a')||
+'#GENERATED_CSS#'||unistr('\000a')||
+'#GENERATED_JAVASCRIPT#'||unistr('\000a')||
+'</body>'||unistr('\000a')||
+'</html>'
+ ,p_success_message => '<section class="uRegion uWhiteRegion uMessageRegion clearfix" id="uSuccessMessage">'||unistr('\000a')||
+'  <div class="uRegionContent clearfix">'||unistr('\000a')||
+'    <a href="javascript:void(0)" onclick="$x_Remove(''uSuccessMessage'')" class="uCloseMessage"></a>'||unistr('\000a')||
+'    <img src="#IMAGE_PREFIX#f_spacer.gif" class="uCheckmarkIcon" alt="" />'||unistr('\000a')||
+'    <div class="uMessageText">'||unistr('\000a')||
+'      #SUCCESS_MESSAGE#'||unistr('\000a')||
+'    </div>'||unistr('\000a')||
+'  </div>'||unistr('\000a')||
+'</section>'
+ ,p_notification_message => '<section class="uSingleAlertMessage red" id="uNotificationMessage">'||unistr('\000a')||
+'	<p>#MESSAGE#</p>'||unistr('\000a')||
+'	<a href="javascript:void(0)" class="closeMessage" onclick="$x_Remove(''uNotificationMessage'')"></a>'||unistr('\000a')||
+'</section>'||unistr('\000a')||
+''
+ ,p_navigation_bar => '#BAR_BODY#'
+ ,p_region_table_cattributes => ' summary="" cellpadding="0" border="0" cellspacing="0"'
+ ,p_theme_class_id => 6
+ ,p_grid_type => 'TABLE'
+ ,p_has_edit_links => true
+ ,p_translate_this_template => 'N'
+ ,p_template_comment => '18'
   );
 null;
  
