@@ -12,7 +12,7 @@ prompt  APPLICATION 200 - SCHIV2
 -- Application Export:
 --   Application:     200
 --   Name:            SCHIV2
---   Date and Time:   11:30 Monday June 25, 2018
+--   Date and Time:   10:56 Tuesday June 26, 2018
 --   Exported By:     ORA01
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -29,7 +29,7 @@ prompt  APPLICATION 200 - SCHIV2
 --     Items:                  107
 --     Validations:             18
 --     Processes:               50
---     Regions:                 66
+--     Regions:                 67
 --     Buttons:                 33
 --     Dynamic Actions:         12
 --   Shared Components:
@@ -195,7 +195,7 @@ wwv_flow_api.create_flow(
   p_include_legacy_javascript=> 'Y',
   p_default_error_display_loc=> 'INLINE_WITH_FIELD_AND_NOTIFICATION',
   p_last_updated_by => 'ORA01',
-  p_last_upd_yyyymmddhh24miss=> '20180625113000',
+  p_last_upd_yyyymmddhh24miss=> '20180626105607',
   p_ui_type_name => null,
   p_required_roles=> wwv_flow_utilities.string_to_table2(''));
  
@@ -560,7 +560,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180625103728'
+ ,p_last_upd_yyyymmddhh24miss => '20180626101900'
   );
 null;
  
@@ -719,7 +719,6 @@ wwv_flow_api.create_page_plug (
   p_page_id=> 1,
   p_plug_name=> 'Dozents meetings',
   p_region_name=>'',
-  p_parent_plug_id=>7157200795233483 + wwv_flow_api.g_id_offset,
   p_escape_on_http_output=>'N',
   p_plug_template=> 5598402236105010+ wwv_flow_api.g_id_offset,
   p_plug_display_sequence=> 50,
@@ -757,12 +756,12 @@ wwv_flow_api.create_flash_chart5(
   p_chart_width            =>1280,
   p_chart_height           =>500,
   p_chart_animation        =>'N',
-  p_display_attr           =>':H:N:V:X:N:N::V:Y:None:::N:::Default:::S',
+  p_display_attr           =>':H:N:V:X:N:N::V:Y::::N:::Default:::S',
   p_dial_tick_attr         =>':::::::::::',
-  p_gantt_attr             =>'Y:Rhomb:Rhomb:Full:Rhomb:Rhomb:Full:Rhomb:Rhomb:Full:30:15:5:Y:I:N:S:E::',
-  p_pie_attr               =>'Outside:::',
-  p_map_attr               =>'Orthographic:RegionBounds:REGION_NAME',
-  p_map_source             =>'%',
+  p_gantt_attr             =>'N:::::::::::::N::::::',
+  p_pie_attr               =>':::',
+  p_map_attr               =>'::',
+  p_map_source             =>'',
   p_margins                =>':::',
   p_omit_label_interval    => null,
   p_bgtype                 =>'Trans',
@@ -815,7 +814,7 @@ wwv_flow_api.create_flash_chart5(
   p_x_axis_title_rotation  =>'',
   p_y_axis_title_font      =>'Tahoma:14:#000000',
   p_y_axis_title_rotation  =>'',
-  p_gauge_labels_font      =>'Tahoma:10:#000000',
+  p_gauge_labels_font      =>'::',
   p_use_chart_xml          =>'N',
   p_chart_xml              => a1);
 end;
@@ -823,16 +822,37 @@ end;
 declare
  a1 varchar2(32767) := null;
 begin
-a1:=a1||'select null link,'||unistr('\000a')||
+a1:=a1||'select ''f?p=&APP_ID.:10:''||:APP_SESSION||''::::P10_SEARCH_DOZENT:''||(select lastname||'' ''||firstname'||unistr('\000a')||
+'                                                                      from schiv2_users'||unistr('\000a')||
+'                                                                      where userid = m.userid) link,'||unistr('\000a')||
 '       (select lastname||'', ''||firstname'||unistr('\000a')||
 '          from schiv2_users'||unistr('\000a')||
-'          where userid = m.userid) label, '||unistr('\000a')||
-'       (select count(n.meetingid)'||unistr('\000a')||
-'          from schiv2_meetings n'||unistr('\000a')||
-'          where n.dozentid = m.userid) value1'||unistr('\000a')||
+'          where userid = m.userid) label, ';
+
+a1:=a1||''||unistr('\000a')||
+'       ((select count(n.meetingid)'||unistr('\000a')||
+'           from schiv2_meetings n'||unistr('\000a')||
+'           where n.dozentid = m.userid'||unistr('\000a')||
+'             and timefrom > sysdate)  - (select count(meetingid)'||unistr('\000a')||
+'                                           from schiv2_inscriptions'||unistr('\000a')||
+'                                           where meetingid in (select meetingid'||unistr('\000a')||
+'                                                                 from schiv2_m';
+
+a1:=a1||'eetings'||unistr('\000a')||
+'                                                                 where dozentid = userid'||unistr('\000a')||
+'                                                                   and timefrom >= sysdate)  '||unistr('\000a')||
+'                                                                   and studentid = :APP_USERID)) value1'||unistr('\000a')||
 'from  SCHIV2_users m'||unistr('\000a')||
 'where dozent = 1'||unistr('\000a')||
-'order by value1 DESC, lastname, firstname;';
+'order by case when (select nvl(facultyid, 0) '||unistr('\000a')||
+'                     ';
+
+a1:=a1||' from schiv2_users'||unistr('\000a')||
+'                      where userid = :APP_USERID) = 0 then 0 else'||unistr('\000a')||
+'           case when (select facultyid '||unistr('\000a')||
+'                       from schiv2_users'||unistr('\000a')||
+'                       where userid = :APP_USERID) = nvl(facultyid, 0) then 0 else 1 end end,'||unistr('\000a')||
+'value1 DESC, lower(lastname), lower(firstname)';
 
 wwv_flow_api.create_flash_chart5_series(
   p_id                        => 7726822319786897+wwv_flow_api.g_id_offset,
@@ -846,7 +866,7 @@ wwv_flow_api.create_flash_chart5_series(
   p_series_ajax_items_to_submit=>'',
   p_series_query_parse_opt    =>'PARSE_CHART_QUERY',
   p_series_query_no_data_found=>'No data found.',
-  p_series_query_row_count_max=>10,
+  p_series_query_row_count_max=>15,
   p_action_link               =>'',
   p_show_action_link          =>'N',
   p_action_link_checksum_type =>'',
@@ -1055,7 +1075,7 @@ wwv_flow_api.create_page (
  ,p_help_text => 
 'No help is available for this page.'
  ,p_last_updated_by => 'ORA01'
- ,p_last_upd_yyyymmddhh24miss => '20180618104829'
+ ,p_last_upd_yyyymmddhh24miss => '20180626105006'
   );
 null;
  
@@ -1131,6 +1151,169 @@ wwv_flow_api.create_page_plug (
   p_plug_customized=>'0',
   p_plug_caching=> 'NOT_CACHED',
   p_plug_comment=> '');
+end;
+/
+declare
+  s varchar2(32767) := null;
+  l_clob clob;
+  l_length number := 1;
+begin
+s := null;
+wwv_flow_api.create_page_plug (
+  p_id=> 11156808462586399 + wwv_flow_api.g_id_offset,
+  p_flow_id=> wwv_flow.g_flow_id,
+  p_page_id=> 2,
+  p_plug_name=> 'Open and used Units of meetings',
+  p_region_name=>'',
+  p_escape_on_http_output=>'N',
+  p_plug_template=> 5598402236105010+ wwv_flow_api.g_id_offset,
+  p_plug_display_sequence=> 50,
+  p_plug_new_grid         => false,
+  p_plug_new_grid_row     => true,
+  p_plug_new_grid_column  => true,
+  p_plug_display_column=> null,
+  p_plug_display_point=> 'BODY_3',
+  p_plug_item_display_point=> 'ABOVE',
+  p_plug_source=> s,
+  p_plug_source_type=> 'FLASH_CHART5',
+  p_translate_title=> 'Y',
+  p_plug_query_row_template=> 1,
+  p_plug_query_headings_type=> 'COLON_DELMITED_LIST',
+  p_plug_query_row_count_max => 500,
+  p_plug_display_condition_type => '',
+  p_plug_customized=>'0',
+  p_plug_caching=> 'NOT_CACHED',
+  p_plug_comment=> '');
+end;
+/
+declare
+ a1 varchar2(32767) := null;
+begin
+a1 := null;
+wwv_flow_api.create_flash_chart5(
+  p_id                     => 11157027317586400+wwv_flow_api.g_id_offset,
+  p_flow_id                => wwv_flow.g_flow_id,
+  p_page_id                => 2,
+  p_region_id              => 11156808462586399+wwv_flow_api.g_id_offset,
+  p_default_chart_type     =>'Stacked2DColumn',
+  p_chart_title            =>'',
+  p_chart_rendering        =>'SVG_ONLY',
+  p_chart_name             =>'chart_11157027317586400',
+  p_chart_width            =>1280,
+  p_chart_height           =>500,
+  p_chart_animation        =>'N',
+  p_display_attr           =>':H:N:V:X:N:N::V:Y:None:::N:::Default:::S',
+  p_dial_tick_attr         =>':::::::::::',
+  p_gantt_attr             =>'Y:Rhomb:Rhomb:Full:Rhomb:Rhomb:Full:Rhomb:Rhomb:Full:30:15:5:Y:I:N:S:E::',
+  p_pie_attr               =>'Outside:::',
+  p_map_attr               =>'Orthographic:RegionBounds:REGION_NAME',
+  p_map_source             =>'%',
+  p_margins                =>':::',
+  p_omit_label_interval    => null,
+  p_bgtype                 =>'Trans',
+  p_bgcolor1               =>'',
+  p_bgcolor2               =>'',
+  p_gradient_rotation      =>null,
+  p_grid_bgtype            =>'',
+  p_grid_bgcolor1          =>'',
+  p_grid_bgcolor2          =>'',
+  p_grid_gradient_rotation =>null,
+  p_color_scheme           =>'0',
+  p_custom_colors          =>'#FFFF00,#A901DB',
+  p_map_undef_color_scheme =>'',
+  p_map_undef_custom_colors =>'',
+  p_x_axis_title           =>'',
+  p_x_axis_min             =>null,
+  p_x_axis_max             =>null,
+  p_x_axis_decimal_place   =>null,
+  p_x_axis_prefix          =>'',
+  p_x_axis_postfix         =>'',
+  p_x_axis_label_rotation  =>'',
+  p_x_axis_label_font      =>'Tahoma:10:#000000',
+  p_x_axis_major_interval  =>null,
+  p_x_axis_minor_interval  =>null,
+  p_y_axis_title           =>'',
+  p_y_axis_min             =>null,
+  p_y_axis_max             =>null,
+  p_y_axis_decimal_place   =>null,
+  p_y_axis_prefix          =>'',
+  p_y_axis_postfix         =>'',
+  p_y_axis_label_rotation  =>'',
+  p_y_axis_label_font      =>'Tahoma:10:#000000',
+  p_y_axis_major_interval  =>null,
+  p_y_axis_minor_interval  =>null,
+  p_async_update           =>'N',
+  p_async_time             =>null,
+  p_legend_title           =>'',
+  p_legend_title_font      =>'',
+  p_names_font             => null,
+  p_names_rotation         => null,
+  p_values_font            =>'Tahoma:10:#000000',
+  p_values_rotation        =>90,
+  p_values_prefix          =>'',
+  p_values_postfix         =>'',
+  p_hints_font             =>'Tahoma:10:#000000',
+  p_legend_font            =>'Tahoma:10:#000000',
+  p_grid_labels_font       =>'Tahoma:10:#000000',
+  p_chart_title_font       =>'Tahoma:14:#000000',
+  p_x_axis_title_font      =>'Tahoma:14:#000000',
+  p_x_axis_title_rotation  =>'',
+  p_y_axis_title_font      =>'Tahoma:14:#000000',
+  p_y_axis_title_rotation  =>'',
+  p_gauge_labels_font      =>'Tahoma:10:#000000',
+  p_use_chart_xml          =>'N',
+  p_chart_xml              => a1);
+end;
+/
+declare
+ a1 varchar2(32767) := null;
+begin
+a1:=a1||'select ''f?p=&APP_ID.:21:''||:APP_SESSION||''::::P21_MEETINGID:''||meetingid link, '||unistr('\000a')||
+'       (select description||'' ''||TO_CHAR(timefrom, ''DD.MM.YYYY HH24:MI'')'||unistr('\000a')||
+'          from schiv2_meetings'||unistr('\000a')||
+'          where meetingid = m.meetingid) label, '||unistr('\000a')||
+'       (select count(meetingid)'||unistr('\000a')||
+'          from schiv2_inscriptions'||unistr('\000a')||
+'          where meetingid = m.meetingid'||unistr('\000a')||
+'            and confirmed >= 0) value1,'||unistr('\000a')||
+'       ((select unit';
+
+a1:=a1||'s'||unistr('\000a')||
+'          from schiv2_meetings'||unistr('\000a')||
+'          where meetingid = m.meetingid) - (select count(meetingid)'||unistr('\000a')||
+'                                              from schiv2_inscriptions'||unistr('\000a')||
+'                                              where meetingid = m.meetingid'||unistr('\000a')||
+'                                                and confirmed >= 0)) value2'||unistr('\000a')||
+'from  SCHIV2_MEETINGS m'||unistr('\000a')||
+'where dozentid = :APP_USERID'||unistr('\000a')||
+'and timefrom >= sysdate';
+
+a1:=a1||''||unistr('\000a')||
+'and units > 0'||unistr('\000a')||
+'group by meetingid'||unistr('\000a')||
+'order by (select timefrom '||unistr('\000a')||
+'            from schiv2_meetings'||unistr('\000a')||
+'            where meetingid = m.meetingid);';
+
+wwv_flow_api.create_flash_chart5_series(
+  p_id                        => 11157121765586403+wwv_flow_api.g_id_offset,
+  p_chart_id                  => 11157027317586400+wwv_flow_api.g_id_offset,
+  p_flow_id                   => wwv_flow.g_flow_id,
+  p_series_seq                =>10,
+  p_series_name               =>'Series 1',
+  p_series_query              => a1,
+  p_series_type               =>'Bar',
+  p_series_query_type         =>'SQL_QUERY',
+  p_series_ajax_items_to_submit=>'',
+  p_series_query_parse_opt    =>'PARSE_CHART_QUERY',
+  p_series_query_no_data_found=>'No data found.',
+  p_series_query_row_count_max=>15,
+  p_action_link               =>'',
+  p_show_action_link          =>'N',
+  p_action_link_checksum_type =>'',
+  p_display_when_cond_type    =>'',
+  p_display_when_condition    =>'',
+  p_display_when_condition2   =>'');
 end;
 /
  
@@ -13695,7 +13878,8 @@ wwv_flow_api.create_list (
 '       case when autoconfirmation = 1 then '', Autoconfirmation'' end attribute2'||unistr('\000a')||
 'from schiv2_meetings'||unistr('\000a')||
 'where dozentid = :APP_USERID'||unistr('\000a')||
-'and timeto >= sysdate;',
+'and timeto >= sysdate'||unistr('\000a')||
+'order by timefrom',
   p_list_status=> 'PUBLIC',
   p_list_displayed=> 'BY_DEFAULT' );
  
