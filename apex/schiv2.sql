@@ -27,7 +27,7 @@ prompt APPLICATION 126 - SCHIV2
 -- Application Export:
 --   Application:     126
 --   Name:            SCHIV2
---   Date and Time:   14:50 Thursday June 28, 2018
+--   Date and Time:   21:06 Thursday June 28, 2018
 --   Exported By:     ADMIN
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -42,7 +42,7 @@ prompt APPLICATION 126 - SCHIV2
 --     Processes:               73
 --     Regions:                100
 --     Buttons:                 65
---     Dynamic Actions:         17
+--     Dynamic Actions:         18
 --   Shared Components:
 --     Logic:
 --       Items:                  2
@@ -118,7 +118,7 @@ wwv_flow_api.create_flow(
 ,p_csv_encoding=>'Y'
 ,p_auto_time_zone=>'N'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180628144609'
+,p_last_upd_yyyymmddhh24miss=>'20180628210341'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>5
 ,p_ui_type_name => null
@@ -129,7 +129,7 @@ prompt --application/shared_components/navigation/lists
 begin
 wwv_flow_api.create_list(
  p_id=>wwv_flow_api.id(50366065829734770)
-,p_name=>'Studen dozenten'
+,p_name=>'Student dozenten'
 ,p_list_type=>'SQL_QUERY'
 ,p_list_query=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select null,',
@@ -139,16 +139,20 @@ wwv_flow_api.create_list(
 '       ''#APP_IMAGES#chevron-right-8x.png'' image,',
 '       ''width="20" height="20"'' image_attribute, ',
 '       null image_alt_attribute,',
-'       ''Meetings: ''||((select count(meetingid)',
+'       ''Meetings: ''||(select count(meetingid)',
 '                        from schiv2_meetings',
 '                        where dozentid = userid',
-'                          and timefrom >= sysdate) - (select count(meetingid)',
-'                                                        from schiv2_inscriptions',
-'                                                        where meetingid in (select meetingid',
-'                                                                              from schiv2_meetings',
-'                                                                              where dozentid = userid',
-'                                                                                and timefrom >= sysdate)  ',
-'                                                          and studentid = :APP_USERID)) attribute1',
+'                          and timefrom >= sysdate',
+'                          and (units = 0',
+'                               or units > (select count(meetingid)',
+'                                             from schiv2_inscriptions',
+'                                             where meetingid = schiv2_meetings.meetingid',
+'                                               and (select disabled',
+'                                                      from schiv2_users',
+'                                                      where userid = schiv2_inscriptions.studentid) = 0))',
+'                          and meetingid not in (select meetingid',
+'                                                  from schiv2_inscriptions',
+'                                                  where studentid = :APP_USERID)) attribute1',
 'from schiv2_users',
 'where dozent = 1',
 '  and disabled = 0',
@@ -156,16 +160,20 @@ wwv_flow_api.create_list(
 '         from schiv2_BLOCKED_STUDENTS',
 '         where dozentid = userid',
 '           and studentid = :APP_USERID) = 0',
-'  and ((select count(meetingid)',
+'  and (select count(meetingid)',
 '         from schiv2_meetings',
 '         where dozentid = userid',
-'           and TIMEFROM >= sysdate) - (select count(meetingid)',
-'                                      from schiv2_inscriptions',
-'                                      where meetingid in (select meetingid',
-'                                                            from schiv2_meetings',
-'                                                            where dozentid = userid',
-'                                                              and TIMEFROM >= sysdate)  ',
-'                                        and studentid = :APP_USERID)) >= nvl(:P10_SHOW_ONLY, 0)',
+'           and timefrom >= sysdate',
+'           and (units = 0',
+'                or units > (select count(meetingid)',
+'                              from schiv2_inscriptions',
+'                              where meetingid = schiv2_meetings.meetingid',
+'                                and (select disabled',
+'                                       from schiv2_users',
+'                                       where userid = schiv2_inscriptions.studentid) = 0))',
+'           and meetingid not in (select meetingid',
+'                                   from schiv2_inscriptions',
+'                                   where studentid = :APP_USERID)) >= nvl(:P10_SHOW_ONLY, 0)',
 '  and (lower(schiv2_users.firstname) like lower(''%''||:P10_SEARCH_DOZENT||''%'')',
 '   or lower(schiv2_users.lastname) like lower(''%''||:P10_SEARCH_DOZENT||''%'')',
 '   or lower(schiv2_users.lastname||'' ''||schiv2_users.firstname) like lower(''%''||:P10_SEARCH_DOZENT||''%''))',
@@ -193,7 +201,13 @@ wwv_flow_api.create_list(
 '       case when TO_CHAR(timefrom, ''DD.MM.YYYY'') = TO_CHAR(timeto, ''DD.MM.YYYY'') then',
 '                 TO_CHAR(timefrom, ''DD.MM.YYYY HH24:MI'')||'' - ''||TO_CHAR(timeto, ''HH24:MI'')',
 '            else TO_CHAR(timefrom, ''DD.MM.YYYY HH24:MI'')||'' - ''||TO_CHAR(timeto, ''DD.MM.YYYY HH24:MI'') end attribute1, ',
-'       case when units != 0 then ''Units available: ''||units end attribute2',
+'       case when units != 0 then ''Units available: ''||(units - (select count(meetingid)',
+'                                                                  from schiv2_inscriptions',
+'                                                                  where meetingid = schiv2_meetings.meetingid',
+'                                                                    and (select disabled',
+'                                                                           from schiv2_users',
+'                                                                           where userid = schiv2_inscriptions.studentid) = 0',
+'                                                                    and confirmed >= 0)) end attribute2',
 'from schiv2_meetings',
 'where dozentid = :P11_DOZENTID',
 '  and timefrom >= sysdate',
@@ -201,6 +215,9 @@ wwv_flow_api.create_list(
 '       or (select count(meetingid)',
 '             from schiv2_inscriptions',
 '             where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
+'               and (select disabled',
+'                      from schiv2_users',
+'                      where userid = schiv2_inscriptions.studentid) = 0',
 '               and confirmed >= 0) < units)',
 '  and (select count(meetingid)',
 '       from schiv2_inscriptions',
@@ -246,7 +263,10 @@ wwv_flow_api.create_list(
 '       null is_current,',
 '       case when (select count(meetingid)',
 '                  from schiv2_inscriptions',
-'                  where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
+'                  where schiv2_inscriptions.meetingid = m.meetingid',
+'                  and (select disabled',
+'                         from schiv2_users',
+'                         where userid = schiv2_inscriptions.studentid) = 0',
 '                  and confirmed = 0) != 0 then ''#APP_IMAGES#caret-right-8x.png'' else ''#APP_IMAGES#chevron-right-8x.png'' end image,',
 '       ''width="20" height="20"'' image_attribute, ',
 '       null image_alt_attribute,',
@@ -255,17 +275,26 @@ wwv_flow_api.create_list(
 '            else TO_CHAR(timefrom, ''DD.MM.YYYY HH24:MI'')||'' - ''||TO_CHAR(timeto, ''DD.MM.YYYY HH24:MI'') end attribute1, ',
 '       case when (select count(meetingid)',
 '                  from schiv2_inscriptions',
-'                  where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
-'                  and confirmed = 0) != 0 then ''Open requests, '' end || ',
+'                  where schiv2_inscriptions.meetingid = m.meetingid',
+'                    and (select disabled',
+'                           from schiv2_users',
+'                           where userid = schiv2_inscriptions.studentid) = 0',
+'                    and confirmed = 0) != 0 then ''Open requests, '' end || ',
 '       case when units != 0 then (select count(meetingid)',
 '                                    from schiv2_inscriptions',
-'                                    where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
+'                                    where schiv2_inscriptions.meetingid = m.meetingid',
+'                                      and (select disabled',
+'                                             from schiv2_users',
+'                                             where userid = schiv2_inscriptions.studentid) = 0',
 '                                      and confirmed >= 0) ||'' / ''||units||'' Units in use'' else (select count(meetingid)',
 '                                                                                                  from schiv2_inscriptions',
-'                                                                                                  where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
+'                                                                                                  where schiv2_inscriptions.meetingid = m.meetingid',
+'                                                                                                    and (select disabled',
+'                                                                                                           from schiv2_users',
+'                                                                                                           where userid = schiv2_inscriptions.studentid) = 0',
 '                                                                                                    and confirmed >= 0)||'' Units in use'' end || ',
 '       case when autoconfirmation = 1 then '', Autoconfirmation'' end attribute2',
-'from schiv2_meetings',
+'from schiv2_meetings m',
 'where dozentid = :APP_USERID',
 'and timeto >= sysdate',
 'order by timefrom'))
@@ -297,7 +326,10 @@ wwv_flow_api.create_list(
 '       ''f?p=&APP_ID.:25:''||:APP_SESSION||''::::P25_STUDENTID:''||studentid attribute10',
 'from schiv2_inscriptions',
 'where meetingid = :P21_MEETINGID',
-'  and confirmed = 0;'))
+'  and confirmed = 0',
+'  and (select disabled',
+'         from schiv2_users',
+'         where userid = schiv2_inscriptions.studentid) = 0;'))
 ,p_list_status=>'PUBLIC'
 );
 wwv_flow_api.create_list(
@@ -320,7 +352,10 @@ wwv_flow_api.create_list(
 '       ''f?p=&APP_ID.:24:''||:APP_SESSION||''::::P24_MEETINGID,P24_STUDENTID:''||meetingid||'',''||studentid attribute4',
 'from schiv2_inscriptions',
 'where meetingid = :P21_MEETINGID',
-'  and confirmed = 1;'))
+'  and confirmed = 1',
+'  and (select disabled',
+'         from schiv2_users',
+'         where userid = schiv2_inscriptions.studentid) = 0;'))
 ,p_list_status=>'PUBLIC'
 );
 wwv_flow_api.create_list(
@@ -347,7 +382,7 @@ wwv_flow_api.create_list(
 );
 wwv_flow_api.create_list(
  p_id=>wwv_flow_api.id(50801770342927827)
-,p_name=>'Stuent inscriptions history'
+,p_name=>'Student inscriptions history'
 ,p_list_type=>'SQL_QUERY'
 ,p_list_query=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select null,',
@@ -485,7 +520,10 @@ wwv_flow_api.create_list(
 '       null is_current,',
 '       case when (select count(meetingid)',
 '                  from schiv2_inscriptions',
-'                  where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
+'                  where schiv2_inscriptions.meetingid = m.meetingid',
+'                  and (select disabled',
+'                         from schiv2_users',
+'                         where userid = schiv2_inscriptions.studentid) = 0',
 '                  and confirmed = 0) != 0 then ''#APP_IMAGES#caret-right-8x.png'' else ''#APP_IMAGES#chevron-right-8x.png'' end image,',
 '       ''width="20" height="20"'' image_attribute, ',
 '       null image_alt_attribute,',
@@ -494,24 +532,34 @@ wwv_flow_api.create_list(
 '            else TO_CHAR(timefrom, ''DD.MM.YYYY HH24:MI'')||'' - ''||TO_CHAR(timeto, ''DD.MM.YYYY HH24:MI'') end attribute1, ',
 '       case when (select count(meetingid)',
 '                  from schiv2_inscriptions',
-'                  where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
-'                  and confirmed = 0) != 0 then ''Open requests, '' end || ',
+'                  where schiv2_inscriptions.meetingid = m.meetingid',
+'                    and (select disabled',
+'                           from schiv2_users',
+'                           where userid = schiv2_inscriptions.studentid) = 0',
+'                    and confirmed = 0) != 0 then ''Open requests, '' end || ',
 '       case when units != 0 then (select count(meetingid)',
 '                                    from schiv2_inscriptions',
-'                                    where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
+'                                    where schiv2_inscriptions.meetingid = m.meetingid',
+'                                      and (select disabled',
+'                                             from schiv2_users',
+'                                             where userid = schiv2_inscriptions.studentid) = 0',
 '                                      and confirmed >= 0) ||'' / ''||units||'' Units in use'' else (select count(meetingid)',
 '                                                                                                  from schiv2_inscriptions',
-'                                                                                                  where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
+'                                                                                                  where schiv2_inscriptions.meetingid = m.meetingid',
+'                                                                                                    and (select disabled',
+'                                                                                                           from schiv2_users',
+'                                                                                                           where userid = schiv2_inscriptions.studentid) = 0',
 '                                                                                                    and confirmed >= 0)||'' Units in use'' end || ',
 '       case when autoconfirmation = 1 then '', Autoconfirmation'' end attribute2',
-'from schiv2_meetings',
+'from schiv2_meetings m',
 'where dozentid = :APP_USERID',
-'and timeto >= sysdate;'))
+'and timeto >= sysdate',
+'order by timefrom'))
 ,p_list_status=>'PUBLIC'
 );
 wwv_flow_api.create_list(
  p_id=>wwv_flow_api.id(54505770951172926)
-,p_name=>'Studen dozenten Mobil'
+,p_name=>'Student dozenten Mobil'
 ,p_list_type=>'SQL_QUERY'
 ,p_list_query=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select null,',
@@ -521,16 +569,20 @@ wwv_flow_api.create_list(
 '       ''#APP_IMAGES#chevron-right-8x.png'' image,',
 '       ''width="20" height="20"'' image_attribute, ',
 '       null image_alt_attribute,',
-'       ''Meetings: ''||((select count(meetingid)',
+'       ''Meetings: ''||(select count(meetingid)',
 '                        from schiv2_meetings',
 '                        where dozentid = userid',
-'                          and timefrom >= sysdate) - (select count(meetingid)',
-'                                                        from schiv2_inscriptions',
-'                                                        where meetingid in (select meetingid',
-'                                                                              from schiv2_meetings',
-'                                                                              where dozentid = userid',
-'                                                                                and timefrom >= sysdate)  ',
-'                                                          and studentid = :APP_USERID)) attribute1',
+'                          and timefrom >= sysdate',
+'                          and (units = 0',
+'                               or units > (select count(meetingid)',
+'                                             from schiv2_inscriptions',
+'                                             where meetingid = schiv2_meetings.meetingid',
+'                                               and (select disabled',
+'                                                      from schiv2_users',
+'                                                      where userid = schiv2_inscriptions.studentid) = 0))',
+'                          and meetingid not in (select meetingid',
+'                                                  from schiv2_inscriptions',
+'                                                  where studentid = :APP_USERID)) attribute1',
 'from schiv2_users',
 'where dozent = 1',
 '  and disabled = 0',
@@ -538,19 +590,23 @@ wwv_flow_api.create_list(
 '         from schiv2_BLOCKED_STUDENTS',
 '         where dozentid = userid',
 '           and studentid = :APP_USERID) = 0',
-'  and ((select count(meetingid)',
+'  and (select count(meetingid)',
 '         from schiv2_meetings',
 '         where dozentid = userid',
-'           and TIMEFROM >= sysdate) - (select count(meetingid)',
-'                                      from schiv2_inscriptions',
-'                                      where meetingid in (select meetingid',
-'                                                            from schiv2_meetings',
-'                                                            where dozentid = userid',
-'                                                              and TIMEFROM >= sysdate)  ',
-'                                        and studentid = :APP_USERID)) >= nvl(:P210_SHOW_ONLY, 0)',
-'  and (lower(schiv2_users.firstname) like lower(''%''||:P210_SEARCH_DOZENT||''%'')',
-'   or lower(schiv2_users.lastname) like lower(''%''||:P210_SEARCH_DOZENT||''%'')',
-'   or lower(schiv2_users.lastname||'' ''||schiv2_users.firstname) like lower(''%''||:P210_SEARCH_DOZENT||''%''))',
+'           and timefrom >= sysdate',
+'           and (units = 0',
+'                or units > (select count(meetingid)',
+'                              from schiv2_inscriptions',
+'                              where meetingid = schiv2_meetings.meetingid',
+'                                and (select disabled',
+'                                       from schiv2_users',
+'                                       where userid = schiv2_inscriptions.studentid) = 0))',
+'           and meetingid not in (select meetingid',
+'                                   from schiv2_inscriptions',
+'                                   where studentid = :APP_USERID)) >= nvl(:P10_SHOW_ONLY, 0)',
+'  and (lower(schiv2_users.firstname) like lower(''%''||:P10_SEARCH_DOZENT||''%'')',
+'   or lower(schiv2_users.lastname) like lower(''%''||:P10_SEARCH_DOZENT||''%'')',
+'   or lower(schiv2_users.lastname||'' ''||schiv2_users.firstname) like lower(''%''||:P10_SEARCH_DOZENT||''%''))',
 'order by case when (select nvl(facultyid, 0) ',
 '                      from schiv2_users',
 '                      where userid = :APP_USERID) = 0 then 0 else',
@@ -575,7 +631,13 @@ wwv_flow_api.create_list(
 '       case when TO_CHAR(timefrom, ''DD.MM.YYYY'') = TO_CHAR(timeto, ''DD.MM.YYYY'') then',
 '                 TO_CHAR(timefrom, ''DD.MM.YYYY HH24:MI'')||'' - ''||TO_CHAR(timeto, ''HH24:MI'')',
 '            else TO_CHAR(timefrom, ''DD.MM.YYYY HH24:MI'')||'' - ''||TO_CHAR(timeto, ''DD.MM.YYYY HH24:MI'') end attribute1, ',
-'       case when units != 0 then ''Units available: ''||units end attribute2',
+'       case when units != 0 then ''Units available: ''||(units - (select count(meetingid)',
+'                                                                  from schiv2_inscriptions',
+'                                                                  where meetingid = schiv2_meetings.meetingid',
+'                                                                    and (select disabled',
+'                                                                           from schiv2_users',
+'                                                                           where userid = schiv2_inscriptions.studentid) = 0',
+'                                                                    and confirmed >= 0)) end attribute2',
 'from schiv2_meetings',
 'where dozentid = :P211_DOZENTID',
 '  and timefrom >= sysdate',
@@ -583,6 +645,9 @@ wwv_flow_api.create_list(
 '       or (select count(meetingid)',
 '             from schiv2_inscriptions',
 '             where schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
+'               and (select disabled',
+'                      from schiv2_users',
+'                      where userid = schiv2_inscriptions.studentid) = 0',
 '               and confirmed >= 0) < units)',
 '  and (select count(meetingid)',
 '       from schiv2_inscriptions',
@@ -607,7 +672,10 @@ wwv_flow_api.create_list(
 '       note attribute1',
 'from schiv2_inscriptions',
 'where meetingid = :P221_MEETINGID',
-'  and confirmed = 1;'))
+'  and confirmed = 1',
+'  and (select disabled',
+'         from schiv2_users',
+'         where userid = schiv2_inscriptions.studentid) = 0;'))
 ,p_list_status=>'PUBLIC'
 );
 wwv_flow_api.create_list(
@@ -627,7 +695,10 @@ wwv_flow_api.create_list(
 '       note attribute1',
 'from schiv2_inscriptions',
 'where meetingid = :P221_MEETINGID',
-'  and confirmed = 0;'))
+'  and confirmed = 0',
+'  and (select disabled',
+'         from schiv2_users',
+'         where userid = schiv2_inscriptions.studentid) = 0;'))
 ,p_list_status=>'PUBLIC'
 );
 end;
@@ -12810,7 +12881,7 @@ wwv_flow_api.create_list_template(
 '      ',
 '      <h3>#TEXT#</h3>',
 '      <h4>#A01#</h4>',
-'      <h4>#A02#</h4>',
+'      <div>#A02#</div>',
 '      <div>#A03#</div>',
 '    </a>',
 '  </li>'))
@@ -14250,7 +14321,7 @@ wwv_flow_api.create_page(
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180628115953'
+,p_last_upd_yyyymmddhh24miss=>'20180628202118'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(49874868456442865)
@@ -14319,7 +14390,7 @@ wwv_flow_api.create_page_plug(
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(50943864461931295)
-,p_plug_name=>'Dozents meetings'
+,p_plug_name=>'Number of available meetings from Dozents'
 ,p_region_template_options=>'#DEFAULT#'
 ,p_component_template_options=>'#DEFAULT#'
 ,p_plug_template=>wwv_flow_api.id(48815766483249421)
@@ -14328,6 +14399,7 @@ wwv_flow_api.create_page_plug(
 ,p_plug_display_point=>'BODY_3'
 ,p_plug_source_type=>'NATIVE_FLASH_CHART5'
 ,p_plug_query_row_template=>1
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
 );
 wwv_flow_api.create_flash_chart5(
  p_id=>wwv_flow_api.id(50944090639931305)
@@ -14373,16 +14445,20 @@ wwv_flow_api.create_flash_chart5_series(
 '       (select lastname||'', ''||firstname',
 '          from schiv2_users',
 '          where userid = m.userid) label, ',
-'       ((select count(n.meetingid)',
-'           from schiv2_meetings n',
-'           where n.dozentid = m.userid',
-'             and timefrom > sysdate)  - (select count(meetingid)',
-'                                           from schiv2_inscriptions',
-'                                           where meetingid in (select meetingid',
-'                                                                 from schiv2_meetings',
-'                                                                 where dozentid = userid',
-'                                                                   and timefrom >= sysdate)  ',
-'                                                                   and studentid = :APP_USERID)) value1',
+'       (select count(meetingid)',
+'          from schiv2_meetings',
+'          where dozentid = userid',
+'            and timefrom >= sysdate',
+'            and (units = 0',
+'                 or units > (select count(meetingid)',
+'                               from schiv2_inscriptions',
+'                               where meetingid = schiv2_meetings.meetingid',
+'                                 and (select disabled',
+'                                        from schiv2_users',
+'                                        where userid = schiv2_inscriptions.studentid) = 0))',
+'            and meetingid not in (select meetingid',
+'                                    from schiv2_inscriptions',
+'                                    where studentid = :APP_USERID)) value1',
 'from  SCHIV2_users m',
 'where dozent = 1',
 'and disabled = 0',
@@ -14505,7 +14581,7 @@ wwv_flow_api.create_page(
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180627135625'
+,p_last_upd_yyyymmddhh24miss=>'20180628183401'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(49870187699404519)
@@ -14599,13 +14675,22 @@ wwv_flow_api.create_flash_chart5_series(
 '       (select count(meetingid)',
 '          from schiv2_inscriptions',
 '          where meetingid = m.meetingid',
-'            and confirmed >= 0) value1,',
-'       ((select units',
+'            and confirmed >= 0',
+'            and (select disabled',
+'                   from schiv2_users',
+'                   where userid = schiv2_inscriptions.studentid) = 0) value1,',
+'       case when (select units',
 '          from schiv2_meetings',
-'          where meetingid = m.meetingid) - (select count(meetingid)',
-'                                              from schiv2_inscriptions',
-'                                              where meetingid = m.meetingid',
-'                                                and confirmed >= 0)) value2',
+'          where meetingid = m.meetingid) = 0 then 0',
+'       else ((select units',
+'                from schiv2_meetings',
+'                where meetingid = m.meetingid) - (select count(meetingid)',
+'                                                    from schiv2_inscriptions',
+'                                                    where meetingid = m.meetingid',
+'                                                      and confirmed >= 0',
+'                                                      and (select disabled',
+'                                                             from schiv2_users',
+'                                                             where userid = schiv2_inscriptions.studentid) = 0)) end value2',
 'from  SCHIV2_MEETINGS m',
 'where dozentid = :APP_USERID',
 'and timeto >= sysdate',
@@ -14658,7 +14743,7 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180628144238'
+,p_last_upd_yyyymmddhh24miss=>'20180628175456'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(50473095502580531)
@@ -15032,20 +15117,27 @@ wwv_flow_api.create_page_validation(
 ,p_validation_sequence=>30
 ,p_validation=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'declare',
-'pw schiv2_users.passwordhash%type;',
-'begin',
-'select passwordhash',
-'into pw',
-'from schiv2_users',
-'where userid = :APP_USERID;',
+'email schiv2_users.email%type;',
 '',
-'return pw = :P3_OLD_PASSWORD;',
+'result boolean := false;',
+'begin',
+'',
+'select email ',
+'  into email',
+'  from schiv2_users',
+'  where userid = :APP_USERID;',
+'',
+'result := SCHIV2_LOGIN(',
+'  p_username => email,',
+'  p_password => :P3_PASSWORD );',
+'  ',
+'return result;',
+'',
 'end;'))
 ,p_validation_type=>'FUNC_BODY_RETURNING_BOOLEAN'
 ,p_error_message=>'Password does not match.'
 ,p_always_execute=>'N'
 ,p_when_button_pressed=>wwv_flow_api.id(50485869164771687)
-,p_only_for_changed_rows=>'Y'
 ,p_associated_item=>wwv_flow_api.id(50473395725584314)
 ,p_error_display_location=>'INLINE_WITH_FIELD_AND_NOTIFICATION'
 );
@@ -15365,8 +15457,8 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
-,p_last_updated_by=>'ORA01'
-,p_last_upd_yyyymmddhh24miss=>'20180621113911'
+,p_last_updated_by=>'ADMIN'
+,p_last_upd_yyyymmddhh24miss=>'20180628180243'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(49885765443611968)
@@ -15410,6 +15502,7 @@ wwv_flow_api.create_page_plug(
 ,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY_1'
 ,p_plug_query_row_template=>1
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'HTML'
 ,p_attribute_03=>'N'
@@ -15536,6 +15629,26 @@ wwv_flow_api.create_page_item(
 ,p_attribute_02=>'N'
 ,p_attribute_04=>'TEXT'
 ,p_attribute_05=>'NONE'
+);
+wwv_flow_api.create_page_da_event(
+ p_id=>wwv_flow_api.id(44336687784778001)
+,p_name=>'invisible'
+,p_event_sequence=>10
+,p_triggering_element_type=>'REGION'
+,p_triggering_region_id=>wwv_flow_api.id(50244177117453045)
+,p_bind_type=>'bind'
+,p_bind_event_type=>'apexbeforerefresh'
+);
+wwv_flow_api.create_page_da_action(
+ p_id=>wwv_flow_api.id(44336775037778002)
+,p_event_id=>wwv_flow_api.id(44336687784778001)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'Y'
+,p_action=>'NATIVE_HIDE'
+,p_affected_elements_type=>'REGION'
+,p_affected_region_id=>wwv_flow_api.id(50244177117453045)
+,p_attribute_01=>'N'
 );
 end;
 /
@@ -19104,7 +19217,7 @@ wwv_flow_api.create_page(
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180628144609'
+,p_last_upd_yyyymmddhh24miss=>'20180628175432'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(50929289097986141)
@@ -19219,21 +19332,21 @@ wwv_flow_api.create_page_validation(
 ,p_validation_name=>'P32_OLD_PASSWORD'
 ,p_validation_sequence=>30
 ,p_validation=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'declare',
-'pw schiv2_root.passwordhash%type;',
-'begin',
-'select passwordhash',
-'into pw',
-'from schiv2_root',
-'where id = 1;',
+'DECLARE',
 '',
-'return pw = :P32_OLD_PASSWORD;',
+'result boolean := false;',
+'',
+'begin',
+'',
+'result := SCHIV2_ROOT_LOGIN(',
+'  p_password => :P32_OLD_PASSWORD );',
+'',
+'return result;',
 'end;'))
 ,p_validation_type=>'FUNC_BODY_RETURNING_BOOLEAN'
 ,p_error_message=>'Password does not match.'
 ,p_always_execute=>'N'
 ,p_when_button_pressed=>wwv_flow_api.id(50929480647986142)
-,p_only_for_changed_rows=>'Y'
 ,p_associated_item=>wwv_flow_api.id(50929872821986143)
 ,p_error_display_location=>'INLINE_WITH_FIELD_AND_NOTIFICATION'
 );
@@ -20951,7 +21064,7 @@ wwv_flow_api.create_page(
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180626145443'
+,p_last_upd_yyyymmddhh24miss=>'20180628203144'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(54503989943172923)
@@ -21008,14 +21121,15 @@ wwv_flow_api.create_page_plug(
 ,p_plug_name=>'Dozenten'
 ,p_region_template_options=>'#DEFAULT#'
 ,p_component_template_options=>'#DEFAULT#'
-,p_plug_template=>wwv_flow_api.id(58885667593712179)
+,p_plug_template=>wwv_flow_api.id(54482771470160210)
 ,p_plug_display_sequence=>60
 ,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY_3'
 ,p_list_id=>wwv_flow_api.id(54505770951172926)
 ,p_plug_source_type=>'NATIVE_LIST'
-,p_list_template_id=>wwv_flow_api.id(54483964735160211)
+,p_list_template_id=>wwv_flow_api.id(54555480954253511)
 ,p_plug_query_row_template=>1
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
 ,p_prn_template_id=>wwv_flow_api.id(58883578795712174)
 );
 wwv_flow_api.create_page_button(
@@ -21281,8 +21395,8 @@ wwv_flow_api.create_page(
 ,p_page_is_public_y_n=>'N'
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
-,p_last_updated_by=>'ORA01'
-,p_last_upd_yyyymmddhh24miss=>'20180626115214'
+,p_last_updated_by=>'ADMIN'
+,p_last_upd_yyyymmddhh24miss=>'20180628205512'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(54512576983177995)
@@ -21370,12 +21484,30 @@ wwv_flow_api.create_page_branch(
 ,p_branch_sequence=>20
 );
 wwv_flow_api.create_page_item(
+ p_id=>wwv_flow_api.id(44337060029778005)
+,p_name=>'P212_TEXT'
+,p_item_sequence=>10
+,p_item_plug_id=>wwv_flow_api.id(54512576983177995)
+,p_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'&P212_DOZENT_NAME.',
+'&P212_DESCRIPTION.',
+'&P212_DATE.'))
+,p_source_type=>'STATIC'
+,p_display_as=>'NATIVE_DISPLAY_ONLY'
+,p_begin_on_new_line=>'N'
+,p_begin_on_new_field=>'N'
+,p_field_template=>wwv_flow_api.id(54484675194160211)
+,p_item_template_options=>'#DEFAULT#'
+,p_attribute_01=>'Y'
+,p_attribute_02=>'VALUE'
+,p_attribute_04=>'Y'
+);
+wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(54513181771177996)
 ,p_name=>'P212_NOTE'
-,p_item_sequence=>70
+,p_item_sequence=>30
 ,p_item_plug_id=>wwv_flow_api.id(54512576983177995)
 ,p_use_cache_before_default=>'NO'
-,p_prompt=>'Note'
 ,p_placeholder=>'Note for Dozent'
 ,p_source=>'NOTE'
 ,p_source_type=>'DB_COLUMN'
@@ -21383,58 +21515,28 @@ wwv_flow_api.create_page_item(
 ,p_cSize=>60
 ,p_cMaxlength=>4000
 ,p_cHeight=>4
-,p_label_alignment=>'RIGHT'
+,p_new_grid=>true
 ,p_field_template=>wwv_flow_api.id(54484577647160211)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
 ,p_attribute_01=>'Y'
 ,p_attribute_02=>'N'
 ,p_attribute_03=>'N'
 ,p_attribute_04=>'NONE'
 );
 wwv_flow_api.create_page_item(
- p_id=>wwv_flow_api.id(54513380587177996)
-,p_name=>'P212_TEXT'
-,p_item_sequence=>60
-,p_item_plug_id=>wwv_flow_api.id(54512576983177995)
-,p_item_default=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'&P212_DOZENT_NAME.',
-'&P212_DESCRIPTION.',
-'&P212_DATE.',
-'',
-'&P212_NOTE_OLD.',
-''))
-,p_display_as=>'NATIVE_DISPLAY_ONLY'
-,p_cSize=>30
-,p_cMaxlength=>4000
-,p_cHeight=>1
-,p_label_alignment=>'RIGHT'
-,p_field_alignment=>'LEFT-CENTER'
-,p_field_template=>wwv_flow_api.id(54484675194160211)
-,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
-,p_attribute_01=>'N'
-,p_attribute_02=>'VALUE'
-,p_attribute_04=>'Y'
-);
-wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(54513994892177997)
 ,p_name=>'P212_DESCRIPTION'
 ,p_item_sequence=>30
 ,p_item_plug_id=>wwv_flow_api.id(54513795029177997)
-,p_prompt=>'Description'
+,p_prompt=>'New'
 ,p_display_as=>'NATIVE_TEXT_FIELD'
 ,p_cSize=>30
-,p_cMaxlength=>4000
-,p_cHeight=>1
-,p_label_alignment=>'RIGHT'
-,p_field_alignment=>'LEFT-CENTER'
-,p_field_template=>wwv_flow_api.id(54484675194160211)
+,p_field_template=>wwv_flow_api.id(54484577647160211)
 ,p_item_template_options=>'#DEFAULT#'
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'N'
 ,p_attribute_04=>'TEXT'
-,p_attribute_05=>'NONE'
+,p_attribute_05=>'BOTH'
 );
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(54514187650177997)
@@ -21462,37 +21564,30 @@ wwv_flow_api.create_page_item(
 ,p_name=>'P212_DOZENT_NAME'
 ,p_item_sequence=>20
 ,p_item_plug_id=>wwv_flow_api.id(54513795029177997)
+,p_prompt=>'New'
 ,p_display_as=>'NATIVE_TEXT_FIELD'
 ,p_cSize=>30
-,p_cMaxlength=>4000
-,p_cHeight=>1
-,p_label_alignment=>'RIGHT'
-,p_field_alignment=>'LEFT-CENTER'
+,p_field_template=>wwv_flow_api.id(54484577647160211)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'N'
 ,p_attribute_04=>'TEXT'
-,p_attribute_05=>'NONE'
+,p_attribute_05=>'BOTH'
 );
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(54514590516177997)
 ,p_name=>'P212_DATE'
-,p_item_sequence=>50
+,p_item_sequence=>40
 ,p_item_plug_id=>wwv_flow_api.id(54513795029177997)
-,p_prompt=>'Date'
+,p_prompt=>'New'
 ,p_display_as=>'NATIVE_TEXT_FIELD'
 ,p_cSize=>30
-,p_cMaxlength=>4000
-,p_cHeight=>1
-,p_label_alignment=>'RIGHT'
-,p_field_alignment=>'LEFT-CENTER'
-,p_field_template=>wwv_flow_api.id(54484675194160211)
+,p_field_template=>wwv_flow_api.id(54484577647160211)
 ,p_item_template_options=>'#DEFAULT#'
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'N'
 ,p_attribute_04=>'TEXT'
-,p_attribute_05=>'NONE'
+,p_attribute_05=>'BOTH'
 );
 wwv_flow_api.create_page_process(
  p_id=>wwv_flow_api.id(54514788565177998)
