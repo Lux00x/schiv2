@@ -51,7 +51,8 @@ CREATE TABLE "SCHIV2_USERS" (
     "FIRSTNAME" VARCHAR2(64) NOT NULL ENABLE,
     "LASTNAME" VARCHAR2(64) NOT NULL ENABLE,
     "EMAIL" VARCHAR2(255) NOT NULL ENABLE,
-    "PASSWORDHASH" VARCHAR2(255) NOT NULL ENABLE,
+    "PASSWORD" VARCHAR2(4000) NOT NULL ENABLE,
+    "PASSWORDHASH" NUMBER(10) NOT NULL ENABLE,
     "DOZENT" NUMBER(1,0) NOT NULL ENABLE,
     "ADMIN" NUMBER(1,0) NOT NULL ENABLE,
     "DISABLED" NUMBER(1,0) NOT NULL ENABLE,
@@ -101,9 +102,35 @@ begin
   if :NEW."LASTLOGIN" is null then
       :NEW."LASTLOGIN" := sysdate;
   end if;
+  if :NEW."PASSWORDHASH" is not null then
+      :NEW."PASSWORDHASH" := NULL;
+  end if;
+  if :NEW."PASSWORD" is not null then
+      select ORA_HASH(:NEW."PASSWORD") into :NEW."PASSWORDHASH" from dual;
+      :NEW."PASSWORD" := 'password';
+  end if;
 end;
+
 /
 ALTER TRIGGER "BI_SCHIV2_USERS" ENABLE;
+
+create or replace TRIGGER "BU_SCHIV2_USERS"
+  before update on "SCHIV2_USERS"
+for each row
+declare
+  id SCHIV2_USERS.USERID%TYPE;
+begin
+  if :NEW."PASSWORDHASH" is not null then
+      :NEW."PASSWORDHASH" := NULL;
+  end if;
+  if :NEW."PASSWORD" is not null then
+      select ORA_HASH(:NEW."PASSWORD") into :NEW."PASSWORDHASH" from dual;
+      :NEW."PASSWORD" := 'password';
+  end if;
+end;
+
+/
+ALTER TRIGGER "BU_SCHIV2_USERS" ENABLE;
 
 
 ----------------------------------------------------------------------------------
@@ -219,23 +246,29 @@ INSERT INTO SCHIV2_MEETING_TEXT (TEXT) VALUES('Noteneinsicht');
 
 CREATE TABLE  "SCHIV2_ROOT"
    (    "ID" NUMBER(1,0) NOT NULL ENABLE,
-    "PASSWORDHASH" VARCHAR2(255) NOT NULL ENABLE,
+    "PASSWORD" VARCHAR(4000) NOT NULL ENABLE,
+    "PASSWORDHASH" NUMBER(10) NOT NULL ENABLE,
      CONSTRAINT "SCHIV2_ROOT_PK" PRIMARY KEY ("ID") ENABLE
    ) ;
 
-
-
 CREATE OR REPLACE TRIGGER  "BI_SCHIV2_ROOT"
-  before insert on "SCHIV2_ROOT"
+  before insert or update on "SCHIV2_ROOT"
   for each row
 begin
   :NEW."ID" := 1;
+  if :NEW."PASSWORDHASH" is not null then
+      :NEW."PASSWORDHASH" := NULL;
+  end if;
+  if :NEW."PASSWORD" is not null then
+      select ORA_HASH(:NEW."PASSWORD") into :NEW."PASSWORDHASH" from dual;
+      :NEW."PASSWORD" := 'password';
+  end if;
 end;
 
 /
 ALTER TRIGGER "BI_SCHIV2_ROOT" ENABLE;
 
-insert into schiv2_root(passwordhash) values ('schiv2');
+insert into schiv2_root(password) values ('schiv2');
 
 
 ----------------------------------------------------------------------------------
@@ -243,19 +276,28 @@ insert into schiv2_root(passwordhash) values ('schiv2');
 
 create or replace function "SCHIV2_LOGIN"
   (p_username in SCHIV2_USERS.EMAIL%TYPE,
-   p_password in SCHIV2_USERS.PASSWORDHASH%TYPE)
+   p_password in VARCHAR2)
 return BOOLEAN
 is
     pw SCHIV2_USERS.PASSWORDHASH%TYPE;
+    pw_ SCHIV2_USERS.PASSWORDHASH%TYPE;
 begin
-    SELECT PASSWORDHASH into pw
-    FROM SCHIV2_USERS
-    WHERE EMAIL = p_username;
-    return pw = p_password;
+    select ORA_HASH(p_password)
+      into pw_
+      from dual;
+
+    SELECT PASSWORDHASH
+      into pw
+      FROM SCHIV2_USERS
+      WHERE EMAIL = p_username
+        and disabled = 0;
+
+    return pw = pw_;
 exception
     when NO_DATA_FOUND then
     return false;
 end;
+
 /
 
 
@@ -263,15 +305,21 @@ end;
 
 
 create or replace function "SCHIV2_ROOT_LOGIN"
-  (p_password in SCHIV2_USERS.PASSWORDHASH%TYPE)
+  (p_password in VARCHAR2)
 return BOOLEAN
 is
-    pw SCHIV2_USERS.PASSWORDHASH%TYPE;
+    pw SCHIV2_ROOT.PASSWORDHASH%TYPE;
+    pw_ SCHIV2_ROOT.PASSWORDHASH%TYPE;
 begin
+    select ORA_HASH(p_password)
+      into pw_
+      from dual;
+
     SELECT PASSWORDHASH into pw
     FROM SCHIV2_ROOT
     WHERE id = 1;
-    return pw = p_password;
+
+    return pw = pw_;
 exception
     when NO_DATA_FOUND then
     return false;

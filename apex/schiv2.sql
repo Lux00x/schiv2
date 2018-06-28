@@ -27,7 +27,7 @@ prompt APPLICATION 126 - SCHIV2
 -- Application Export:
 --   Application:     126
 --   Name:            SCHIV2
---   Date and Time:   16:30 Tuesday June 26, 2018
+--   Date and Time:   14:50 Thursday June 28, 2018
 --   Exported By:     ADMIN
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -38,7 +38,7 @@ prompt APPLICATION 126 - SCHIV2
 -- Application Statistics:
 --   Pages:                     36
 --     Items:                  143
---     Validations:             20
+--     Validations:             22
 --     Processes:               73
 --     Regions:                100
 --     Buttons:                 65
@@ -118,7 +118,7 @@ wwv_flow_api.create_flow(
 ,p_csv_encoding=>'Y'
 ,p_auto_time_zone=>'N'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180626162213'
+,p_last_upd_yyyymmddhh24miss=>'20180628144609'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>5
 ,p_ui_type_name => null
@@ -220,7 +220,7 @@ wwv_flow_api.create_list(
 '       ''#APP_IMAGES#chevron-right-8x.png'' image,',
 '       ''width="20" height="20"'' image_attribute, ',
 '       null image_alt_attribute,',
-'       schiv2_meetings.description attribute1, ',
+'       schiv2_meetings.description||'' - ''||TO_CHAR(schiv2_meetings.timefrom, ''DD.MM.YY HH24:MI'') attribute1, ',
 '       case when schiv2_inscriptions.confirmed = 1 then ''Confirmed'' else ',
 '           case when schiv2_inscriptions.confirmed = -1 then ''Declined'' else ''Open'' end ',
 '       end attribute2,',
@@ -231,7 +231,8 @@ wwv_flow_api.create_list(
 ' where schiv2_inscriptions.studentid = :APP_USERID',
 '   and schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
 '   and schiv2_meetings.dozentid = schiv2_users.userid',
-'   and schiv2_meetings.timeto >= sysdate;'))
+'   and schiv2_meetings.timeto >= sysdate',
+'   and schiv2_users.disabled = 0;'))
 ,p_list_status=>'PUBLIC'
 );
 wwv_flow_api.create_list(
@@ -356,7 +357,7 @@ wwv_flow_api.create_list(
 '       ''#APP_IMAGES#chevron-right-8x.png'' image,',
 '       ''width="20" height="20"'' image_attribute, ',
 '       null image_alt_attribute,',
-'       schiv2_meetings.description attribute1, ',
+'       schiv2_meetings.description||'' - ''||TO_CHAR(schiv2_meetings.timefrom, ''DD.MM.YYYY HH24:MI'') attribute1, ',
 '       case when schiv2_inscriptions.confirmed = 1 then ''Confirmed'' else ',
 '           case when schiv2_inscriptions.confirmed = -1 then ''Declined'' else ''Open'' end ',
 '       end attribute2,',
@@ -367,7 +368,8 @@ wwv_flow_api.create_list(
 ' where schiv2_inscriptions.studentid = :APP_USERID',
 '   and schiv2_inscriptions.meetingid = schiv2_meetings.meetingid',
 '   and schiv2_meetings.dozentid = schiv2_users.userid',
-'   and schiv2_meetings.timeto < sysdate;'))
+'   and schiv2_meetings.timeto < sysdate',
+'   and schiv2_users.disabled = 0;'))
 ,p_list_status=>'PUBLIC'
 );
 wwv_flow_api.create_list(
@@ -14247,8 +14249,8 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
-,p_last_updated_by=>'ORA01'
-,p_last_upd_yyyymmddhh24miss=>'20180626101900'
+,p_last_updated_by=>'ADMIN'
+,p_last_upd_yyyymmddhh24miss=>'20180628115953'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(49874868456442865)
@@ -14383,6 +14385,7 @@ wwv_flow_api.create_flash_chart5_series(
 '                                                                   and studentid = :APP_USERID)) value1',
 'from  SCHIV2_users m',
 'where dozent = 1',
+'and disabled = 0',
 'order by case when (select nvl(facultyid, 0) ',
 '                      from schiv2_users',
 '                      where userid = :APP_USERID) = 0 then 0 else',
@@ -14502,7 +14505,7 @@ wwv_flow_api.create_page(
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180626162213'
+,p_last_upd_yyyymmddhh24miss=>'20180627135625'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(49870187699404519)
@@ -14605,8 +14608,7 @@ wwv_flow_api.create_flash_chart5_series(
 '                                                and confirmed >= 0)) value2',
 'from  SCHIV2_MEETINGS m',
 'where dozentid = :APP_USERID',
-'and timefrom >= sysdate',
-'and units > 0',
+'and timeto >= sysdate',
 'group by meetingid',
 'order by (select timefrom ',
 '            from schiv2_meetings',
@@ -14655,8 +14657,8 @@ wwv_flow_api.create_page(
 ,p_page_is_public_y_n=>'N'
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
-,p_last_updated_by=>'ORA01'
-,p_last_upd_yyyymmddhh24miss=>'20180625110212'
+,p_last_updated_by=>'ADMIN'
+,p_last_upd_yyyymmddhh24miss=>'20180628144238'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(50473095502580531)
@@ -15185,7 +15187,7 @@ wwv_flow_api.create_page_process(
 ,p_process_name=>'Update password'
 ,p_process_sql_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'update schiv2_users',
-'set passwordhash = :P3_NEW_PASSWORD',
+'set password = :P3_NEW_PASSWORD',
 'where userid = :APP_USERID;'))
 ,p_error_display_location=>'INLINE_IN_NOTIFICATION'
 ,p_process_when_button_id=>wwv_flow_api.id(50485869164771687)
@@ -16326,8 +16328,8 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
-,p_last_updated_by=>'ORA01'
-,p_last_upd_yyyymmddhh24miss=>'20180612102019'
+,p_last_updated_by=>'ADMIN'
+,p_last_upd_yyyymmddhh24miss=>'20180627140506'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(49880369881574139)
@@ -16419,14 +16421,10 @@ wwv_flow_api.create_page_item(
 ,p_display_as=>'NATIVE_NUMBER_FIELD'
 ,p_cSize=>2
 ,p_cMaxlength=>2
-,p_cHeight=>1
 ,p_begin_on_new_line=>'N'
 ,p_begin_on_new_field=>'N'
-,p_label_alignment=>'RIGHT'
-,p_field_alignment=>'LEFT-CENTER'
-,p_field_template=>wwv_flow_api.id(48821972829249428)
+,p_field_template=>wwv_flow_api.id(48821877822249428)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
 ,p_attribute_01=>'0'
 ,p_attribute_02=>'59'
 ,p_attribute_03=>'right'
@@ -16443,9 +16441,8 @@ wwv_flow_api.create_page_item(
 ,p_lov=>'select text from schiv2_meeting_text;'
 ,p_cSize=>32
 ,p_cMaxlength=>255
-,p_cHeight=>1
 ,p_label_alignment=>'RIGHT'
-,p_field_template=>wwv_flow_api.id(48821972829249428)
+,p_field_template=>wwv_flow_api.id(48821877822249428)
 ,p_item_template_options=>'#DEFAULT#'
 ,p_lov_display_extra=>'YES'
 ,p_attribute_01=>'CONTAINS_IGNORE'
@@ -16469,11 +16466,9 @@ wwv_flow_api.create_page_item(
 ,p_display_as=>'NATIVE_DATE_PICKER'
 ,p_cSize=>10
 ,p_cMaxlength=>10
-,p_cHeight=>1
 ,p_label_alignment=>'RIGHT'
-,p_field_template=>wwv_flow_api.id(48821972829249428)
+,p_field_template=>wwv_flow_api.id(48821877822249428)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
 ,p_attribute_04=>'button'
 ,p_attribute_05=>'N'
 ,p_attribute_07=>'NONE'
@@ -16486,20 +16481,18 @@ wwv_flow_api.create_page_item(
 ,p_item_plug_id=>wwv_flow_api.id(49880369881574139)
 ,p_item_default=>'TO_CHAR (SYSDATE, ''DD.MM.YYYY'')'
 ,p_item_default_type=>'PLSQL_EXPRESSION'
-,p_prompt=>'Time to'
+,p_prompt=>'Date to'
 ,p_format_mask=>'DD.MM.YYYY'
 ,p_source=>'TIMETO'
 ,p_source_type=>'DB_COLUMN'
 ,p_display_as=>'NATIVE_DATE_PICKER'
 ,p_cSize=>10
 ,p_cMaxlength=>10
-,p_cHeight=>1
 ,p_label_alignment=>'RIGHT'
 ,p_display_when=>'P20_MEETINGID'
 ,p_display_when_type=>'ITEM_IS_NULL'
-,p_field_template=>wwv_flow_api.id(48821972829249428)
+,p_field_template=>wwv_flow_api.id(48821877822249428)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
 ,p_attribute_04=>'button'
 ,p_attribute_05=>'N'
 ,p_attribute_07=>'NONE'
@@ -16517,11 +16510,14 @@ wwv_flow_api.create_page_item(
 ,p_display_as=>'NATIVE_NUMBER_FIELD'
 ,p_cSize=>2
 ,p_cMaxlength=>2
-,p_cHeight=>1
 ,p_label_alignment=>'RIGHT'
 ,p_field_template=>wwv_flow_api.id(48821972829249428)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'<p>Maximum numbers of students.</p>',
+'<br/>',
+'<p>0 - no limit</p>',
+''))
 ,p_attribute_01=>'1'
 ,p_attribute_03=>'right'
 );
@@ -16535,15 +16531,12 @@ wwv_flow_api.create_page_item(
 ,p_source_type=>'DB_COLUMN'
 ,p_display_as=>'NATIVE_CHECKBOX'
 ,p_lov=>'STATIC2:Autoconfirmation;1'
-,p_cSize=>32
-,p_cMaxlength=>255
-,p_cHeight=>1
 ,p_label_alignment=>'RIGHT'
 ,p_field_template=>wwv_flow_api.id(48821774977249428)
 ,p_item_template_options=>'#DEFAULT#'
 ,p_lov_display_extra=>'YES'
+,p_help_text=>'All requests are automatically accepted.'
 ,p_attribute_01=>'1'
-,p_attribute_02=>'VERTICAL'
 );
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(49882379355574154)
@@ -16555,14 +16548,10 @@ wwv_flow_api.create_page_item(
 ,p_display_as=>'NATIVE_NUMBER_FIELD'
 ,p_cSize=>2
 ,p_cMaxlength=>2
-,p_cHeight=>1
 ,p_begin_on_new_line=>'N'
 ,p_begin_on_new_field=>'N'
-,p_label_alignment=>'RIGHT'
-,p_field_alignment=>'LEFT-CENTER'
-,p_field_template=>wwv_flow_api.id(48821972829249428)
+,p_field_template=>wwv_flow_api.id(48821877822249428)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
 ,p_attribute_01=>'0'
 ,p_attribute_02=>'23'
 ,p_attribute_03=>'right'
@@ -16578,13 +16567,11 @@ wwv_flow_api.create_page_item(
 ,p_display_as=>'NATIVE_NUMBER_FIELD'
 ,p_cSize=>2
 ,p_cMaxlength=>2
-,p_cHeight=>1
-,p_begin_on_new_field=>'N'
 ,p_label_alignment=>'RIGHT'
 ,p_field_alignment=>'LEFT-CENTER'
 ,p_field_template=>wwv_flow_api.id(48821972829249428)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
+,p_help_text=>'Length of meeting in hours and minutes'
 ,p_attribute_01=>'0'
 ,p_attribute_02=>'23'
 ,p_attribute_03=>'right'
@@ -16616,14 +16603,10 @@ wwv_flow_api.create_page_item(
 ,p_display_as=>'NATIVE_NUMBER_FIELD'
 ,p_cSize=>2
 ,p_cMaxlength=>2
-,p_cHeight=>1
 ,p_begin_on_new_line=>'N'
 ,p_begin_on_new_field=>'N'
-,p_label_alignment=>'RIGHT'
-,p_field_alignment=>'LEFT-CENTER'
-,p_field_template=>wwv_flow_api.id(48821972829249428)
+,p_field_template=>wwv_flow_api.id(48821877822249428)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
 ,p_attribute_01=>'0'
 ,p_attribute_02=>'59'
 ,p_attribute_03=>'right'
@@ -16651,15 +16634,26 @@ wwv_flow_api.create_page_item(
 ,p_attribute_02=>'VERTICAL'
 );
 wwv_flow_api.create_page_validation(
+ p_id=>wwv_flow_api.id(43869079910694501)
+,p_validation_name=>'P20_FROM_DATE'
+,p_validation_sequence=>10
+,p_validation=>'TO_DATE(:P20_TO_DATE||:P20_FROM_HOUR||:P20_FROM_MINUTES, ''DD.MM.YYYYHH24MI'') >= sysdate'
+,p_validation_type=>'PLSQL_EXPRESSION'
+,p_error_message=>'Time from must be equals or greater than local time'
+,p_always_execute=>'Y'
+,p_when_button_pressed=>wwv_flow_api.id(49880776793574149)
+,p_associated_item=>wwv_flow_api.id(49881565158574153)
+,p_error_display_location=>'INLINE_WITH_FIELD_AND_NOTIFICATION'
+);
+wwv_flow_api.create_page_validation(
  p_id=>wwv_flow_api.id(50255990552998269)
 ,p_validation_name=>'P20_TO_DATE'
-,p_validation_sequence=>10
+,p_validation_sequence=>20
 ,p_validation=>'TO_DATE(:P20_TO_DATE, ''DD.MM.YYYY'') >= TO_DATE(:P20_FROM_DATE, ''DD.MM.YYYY'')'
 ,p_validation_type=>'PLSQL_EXPRESSION'
 ,p_error_message=>'Time to must be equals or greater than time from.'
 ,p_always_execute=>'Y'
 ,p_when_button_pressed=>wwv_flow_api.id(49880776793574149)
-,p_only_for_changed_rows=>'Y'
 ,p_associated_item=>wwv_flow_api.id(49881780431574154)
 ,p_error_display_location=>'INLINE_WITH_FIELD_AND_NOTIFICATION'
 );
@@ -18229,8 +18223,8 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
-,p_last_updated_by=>'ORA01'
-,p_last_upd_yyyymmddhh24miss=>'20180612104550'
+,p_last_updated_by=>'ADMIN'
+,p_last_upd_yyyymmddhh24miss=>'20180627140638'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(50777174074941633)
@@ -18371,19 +18365,22 @@ wwv_flow_api.create_page_item(
 ,p_is_required=>true
 ,p_item_sequence=>180
 ,p_item_plug_id=>wwv_flow_api.id(50777174074941633)
-,p_item_default=>'1'
+,p_item_default=>'0'
 ,p_prompt=>'Units'
 ,p_source=>'UNITS'
 ,p_source_type=>'DB_COLUMN'
 ,p_display_as=>'NATIVE_NUMBER_FIELD'
 ,p_cSize=>2
 ,p_cMaxlength=>2
-,p_cHeight=>1
 ,p_label_alignment=>'RIGHT'
 ,p_field_template=>wwv_flow_api.id(48821972829249428)
 ,p_item_template_options=>'#DEFAULT#'
-,p_lov_display_extra=>'YES'
-,p_attribute_01=>'1'
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'<p>Maximum numbers of students.</p>',
+'<br/>',
+'<p>0 - no limit</p>',
+''))
+,p_attribute_01=>'0'
 ,p_attribute_03=>'right'
 );
 wwv_flow_api.create_page_item(
@@ -18488,6 +18485,17 @@ wwv_flow_api.create_page_item(
 ,p_attribute_01=>'0'
 ,p_attribute_02=>'59'
 ,p_attribute_03=>'right'
+);
+wwv_flow_api.create_page_validation(
+ p_id=>wwv_flow_api.id(43869168965694502)
+,p_validation_name=>'P26_FROM_DATE'
+,p_validation_sequence=>10
+,p_validation=>'TO_DATE(:P26_FROM_DATE, ''DD.MM.YYYY'') >= sysdate'
+,p_validation_type=>'PLSQL_EXPRESSION'
+,p_error_message=>'Time from must be equals or greater than local time'
+,p_always_execute=>'N'
+,p_associated_item=>wwv_flow_api.id(50778570530941638)
+,p_error_display_location=>'INLINE_WITH_FIELD_AND_NOTIFICATION'
 );
 wwv_flow_api.create_page_process(
  p_id=>wwv_flow_api.id(50781465231941650)
@@ -19095,8 +19103,8 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
-,p_last_updated_by=>'ORA01'
-,p_last_upd_yyyymmddhh24miss=>'20180625112616'
+,p_last_updated_by=>'ADMIN'
+,p_last_upd_yyyymmddhh24miss=>'20180628144609'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(50929289097986141)
@@ -19276,7 +19284,7 @@ wwv_flow_api.create_page_process(
 ,p_process_name=>'Update password'
 ,p_process_sql_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'update schiv2_root',
-'set passwordhash = :P32_NEW_PASSWORD',
+'set password = :P32_NEW_PASSWORD',
 'where id = 1;'))
 ,p_error_display_location=>'INLINE_IN_NOTIFICATION'
 ,p_process_when_button_id=>wwv_flow_api.id(50929480647986142)
@@ -19967,7 +19975,7 @@ wwv_flow_api.create_page(
 ,p_page_is_public_y_n=>'Y'
 ,p_cache_mode=>'NOCACHE'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180626140449'
+,p_last_upd_yyyymmddhh24miss=>'20180628115759'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(48824292767249436)
@@ -20071,6 +20079,7 @@ wwv_flow_api.create_page_process(
 '',
 'DECLARE',
 '',
+'password  EXCEPTION;',
 'result boolean := false;',
 'user NUMBER(30,0) := 0;',
 '',
@@ -20098,10 +20107,12 @@ wwv_flow_api.create_page_process(
 '',
 'else',
 '',
+'RAISE password;',
 'owa_util.redirect_url(''f?=&APP_ID.:101:&SESSION.'');',
 '',
 'end if;',
 'end;'))
+,p_process_error_message=>'E-Mail or password wrong.'
 ,p_error_display_location=>'INLINE_IN_NOTIFICATION'
 );
 wwv_flow_api.create_page_process(
@@ -20452,7 +20463,7 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_cache_timeout_seconds=>21600
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180626140620'
+,p_last_upd_yyyymmddhh24miss=>'20180628144205'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(50788270754579181)
@@ -20659,7 +20670,7 @@ wwv_flow_api.create_page_process(
 'into p_lastname ',
 'from dual;',
 '',
-'insert into schiv2_users (firstname, lastname, email, passwordHash)',
+'insert into schiv2_users (firstname, lastname, email, password)',
 'values(p_firstname, p_lastname, p_email, :P111_PASSWORD);',
 '',
 'end if;',
