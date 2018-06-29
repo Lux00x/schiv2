@@ -1,0 +1,2 @@
+# Berichtigung der Spezifikation
+
