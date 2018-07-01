@@ -105,7 +105,7 @@ begin
   if :NEW."PASSWORDHASH" is not null then
       :NEW."PASSWORDHASH" := NULL;
   end if;
-  if :NEW."PASSWORD" is not null then
+  if :NEW."PASSWORD" is not null AND :NEW."PASSWORD" != 'password' then
       select ORA_HASH(:NEW."PASSWORD") into :NEW."PASSWORDHASH" from dual;
       :NEW."PASSWORD" := 'password';
   end if;
@@ -120,10 +120,7 @@ for each row
 declare
   id SCHIV2_USERS.USERID%TYPE;
 begin
-  if :NEW."PASSWORDHASH" is not null then
-      :NEW."PASSWORDHASH" := NULL;
-  end if;
-  if :NEW."PASSWORD" is not null then
+  if :NEW."PASSWORD" is not null AND :NEW."PASSWORD" != 'password' then
       select ORA_HASH(:NEW."PASSWORD") into :NEW."PASSWORDHASH" from dual;
       :NEW."PASSWORD" := 'password';
   end if;
