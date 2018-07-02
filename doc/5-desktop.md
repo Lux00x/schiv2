@@ -1,9 +1,5 @@
 ## Desktop
 
-### Anmeldung 
-
-### Registrierung
-
 ### Allgemeiner Seitenaufbau
 
 Die Registrierkarten haben die Beschriftungen "Home", "History" und "Settings"
@@ -18,8 +14,9 @@ Das Suchfeld bietet bei der Eingabe bereits eine autoverfolständigung an.
 Der button "Alle Dozenten" wurde weg gelassen, da die Funktion durch den Such-Button "Find Dozent"
 mit abgedekt ist.
 
-Unter der Liste mit den Anfragen wurde ein Diagram eingebaut, welches die Anzahl der verfügbaren
-Sprechstunden der Dozenten darstellt.
+Unter der Liste mit den Anfragen wurde ein Diagram eingebaut, welches eine Übersicht über 
+die Anzahl der verfügbaren Sprechstunden der Dozenten darstellt.
+Die Liste ist nach Fakultät, datum und name sortiert.
 
 
 #### Dozent
@@ -32,6 +29,7 @@ dargestellt werden.
 
 Beim "Austragen" muss ein Grund angegeben werden. Jedoch gibt es keine auswahlmöglichkeit.
 Dies wurde wegelassen, da angenommen wird, dass das "Austragen" nur sehr selten vorkommt.
+
 
 ### Detailansicht Dozent
 
@@ -47,13 +45,10 @@ Eine Auswahl von gründen wurde weggelassen, da nicht davon ausgegangen wird, da
 regelmäßig genutz werden muss, und die Fälle zu individuell sind.
 <!-- todo -->
 
-### Neue Sprechstunde erstellen
-
-### Liste mit vergangen Terminen
-
-<!-- todo -->
 
 ### Einstellungen
+
+Das löschen des eigenen Accounts wird durch die eingabe des Aktuellen passworts bestätigt.
 
 #### Dozent
 
@@ -74,6 +69,3 @@ Im algemeinen werden Einstellungen des eingenen Accounts verborgen.
 
 Die Root-Login-Seite ist unter 'LOGIN_ROOT_DESKTOP' zu finden.
 
-### Root-Startseite
-
-### Root-Einstellungen

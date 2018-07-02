@@ -1,6 +1,6 @@
-#Spezifikation
+# Spezifikation
 
-##Funktionen / Rechte im überblick
+## Funktionen / Rechte im überblick
 
 Die folgenden Übersicht zeigt in Stichpunkten die mininale Funktionalität.
 Genaue Beschreibungen sind im Bereich [der funktionalen Beschreibung][Funktionale Beschreibung des Projektes] zu finden.
@@ -20,7 +20,7 @@ diese eingebaut werden können.
 - Password ändern
 - Account löschen
 
-###Dozent
+### Dozent
 
 - Sprechstunde anlegen/bearbeiten
 - Anlegen: einzeln, von - bis (wochentag), Häufigkeit (Wochentag)
@@ -36,7 +36,7 @@ diese eingebaut werden können.
 - Blockierung aufheben
 - Account löschen
 
-###Administrator
+### Administrator
 
 (zusätzliche Funktionen zum Account)
 
