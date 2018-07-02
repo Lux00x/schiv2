@@ -1,8 +1,8 @@
-# Instalation und Zugangsdaten
+# Installation und Zugangsdaten
 
-## Instalation
+## Installation
 
-Als grundlage für die Applikation dient Oracle Apex in Version 5.2 oder höher.
+Als Grundlage für die Applikation dient Oracle Apex in Version 5.2 oder höher.
 
 Zur Installation wird die Datei `schiv2.sql` in Apex importiert.
 
@@ -15,13 +15,13 @@ Die Bilder im Bereich `image` müssen ebenfals in Apex hochgeladen werden.
 Für Studenten und Dozenten liegen standartmäßig keine Zugangsdaten vor. Diese werden individuell bei
 Registrierung der Nutzer erstellt.
 
-Für den Root-Nutzer steht zu beginn das Passwort
+Für den Root-Nutzer steht zu Beginn das Passwort
 
 ~~~
 schiv2
 ~~~
 
-zur verfügung.
+zur Verfügung.
 
 ## Redcluster
 

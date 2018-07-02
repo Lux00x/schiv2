@@ -2,68 +2,70 @@
 
 ### Allgemeiner Seitenaufbau
 
-Die Registrierkarten haben die Beschriftungen "Home", "History" und "Settings"
+Die Registrierkarten haben die Beschriftungen "Home", "History" und "Settings".
 
 
 ### Startseite
 
 #### Student
 
-Das Suchfeld bietet bei der Eingabe bereits eine autoverfolständigung an.
+Das Suchfeld bietet bei der Eingabe bereits eine Autoverfolständigung an.
 
-Der button "Alle Dozenten" wurde weg gelassen, da die Funktion durch den Such-Button "Find Dozent"
-mit abgedekt ist.
+Der Button "Alle Dozenten" wurde weggelassen, da die Funktion durch den Such-Button "Find Dozent"
+mit abgedeckt ist.
 
-Unter der Liste mit den Anfragen wurde ein Diagram eingebaut, welches eine Übersicht über 
-die Anzahl der verfügbaren Sprechstunden der Dozenten darstellt.
-Die Liste ist nach Fakultät, datum und name sortiert.
+Unter der Liste mit den Anfragen wurde ein Diagramm eingebaut, welches eine Übersicht der Anzahl 
+der verfügbaren Sprechstunden der Dozenten darstellt.
+Die Liste ist nach Fakultät, Datum und Name sortiert.
 
 
 #### Dozent
 
-Unterhalb der Liste ist ein Diagram, in dem die verwendeten und verfügbaren units der nächsten Sprechstunden
+Unterhalb der Liste ist ein Diagramm, in dem die verwendeten und verfügbaren Units der nächsten Sprechstunden
 dargestellt werden.
 
 
 ### Detailansicht Student
 
-Beim "Austragen" muss ein Grund angegeben werden. Jedoch gibt es keine auswahlmöglichkeit.
-Dies wurde wegelassen, da angenommen wird, dass das "Austragen" nur sehr selten vorkommt.
+Beim "Austragen" muss ein Grund angegeben werden, jedoch gibt es keine Auswahlmöglichkeit.
+Dies wurde weggelassen, da angenommen wird, dass das "Austragen" nur sehr selten vorkommt.
 
 
 ### Detailansicht Dozent
 
-Die Detailansicht der Sprechstunde ist nur unter "Edit Meeting" sichtbar und kann dort auch bearbeited werden.
+Die Detailansicht der Sprechstunde ist nur unter "Edit Meeting" sichtbar und kann dort auch bearbeitet werden.
 
-Beim ablehnen eines Studenten wird der Nutzer auf eine weiter Seite geführt, auf der er den Grund für das 
+Beim Ablehnen eines Studenten wird der Nutzer auf eine weitere Seite geführt, auf der er den Grund für das 
 Ablehnen angegeben muss.
 
-Beim blockieren wird der Dozent nicht in die Einstellungen jedoch auf eine weitere Seite geführt, 
+Beim Blockieren wird der Dozent nicht in die Einstellungen, jedoch auf eine weitere Seite geführt, 
 auf der er den Grund für das Blockieren angeben muss.
 
-Eine Auswahl von gründen wurde weggelassen, da nicht davon ausgegangen wird, dass das Ablehen oder Blockieren
+Eine Auswahl von Gründen wurde weggelassen, da nicht davon ausgegangen wird, dass das Ablehnen oder Blockieren
 regelmäßig genutz werden muss, und die Fälle zu individuell sind.
-<!-- todo -->
 
 
 ### Einstellungen
 
-Das löschen des eigenen Accounts wird durch die eingabe des Aktuellen passworts bestätigt.
+Das Löschen des eigenen Accounts wird durch die Eingabe des aktuellen Passworts bestätigt.
+
 
 #### Dozent
 
-Beim blockieren eines Studenten aus einem Termin heraus findet keine weiterleitung
-auf die Settings seite weiter, sonder wird auf einer anderen seite geregelt.
+Beim Blockieren eines Studenten aus einem Termin heraus, findet keine Weiterleitung
+auf die Settings-Seite statt. Es wird auf einer anderen Seite geregelt.
 
 Die Bestätigung wird durch Angabe eines Grundes und einer Nachricht an den Studenten durchgeführt.
 Nur wenn beides angegeben ist, kann ein Student blockiert werden.
 
-Der Name des Studenten muss aus einer Liste ausgewählt werden. Auf weiteren Komforr wurde verzichtet,
-da die Funktion eher nur für den Notfall zu sehen ist.
+Der Name des Studenten muss aus einer Liste ausgewählt werden. Auf weiteren Komfort wurde verzichtet,
+da die Funktion eher nur für den Notfall genutzt werden soll.
+
 
 ### Administration
 
-Im algemeinen werden Einstellungen des eingenen Accounts verborgen. 
+Im Allgemeinen werden Einstellungen des eingenen Accounts verborgen. 
+
 
 ### Root-Login
 
