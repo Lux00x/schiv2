@@ -1,7 +1,5 @@
 ## Mobil
 
-##Vorwort
-
 Ursprünglich war die Idee einer mobilen Version nicht in der Spezifikation enthalten. Wärend der Entwicklung
 kam jedoch die Idee auf als wir zu der Einsicht kamen, dass im Realgebrauch vorallem Studenten die Dienste von
 SCHIV2 vorrangig über das Smartphone nutzen würden. Deshalb wurde beschlossen nicht nur eine Desktop-Version
@@ -35,7 +33,7 @@ Grund dessen ist auch, im Vergleich zum Desktop, kein Diagramm vorhanden.
 
 ### Detailansicht Student
 
-Die Detailansicht ist grundlegend identisch zur Desktop-Variante. Lediglich die Mögluchkeit zur Austrgung entfällt.
+Die Detailansicht ist grundlegend identisch zur Desktop-Variante. Lediglich die Möglichkeit zur Austragung entfällt.
 
 ### Detailansicht Dozent
 
@@ -46,3 +44,4 @@ ist nicht möglich.
 ### Neue Sprechstunde erstellen
 
 Das Erstellen einer neuen Sprechstunde verhält sich genau wie in der Desktop-Version.
+

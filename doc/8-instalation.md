@@ -26,15 +26,19 @@ zur Verfügung.
 ## Redcluster
 
 ~~~
-Workspace:    APEX_10365
-Benutzername: ADMIN
-Kennwort:     peceha
+Workspace:        APEX_10365
+Benutzername:     ADMIN
+Kennwort:         peceha
+Anwendungsnummer: 126
 
 Startseite:        https://redcluster-scan.hof-university.de:4443/pls/apex/f?p=126:101
 Startseite Root:  https://redcluster-scan.hof-university.de:4443/pls/apex/f?p=126:102
 Startseite Mobil: https://redcluster-scan.hof-university.de:4443/pls/apex/f?p=126:103
 
 Password Root: schiv2
-~~~
 
+Beispiel User:
+Email: student.stud@hof-university.de   Passwort: student
+Email: dozent.doz@hof-university.de     Passwort: dozent
+~~~
 
